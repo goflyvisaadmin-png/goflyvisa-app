@@ -14,6 +14,7 @@ import {
   Check,
 } from 'lucide-react';
 import { FAQAccordion } from './FAQAccordion';
+import { StudyVisaRoadmap } from './StudyVisaRoadmap';
 
 interface LandingPageProps {
   onNavigateToIelts: () => void;
@@ -90,7 +91,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           {/* Core Headline */}
           <h1 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-[1.15] mb-6">
             Know Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">IELTS Band</span> &{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-rose-400 to-red-400">Embassy Visa Risks</span>{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-rose-400 to-red-400">Study Visa Risks</span>{' '}
             Before Paying Thousands.
           </h1>
 
@@ -114,7 +115,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#0A1128] hover:bg-slate-900 text-white font-bold text-sm border border-slate-700 hover:border-slate-600 shadow-lg flex items-center justify-center gap-2 cursor-pointer transition-all transform hover:-translate-y-0.5"
             >
               <FileCheck className="w-4 h-4 text-indigo-400" />
-              <span>Audit Visa SOP Refusal Risks</span>
+              <span>Audit Study Visa SOP Risks</span>
             </button>
           </div>
 
@@ -126,7 +127,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
             <div className="bg-slate-900/40 p-3.5 rounded-xl border border-slate-800/60">
               <div className="text-2xl font-black text-emerald-400 font-mono">94.2%</div>
-              <div className="text-xs text-slate-400 mt-0.5">Embassy Approval Rate</div>
+              <div className="text-xs text-slate-400 mt-0.5">Study Visa Approval Rate</div>
             </div>
             <div className="bg-slate-900/40 p-3.5 rounded-xl border border-slate-800/60">
               <div className="text-2xl font-black text-blue-400 font-mono">1.8s</div>
@@ -138,6 +139,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
           </div>
         </section>
+
+        {/* ================= COMPLETE STUDY VISA ROADMAP ================= */}
+        <StudyVisaRoadmap
+          onLaunchIelts={onNavigateToIelts}
+          onLaunchSop={onNavigateToSop}
+        />
 
         {/* ================= RADIX UI FAQ ACCORDION (Directly Below Hero Section) ================= */}
         <FAQAccordion

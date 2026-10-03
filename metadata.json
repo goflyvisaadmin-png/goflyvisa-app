@@ -1,6 +1,6 @@
 {
-  "name": "GoFlyVisa - AI IELTS & Embassy Risk Auditor",
-  "description": "High-performance self-serve AI platform for study-abroad applicants featuring browser IELTS Speaking/Writing examiner and Visa SOP risk auditor for UK, Germany, Canada, and USA.",
+  "name": "GoFlyVisa - AI IELTS & Study Visa Risk Auditor",
+  "description": "High-performance self-serve AI platform for study-abroad applicants featuring browser IELTS Speaking/Writing examiner and Study Visa SOP risk auditor for UK, Germany, Canada, and USA.",
   "requestFramePermissions": [
     "microphone"
   ],
