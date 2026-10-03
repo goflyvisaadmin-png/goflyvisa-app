@@ -1,49 +1,56 @@
 # HANDOFF — GoFlyVisa
 
-_Last updated: 2026-10-03 ~19:30 PKT_
+_Last updated: 2026-10-03 ~19:47 PKT_
 
 ---
 
 ## 1. Active Code Editor Lock
 
 - **Current Active Editor:** Antigravity CLI session (pair programming with founder).
-- **Status:** Initial codebase extraction, multi-agent protocol setup & GitHub deployment.
+- **Status:** Code pushed to GitHub; Vercel deployment & production readiness.
 - **Rule:** Only one editor (Antigravity or Claude Code) may modify code at a time. The other remains read-only.
 
 ---
 
 ## 2. Infrastructure & Target Architecture
 
-| Component | Target Architecture | Notes |
+| Component | Target Architecture | Status |
 |---|---|---|
-| **Frontend & API** | Vite + React 19 + Express (`server.ts`) | Deployed on Vercel team `go-fly-visa` |
-| **AI Engine** | Google GenAI SDK (`@google/genai`) | Gemini 2.5 Flash (real-time) / Pro (statutory deep dive) |
-| **Database & Auth** | Supabase PostgreSQL | Free tier, DDL ready at `supabase/schema.sql` |
+| **Frontend & API** | Vite + React 19 + Express (`server.ts` + `api/index.ts`) | Ready for Vercel serverless |
+| **AI Engine** | Google GenAI SDK (`@google/genai`) | Configured for Gemini 2.5 Flash / Pro |
+| **Database & Auth** | Supabase PostgreSQL | DDL ready at `supabase/schema.sql` |
 | **Domain** | `goflyvisa.com` (Hostinger) | 24-hr registrar keyword verification in progress |
-| **GitHub** | `https://github.com/goflyvisaadmin-png/goflyvisa-app` | Scoped to `goflyvisaadmin-png` |
+| **GitHub** | `https://github.com/goflyvisaadmin-png/goflyvisa-app` | Synced & live on `main` branch |
+| **Vercel Team** | `go-fly-visa` | Dashboard open & ready to import |
 
 ---
 
 ## 3. What Was Done (2026-10-03)
 
 - **Codebase Extraction & Reconstitution:**
-  - Extracted 24 production files from Google AI Studio prototype (`a9360de6-79a0-4c45-97cc-e8c44a29175e`).
-  - Structured cleanly inside `/Users/home/Projects/22.GoFlyVisa/GoFlyvisa-Code/`.
-  - Implemented core features:
-    - **IELTS Speaking Simulator:** Real-time Web Audio API recorder, cue-card preparation timer, audio duration/WPM/pause detection, 4-pillar band scoring (Fluency, Lexical Resource, Grammatical Range, Pronunciation).
-    - **SOP Auditor:** Refusal risk assessment across statutory legal frameworks: Germany (Sec 16b / APS), UK (Student Guidance), Canada (IRPR 216), US (INA 214b). Red flag detector + side-by-side humanizer rewrite.
-    - **Supabase Schema:** Complete DDL with Row Level Security, user profile triggers, credit allocation, and atomic deduction RPC.
-- **Agent Governance Setup:**
-  - Created [`AGENTS.md`](./AGENTS.md) with Zero Sibling Interference invariant and single-editor lock discipline.
-  - Created [`CLAUDE.md`](./CLAUDE.md) for Claude Code ergonomics.
-  - Mirrored governance files at top-level `22.GoFlyVisa/`.
+  - Extracted 24 production files from Google AI Studio prototype.
+  - Placed cleanly inside `/Users/home/Projects/22.GoFlyVisa/GoFlyvisa-Code/`.
+  - Implemented IELTS Speaking Examiner with Web Audio API recorder and 4-pillar band scoring.
+  - Implemented SOP Auditor with DE/UK/CA/US statutory refusal checker and humanizer rewrite.
+- **Multi-Agent Governance:**
+  - Established `AGENTS.md`, `CLAUDE.md`, and `HANDOFF.md` adhering to VCS and ESG conventions.
+  - Zero interference with `14. Project VCS` and `19.Project ESG`.
+- **Git & GitHub Deployment:**
+  - Initialized isolated git repository on `main`.
+  - Configured dedicated ed25519 SSH key (`id_ed25519_goflyvisa`) and `github.com-goflyvisa` host.
+  - Successfully pushed code to `https://github.com/goflyvisaadmin-png/goflyvisa-app`.
+- **Vercel Serverless Architecture:**
+  - Decoupled static Vite import from `server.ts` using dynamic import for serverless compatibility.
+  - Created `api/index.ts` export handler.
+  - Created `vercel.json` with API rewrites and SPA fallback.
+  - Verified `npm run build` succeeds cleanly in under 2 seconds.
 
 ---
 
 ## 4. Immediate Next Steps
 
-1. Run `npm install` and verify `npm run build` succeeds locally.
-2. Initialize git repository in `GoFlyvisa-Code/` with local user `goflyvisaadmin-png`.
-3. Create remote repository on GitHub (`goflyvisaadmin-png/goflyvisa-app`) and push `main`.
-4. Connect GitHub repo to Vercel team `go-fly-visa` for continuous automated deployment.
-5. Create Supabase project for GoFlyVisa and execute `supabase/schema.sql`.
+1. Commit and push Vercel serverless configurations (`server.ts`, `api/`, `vercel.json`).
+2. Import `goflyvisaadmin-png/goflyvisa-app` in Vercel under `go-fly-visa` team.
+3. Configure `GEMINI_API_KEY` in Vercel Project Environment Variables.
+4. Deploy to Vercel and verify live preview URL (`*.vercel.app`).
+5. Once `goflyvisa.com` registrar review completes on Hostinger, attach custom domain in Vercel DNS.
