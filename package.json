@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && esbuild src/server/app.ts --bundle --platform=node --target=node22 --format=esm --outfile=api/index.js --external:express --external:@google/genai --external:dotenv",
     "preview": "vite preview",
     "server": "tsx server.ts",
     "lint": "tsc --noEmit"
