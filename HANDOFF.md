@@ -1,13 +1,13 @@
 # HANDOFF — GoFlyVisa
 
-_Last updated: 2026-10-03 ~20:47 PKT_
+_Last updated: 2026-10-03 ~23:55 PKT_
 
 ---
 
 ## 1. Active Code Editor Lock
 
 - **Current Active Editor:** Antigravity CLI session (pair programming with founder).
-- **Status:** Production deployment live on Vercel & synced with GitHub.
+- **Status:** Integrated 10-step StudyVisaRoadmap & redeployed to production Vercel.
 - **Rule:** Only one editor (Antigravity or Claude Code) may modify code at a time. The other remains read-only.
 
 ---
@@ -27,26 +27,31 @@ _Last updated: 2026-10-03 ~20:47 PKT_
 
 ## 3. What Was Done (2026-10-03)
 
-- **Codebase Extraction & Multi-Agent Architecture:**
-  - Placed codebase inside `/Users/home/Projects/22.GoFlyVisa/GoFlyvisa-Code/`.
-  - Configured `AGENTS.md` and `CLAUDE.md` to guarantee zero interference with `14. Project VCS` and `19.Project ESG`.
-- **GitHub Deployment:**
-  - Generated dedicated SSH key (`id_ed25519_goflyvisa`) with alias `github.com-goflyvisa`.
-  - Pushed all commits to `goflyvisaadmin-png/goflyvisa-app`.
-- **Vercel Production Deployment:**
-  - Decoupled Express routes (`src/server/app.ts`) from Vite development server (`server.ts`).
-  - Automated bundling of `src/server/app.ts` into standalone `api/index.js` via `esbuild`.
-  - Deployed to Vercel production at **https://goflyvisa-app.vercel.app**.
-  - Disabled deployment protection so the platform is completely public.
-  - Verified live endpoints:
-    - `GET https://goflyvisa-app.vercel.app/` -> 200 OK (Interactive UI)
-    - `GET https://goflyvisa-app.vercel.app/api/user-profile` -> 200 OK (`{"userId":"usr_gofly_demo",...}`)
-    - `GET https://goflyvisa-app.vercel.app/api/system/schema` -> 200 OK (Postgres DDL)
+- **AI Studio Prototype Synchronization:**
+  - Extracted new changes from Google AI Studio (`a9360de6-79a0-4c45-97cc-e8c44a29175e`).
+  - Added [`src/components/StudyVisaRoadmap.tsx`](./src/components/StudyVisaRoadmap.tsx) featuring a complete 10-step interactive Study Visa Roadmap:
+    1. Course & Major Selection
+    2. University Shortlisting
+    3. IELTS / Language Proficiency Exam
+    4. University Admission Application
+    5. Offer Letter & University Acceptance
+    6. Financial Proof & Blocked Account
+    7. Statement of Purpose (SOP) & Letter of Explanation
+    8. Visa Application Submission & Biometrics
+    9. Embassy Interview & Credibility Check
+    10. Visa Approval, Pre-Departure & Flight
+  - Embedded `<StudyVisaRoadmap />` directly into [`LandingPage.tsx`](./src/components/LandingPage.tsx) and [`LandingHero.tsx`](./src/components/LandingHero.tsx) with interactive CTA triggers leading directly to IELTS Examiner and SOP Auditor.
+  - Updated title and meta copy: "GoFlyVisa - AI IELTS & Study Visa Risk Auditor".
+- **Build & Deployment:**
+  - `npm run build` passed cleanly in 565ms (Vite) + 21ms (esbuild serverless bundle).
+  - Pushed commit `bc833e5` to GitHub.
+  - Redeployed to Vercel production: **https://goflyvisa-app.vercel.app** (ready in 23s).
+  - Refreshed active browser tab.
 
 ---
 
 ## 4. Immediate Next Steps
 
-1. Add `GEMINI_API_KEY` to Vercel environment variables for live AI grading.
-2. Provision Supabase project for GoFlyVisa and run `supabase/schema.sql`.
-3. Once Hostinger completes registrar verification on `goflyvisa.com`, map DNS CNAME to Vercel.
+1. Add `GEMINI_API_KEY` to Vercel environment variables for real-time live AI grading.
+2. Complete Supabase project setup for persistent evaluation logs.
+3. Attach custom domain `goflyvisa.com` once Hostinger registrar review completes.
