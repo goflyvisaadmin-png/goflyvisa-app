@@ -7,6 +7,7 @@ import { australiaGuide as AUSTRALIA_GUIDE_DATA } from './australia';
 import { chinaGuide as CHINA_GUIDE_DATA } from './china';
 import { italyGuide as ITALY_GUIDE_DATA } from './italy';
 import { franceGuide as FRANCE_GUIDE_DATA } from './france';
+import { malaysiaGuide as MALAYSIA_GUIDE_DATA } from './malaysia';
 
 export interface CountryCardSummary {
   slug: TargetCountrySlug;
@@ -190,7 +191,7 @@ export const COUNTRIES_DIRECTORY: CountryCardSummary[] = [
     summary: 'Ultra-affordable living costs, UK/Australian branch campuses, 100% English medium, and high visa approval rates.',
     tuitionOverview: 'MYR 15,000–35,000 / year',
     livingCostMonthly: 'MYR 1,500–2,500 / mo (~$350–$550)',
-    postStudyWork: 'Passes via Employment Pass / Digital Nomad',
+    postStudyWork: '1 Year (Graduate Social Visit Pass / EP)',
     tags: {
       noTuitionFees: false,
       postStudyWorkYears: 1,
@@ -198,7 +199,7 @@ export const COUNTRIES_DIRECTORY: CountryCardSummary[] = [
       schengenOrEu: false,
       highPrPathway: false,
     },
-    isFullyImplemented: false,
+    isFullyImplemented: true,
   },
 ];
 
@@ -211,6 +212,7 @@ export const FULL_COUNTRY_GUIDES: Partial<Record<TargetCountrySlug, CountryGuide
   china: CHINA_GUIDE_DATA,
   italy: ITALY_GUIDE_DATA,
   france: FRANCE_GUIDE_DATA,
+  malaysia: MALAYSIA_GUIDE_DATA,
 };
 
 export function getCountryGuide(slug: TargetCountrySlug): CountryGuideData | null {

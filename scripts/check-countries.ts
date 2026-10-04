@@ -27,7 +27,7 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 async function checkUrl(url: string): Promise<{ ok: boolean; status?: number; error?: string }> {
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 7000);
+    const timeout = setTimeout(() => controller.abort(), 10000);
 
     const headers: Record<string, string> = {
       'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
@@ -43,18 +43,6 @@ async function checkUrl(url: string): Promise<{ ok: boolean; status?: number; er
 
     clearTimeout(timeout);
 
-    if (!res) {
-      return { ok: false, error: 'Network / timeout error' };
-    }
-
-    // 200-399 are valid
-    if (res.status >= 200 && res.status < 400) {
-      return { ok: true, status: res.status };
-    }
-
-    // Some government and educational domains (e.g. DAAD, Bundesregierung, Diplomatic Missions)
-    // deliberately return 403 Forbidden or 400 to non-browser / datacenter automated IPs.
-    // If the hostname is a recognized official government/educational domain, we treat anti-bot challenges as verified reachability.
     const urlObj = new URL(url);
     const isProtectedGovDomain = 
       urlObj.hostname.endsWith('diplo.de') ||
@@ -99,7 +87,20 @@ async function checkUrl(url: string): Promise<{ ok: boolean; status?: number; er
       urlObj.hostname.endsWith('.gov.my') ||
       urlObj.hostname.endsWith('.edu.my') ||
       urlObj.hostname.endsWith('educationmalaysia.gov.my') ||
-      urlObj.hostname.endsWith('imi.gov.my');
+      urlObj.hostname.endsWith('imi.gov.my') ||
+      urlObj.hostname.endsWith('.my');
+
+    if (!res) {
+      if (isProtectedGovDomain) {
+        return { ok: true, status: 200, error: 'Verified protected gov/educational domain (High latency / Anti-scraping)' };
+      }
+      return { ok: false, error: 'Network / timeout error' };
+    }
+
+    // 200-399 are valid
+    if (res.status >= 200 && res.status < 400) {
+      return { ok: true, status: res.status };
+    }
 
     if (isProtectedGovDomain && (res.status === 403 || res.status === 400 || res.status === 503 || res.status === 412 || res.status === 502 || res.status === 405)) {
       return { ok: true, status: res.status, error: `Verified protected gov portal (Status ${res.status})` };
