@@ -1,6 +1,7 @@
 import { CountryGuideData, TargetCountrySlug } from './types';
 import { GERMANY_GUIDE_DATA } from './germany';
 import { UK_GUIDE_DATA } from './uk';
+import { canadaGuide as CANADA_GUIDE_DATA } from './canada';
 
 export interface CountryCardSummary {
   slug: TargetCountrySlug;
@@ -66,9 +67,9 @@ export const COUNTRIES_DIRECTORY: CountryCardSummary[] = [
     name: 'Canada',
     code: 'CA',
     flag: '🇨🇦',
-    visaType: 'Study Permit (IRCC SDS & PAL Guidelines)',
+    visaType: 'Study Permit (IRCC PAL & §216 Guidelines)',
     summary: 'Top research universities, Provincial Attestation Letters (PAL), and Post-Graduation Work Permit (PGWP).',
-    tuitionOverview: 'CAD $18,000–$36,000 / year',
+    tuitionOverview: 'CAD $16,000–$45,000 / year',
     livingCostMonthly: 'CAD $20,635 / yr (GIC financial requirement)',
     postStudyWork: 'Up to 3 Years (PGWP)',
     tags: {
@@ -78,7 +79,7 @@ export const COUNTRIES_DIRECTORY: CountryCardSummary[] = [
       schengenOrEu: false,
       highPrPathway: true,
     },
-    isFullyImplemented: false,
+    isFullyImplemented: true,
   },
   {
     slug: 'usa',
@@ -199,6 +200,7 @@ export const COUNTRIES_DIRECTORY: CountryCardSummary[] = [
 export const FULL_COUNTRY_GUIDES: Partial<Record<TargetCountrySlug, CountryGuideData>> = {
   germany: GERMANY_GUIDE_DATA,
   uk: UK_GUIDE_DATA,
+  canada: CANADA_GUIDE_DATA,
 };
 
 export function getCountryGuide(slug: TargetCountrySlug): CountryGuideData | null {

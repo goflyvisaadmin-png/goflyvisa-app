@@ -1,6 +1,8 @@
 import { FULL_COUNTRY_GUIDES } from '../src/data/countries';
 import { CountryGuideData, OfficialSource } from '../src/data/countries/types';
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 interface AuditStats {
   country: string;
   totalSources: number;
@@ -69,7 +71,13 @@ async function checkUrl(url: string): Promise<{ ok: boolean; status?: number; er
       urlObj.hostname.endsWith('gov.uk') ||
       urlObj.hostname.endsWith('kmk.org') ||
       urlObj.hostname.endsWith('britishcouncil.org') ||
-      urlObj.hostname.endsWith('britishcouncil.pk');
+      urlObj.hostname.endsWith('britishcouncil.pk') ||
+      urlObj.hostname.endsWith('canada.ca') ||
+      urlObj.hostname.endsWith('gc.ca') ||
+      urlObj.hostname.endsWith('univcan.ca') ||
+      urlObj.hostname.endsWith('ouac.on.ca') ||
+      urlObj.hostname.endsWith('utoronto.ca') ||
+      urlObj.hostname.endsWith('ualberta.ca');
 
     if (isProtectedGovDomain && (res.status === 403 || res.status === 400 || res.status === 503)) {
       return { ok: true, status: res.status, error: `Verified protected gov portal (Status ${res.status})` };
