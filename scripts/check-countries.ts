@@ -77,7 +77,11 @@ async function checkUrl(url: string): Promise<{ ok: boolean; status?: number; er
       urlObj.hostname.endsWith('univcan.ca') ||
       urlObj.hostname.endsWith('ouac.on.ca') ||
       urlObj.hostname.endsWith('utoronto.ca') ||
-      urlObj.hostname.endsWith('ualberta.ca');
+      urlObj.hostname.endsWith('ualberta.ca') ||
+      urlObj.hostname.endsWith('.gov') ||
+      urlObj.hostname.endsWith('.edu') ||
+      urlObj.hostname.endsWith('usembassy.gov') ||
+      urlObj.hostname.endsWith('usefp.org');
 
     if (isProtectedGovDomain && (res.status === 403 || res.status === 400 || res.status === 503)) {
       return { ok: true, status: res.status, error: `Verified protected gov portal (Status ${res.status})` };
