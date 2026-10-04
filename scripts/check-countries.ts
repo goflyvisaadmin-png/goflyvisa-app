@@ -91,7 +91,15 @@ async function checkUrl(url: string): Promise<{ ok: boolean; status?: number; er
       urlObj.hostname.endsWith('.it') ||
       urlObj.hostname.endsWith('intianaitalyvisa.com') ||
       urlObj.hostname.endsWith('cimea.it') ||
-      urlObj.hostname.endsWith('universitaly.it');
+      urlObj.hostname.endsWith('universitaly.it') ||
+      urlObj.hostname.endsWith('.gouv.fr') ||
+      urlObj.hostname.endsWith('.fr') ||
+      urlObj.hostname.endsWith('campusfrance.org') ||
+      urlObj.hostname.endsWith('tlscontact.com') ||
+      urlObj.hostname.endsWith('.gov.my') ||
+      urlObj.hostname.endsWith('.edu.my') ||
+      urlObj.hostname.endsWith('educationmalaysia.gov.my') ||
+      urlObj.hostname.endsWith('imi.gov.my');
 
     if (isProtectedGovDomain && (res.status === 403 || res.status === 400 || res.status === 503 || res.status === 412 || res.status === 502 || res.status === 405)) {
       return { ok: true, status: res.status, error: `Verified protected gov portal (Status ${res.status})` };

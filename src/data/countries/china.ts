@@ -100,7 +100,7 @@ export const chinaGuide: CountryGuideData = {
       sources: [
         {
           title: 'Embassy of the People’s Republic of China in Pakistan - Consular Services',
-          url: 'http://pk.china-embassy.gov.cn/eng/',
+          url: 'https://pk.china-embassy.gov.cn/',
           publisher: 'Embassy of China in Pakistan',
           publisherType: 'embassy',
         },
@@ -279,7 +279,7 @@ export const chinaGuide: CountryGuideData = {
         sources: [
           {
             title: 'Chinese Embassy in Pakistan - Visa Requirements',
-            url: 'http://pk.china-embassy.gov.cn/eng/',
+            url: 'https://pk.china-embassy.gov.cn/',
             publisher: 'Embassy of China in Pakistan',
             publisherType: 'embassy',
           },
@@ -318,7 +318,7 @@ export const chinaGuide: CountryGuideData = {
         sources: [
           {
             title: 'Chinese Embassy Pakistan',
-            url: 'http://pk.china-embassy.gov.cn/eng/',
+            url: 'https://pk.china-embassy.gov.cn/',
             publisher: 'Embassy of China',
             publisherType: 'embassy',
           },
@@ -344,7 +344,7 @@ export const chinaGuide: CountryGuideData = {
         sources: [
           {
             title: 'Chinese Embassy Pakistan - Consular Documents',
-            url: 'http://pk.china-embassy.gov.cn/eng/',
+            url: 'https://pk.china-embassy.gov.cn/',
             publisher: 'Embassy of China',
             publisherType: 'embassy',
           },
@@ -960,7 +960,7 @@ export const chinaGuide: CountryGuideData = {
       sources: [
         {
           title: 'Embassy of China in Pakistan - Consular Documents',
-          url: 'http://pk.china-embassy.gov.cn/eng/',
+          url: 'https://pk.china-embassy.gov.cn/',
           publisher: 'Embassy of China',
           publisherType: 'embassy',
         },
@@ -1058,7 +1058,7 @@ export const chinaGuide: CountryGuideData = {
       headline: 'China Officially Enters the Hague Apostille Convention',
       impact:
         'China’s accession to the Apostille Convention eliminated the time-consuming two-tier consular legalization process for Pakistani educational and civil documents; documents attested via MOFA Apostille are now directly recognized by Chinese authorities.',
-      officialSourceUrl: 'http://pk.china-embassy.gov.cn/eng/',
+      officialSourceUrl: 'https://pk.china-embassy.gov.cn/',
       lastVerified: '2026-10-04',
     },
     {
@@ -1066,7 +1066,7 @@ export const chinaGuide: CountryGuideData = {
       headline: 'Permanent Exemption of Consular Visa Fees for Pakistani Citizens Reaffirmed',
       impact:
         'The Chinese Embassy reaffirmed that Pakistani passport holders remain exempt from statutory consular visa fees under reciprocal bilateral treaties, paying only outsourced CVASC administrative service charges.',
-      officialSourceUrl: 'http://pk.china-embassy.gov.cn/eng/',
+      officialSourceUrl: 'https://pk.china-embassy.gov.cn/',
       lastVerified: '2026-10-04',
     },
     {
@@ -1199,7 +1199,7 @@ export const chinaGuide: CountryGuideData = {
       sources: [
         {
           title: 'Chinese Embassy Pakistan - Fee Waiver Agreement',
-          url: 'http://pk.china-embassy.gov.cn/eng/',
+          url: 'https://pk.china-embassy.gov.cn/',
           publisher: 'Embassy of China in Pakistan',
           publisherType: 'embassy',
         },
@@ -1364,7 +1364,7 @@ export const chinaGuide: CountryGuideData = {
       sources: [
         {
           title: 'Chinese Embassy Pakistan - Apostille Implementation',
-          url: 'http://pk.china-embassy.gov.cn/eng/',
+          url: 'https://pk.china-embassy.gov.cn/',
           publisher: 'Embassy of China in Pakistan',
           publisherType: 'embassy',
         },
@@ -1377,7 +1377,7 @@ export const chinaGuide: CountryGuideData = {
   allOfficialSources: [
     {
       title: 'Embassy of the People’s Republic of China in the Islamic Republic of Pakistan',
-      url: 'http://pk.china-embassy.gov.cn/eng/',
+      url: 'https://pk.china-embassy.gov.cn/',
       publisher: 'Embassy of China in Pakistan',
       publisherType: 'embassy',
     },
