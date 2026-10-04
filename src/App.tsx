@@ -6,13 +6,50 @@ import { SopAuditor } from './components/SopAuditor';
 import { PricingView } from './components/PricingView';
 import { CreditModal } from './components/CreditModal';
 import { SchemaViewerModal } from './components/SchemaViewerModal';
-import { Plane, ShieldCheck, Database, FileText, Mic, Globe } from 'lucide-react';
+import { CountryIndexPage } from './components/countries/CountryIndexPage';
+import { CountryDetailPage } from './components/countries/CountryDetailPage';
+import { TargetCountrySlug } from './data/countries/types';
+import { Plane, Database, Globe } from 'lucide-react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'landing' | 'ielts' | 'sop' | 'pricing' | 'schema'>('landing');
+  const [activeTab, setActiveTab] = useState<'landing' | 'ielts' | 'sop' | 'pricing' | 'schema' | 'countries'>('landing');
+  const [selectedCountrySlug, setSelectedCountrySlug] = useState<TargetCountrySlug | null>(null);
   const [creditsRemaining, setCreditsRemaining] = useState<number>(4);
   const [isCreditModalOpen, setIsCreditModalOpen] = useState<boolean>(false);
   const [isSchemaModalOpen, setIsSchemaModalOpen] = useState<boolean>(false);
+
+  // Parse path on initial load & popstate (browser back/forward navigation)
+  useEffect(() => {
+    const syncRouteFromPath = () => {
+      const pathname = window.location.pathname;
+      if (pathname.startsWith('/countries')) {
+        const parts = pathname.split('/').filter(Boolean);
+        if (parts.length >= 2) {
+          const slug = parts[1] as TargetCountrySlug;
+          setSelectedCountrySlug(slug);
+        } else {
+          setSelectedCountrySlug(null);
+        }
+        setActiveTab('countries');
+      } else if (pathname === '/ielts') {
+        setActiveTab('ielts');
+        setSelectedCountrySlug(null);
+      } else if (pathname === '/sop') {
+        setActiveTab('sop');
+        setSelectedCountrySlug(null);
+      } else if (pathname === '/pricing') {
+        setActiveTab('pricing');
+        setSelectedCountrySlug(null);
+      } else {
+        setActiveTab('landing');
+        setSelectedCountrySlug(null);
+      }
+    };
+
+    syncRouteFromPath();
+    window.addEventListener('popstate', syncRouteFromPath);
+    return () => window.removeEventListener('popstate', syncRouteFromPath);
+  }, []);
 
   // Fetch initial profile & credits
   useEffect(() => {
@@ -36,12 +73,42 @@ export default function App() {
     setCreditsRemaining((prev) => prev + added);
   };
 
+  // Navigation handlers with URL history push
+  const handleTabChange = (tab: 'landing' | 'ielts' | 'sop' | 'pricing' | 'schema' | 'countries') => {
+    setActiveTab(tab);
+    if (tab === 'countries') {
+      setSelectedCountrySlug(null);
+      window.history.pushState(null, '', '/countries');
+    } else if (tab === 'landing') {
+      setSelectedCountrySlug(null);
+      window.history.pushState(null, '', '/');
+    } else {
+      setSelectedCountrySlug(null);
+      window.history.pushState(null, '', `/${tab}`);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSelectCountry = (slug: TargetCountrySlug) => {
+    setSelectedCountrySlug(slug);
+    setActiveTab('countries');
+    window.history.pushState(null, '', `/countries/${slug}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleBackToCountriesIndex = () => {
+    setSelectedCountrySlug(null);
+    setActiveTab('countries');
+    window.history.pushState(null, '', '/countries');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen bg-[#070B18] text-slate-100 flex flex-col font-sans selection:bg-emerald-500 selection:text-slate-900">
       {/* Navigation */}
       <Navbar
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={handleTabChange}
         creditsRemaining={creditsRemaining}
         openCreditModal={() => setIsCreditModalOpen(true)}
         openSchemaModal={() => setIsSchemaModalOpen(true)}
@@ -51,11 +118,27 @@ export default function App() {
       <main className="flex-1">
         {activeTab === 'landing' && (
           <LandingPage
-            onNavigateToIelts={() => setActiveTab('ielts')}
-            onNavigateToSop={() => setActiveTab('sop')}
-            onOpenPricing={() => setActiveTab('pricing')}
+            onNavigateToIelts={() => handleTabChange('ielts')}
+            onNavigateToSop={() => handleTabChange('sop')}
+            onOpenPricing={() => handleTabChange('pricing')}
             onOpenSchema={() => setIsSchemaModalOpen(true)}
           />
+        )}
+
+        {activeTab === 'countries' && (
+          <>
+            {selectedCountrySlug ? (
+              <CountryDetailPage
+                slug={selectedCountrySlug}
+                onBack={handleBackToCountriesIndex}
+                onSelectCountry={handleSelectCountry}
+              />
+            ) : (
+              <CountryIndexPage
+                onSelectCountry={handleSelectCountry}
+              />
+            )}
+          </>
         )}
 
         {activeTab === 'ielts' && (
@@ -71,6 +154,7 @@ export default function App() {
             creditsRemaining={creditsRemaining}
             onCreditDeducted={handleCreditDeducted}
             openCreditModal={() => setIsCreditModalOpen(true)}
+            onNavigateToCountry={(country) => handleSelectCountry(country as TargetCountrySlug)}
           />
         )}
 
@@ -83,7 +167,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-[#050814] border-t border-slate-800/80 py-10 px-4 sm:px-6 lg:px-8">
+      <footer className="bg-[#050814] border-t border-slate-800/80 py-10 px-4 sm:px-6 lg:px-8 print:hidden">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-slate-400">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center">
@@ -100,6 +184,13 @@ export default function App() {
 
           <div className="flex flex-wrap items-center gap-6">
             <button
+              onClick={() => handleTabChange('countries')}
+              className="hover:text-emerald-400 transition-colors flex items-center gap-1"
+            >
+              <Globe className="w-3.5 h-3.5 text-teal-400" />
+              <span>Study Destinations</span>
+            </button>
+            <button
               onClick={() => setIsSchemaModalOpen(true)}
               className="hover:text-emerald-400 transition-colors flex items-center gap-1 font-mono text-[11px]"
             >
@@ -107,26 +198,26 @@ export default function App() {
               <span>Supabase SQL Migration (RLS)</span>
             </button>
             <button
-              onClick={() => setActiveTab('ielts')}
+              onClick={() => handleTabChange('ielts')}
               className="hover:text-emerald-400 transition-colors"
             >
               IELTS Examiner
             </button>
             <button
-              onClick={() => setActiveTab('sop')}
+              onClick={() => handleTabChange('sop')}
               className="hover:text-emerald-400 transition-colors"
             >
               Visa SOP Auditor
             </button>
             <button
-              onClick={() => setActiveTab('pricing')}
+              onClick={() => handleTabChange('pricing')}
               className="hover:text-emerald-400 transition-colors"
             >
               Credit Packs
             </button>
             <button
               onClick={() => {
-                setActiveTab('landing');
+                handleTabChange('landing');
                 setTimeout(() => {
                   window.scrollTo({ top: 1200, behavior: 'smooth' });
                 }, 100);

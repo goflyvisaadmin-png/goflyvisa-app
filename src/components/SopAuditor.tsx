@@ -24,12 +24,14 @@ interface SopAuditorProps {
   creditsRemaining: number;
   onCreditDeducted: () => void;
   openCreditModal: () => void;
+  onNavigateToCountry?: (country: TargetCountry) => void;
 }
 
 export const SopAuditor: React.FC<SopAuditorProps> = ({
   creditsRemaining,
   onCreditDeducted,
   openCreditModal,
+  onNavigateToCountry,
 }) => {
   const [targetCountry, setTargetCountry] = useState<TargetCountry>('germany');
   const [targetUniversity, setTargetUniversity] = useState<string>('Technical University of Munich');
@@ -177,6 +179,18 @@ export const SopAuditor: React.FC<SopAuditorProps> = ({
                   );
                 })}
               </div>
+              {onNavigateToCountry && (
+                <div className="mt-2.5 flex items-center justify-between text-xs">
+                  <span className="text-[11px] text-slate-500">Selected: {COUNTRY_IMMIGRATION_DATA[targetCountry].name}</span>
+                  <button
+                    type="button"
+                    onClick={() => onNavigateToCountry(targetCountry)}
+                    className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-400 hover:text-emerald-400 transition-colors cursor-pointer"
+                  >
+                    <span>View full guide →</span>
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* University & Degree */}
