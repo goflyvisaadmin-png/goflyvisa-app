@@ -7,7 +7,7 @@ export const usaGuide: CountryGuideData = {
   flagEmoji: '🇺🇸',
   tagline: 'Global Research Dominance, Cutting-Edge STEM OPT, and Unrivaled Academic Funding',
   metaDescription:
-    'Authoritative, statutory guide for Pakistani students applying to American universities in 2025/2026. Form I-20, F-1 student visa, SEVIS I-901 fee ($350), MRV fee ($185), INA §214(b) interview strategies, STEM OPT (3 years), and full tuition assistantships.',
+    'Authoritative, statutory guide for Pakistani students applying to American universities in 2025/2026. Form I-20, F-1 student visa, SEVIS I-901 fee ($350), MRV fee ($185), Visa Integrity Fee ($250), INA §214(b) interview strategies, STEM OPT (3 years), and full tuition assistantships.',
   lastVerified: '2026-10-04',
   heroDisclaimer:
     'Under Section 214(b) of the U.S. Immigration and Nationality Act (INA), every F-1 visa applicant is legally presumed to have immigrant intent until proven otherwise during the in-person consular interview at the U.S. Embassy in Islamabad or U.S. Consulate General in Karachi. Familiarize yourself with statutory SEVIS fee payments, Form I-20 cost of attendance requirements, and OPT regulations.',
@@ -96,8 +96,8 @@ export const usaGuide: CountryGuideData = {
       subCategory: 'INA §101(a)(15)(F)(i)',
       purpose: 'The primary nonimmigrant visa for international students pursuing full-time degree programs at accredited American universities, colleges, or academic language institutions.',
       eligibilitySummary:
-        'Must possess a valid Form I-20 issued by an SEVP-certified institution, receipt of $350 SEVIS I-901 fee payment, completed DS-160 application, verified liquid financial support covering Box 7 of Form I-20, and successful rebuttal of immigrant intent under INA §214(b) during the consular interview.',
-      feeLocal: 185, // MRV fee $185
+        'Must possess a valid Form I-20 issued by an SEVP-certified institution, receipt of $350 SEVIS I-901 fee payment, completed DS-160 application, verified liquid financial support covering Box 7 of Form I-20, and successful rebuttal of immigrant intent under INA §214(b) during the consular interview. Mandatory statutory fees: $185 MRV fee + $250 Visa Integrity Fee (OBBBA; refundable upon compliance/departure) + $350 SEVIS fee = $785 USD total.',
+      feeLocal: 185, // Consular MRV fee $185 (plus $250 Visa Integrity Fee & $350 SEVIS)
       feeCurrency: 'USD',
       approxFeePkr: 51430,
       validity: 'Duration of Status (D/S) - remains valid as long as student maintains full-time enrollment and an active SEVIS record.',
@@ -238,9 +238,9 @@ export const usaGuide: CountryGuideData = {
       },
       {
         stepNumber: 4,
-        title: 'Create Scheduling Profile & Pay the MRV Fee ($185)',
+        title: 'Create Scheduling Profile & Pay Consular Fees ($185 MRV + $250 Visa Integrity Fee)',
         description:
-          'Create a profile on the U.S. Visa Service portal for Pakistan. Generate the MRV fee payment slip ($185 USD / PKR ~51,800) and pay at designated bank branches in Pakistan (Allied Bank Limited). Wait for payment clearance in your portal (typically 24 hours).',
+          'Create a profile on the U.S. Visa Service portal for Pakistan. Pay the consular MRV fee ($185 USD / PKR ~51,430) and the mandatory $250 USD (PKR ~69,500) Visa Integrity Fee enacted under OBBBA (refundable to the applicant upon timely departure or compliant change of status). Total consular fees: $435 USD (PKR ~120,930), in addition to the $350 SEVIS fee.',
       },
       {
         stepNumber: 5,
@@ -461,6 +461,14 @@ export const usaGuide: CountryGuideData = {
       approxPkr: 51430,
     },
     otherSurcharges: [
+      {
+        name: 'Visa Integrity Fee (OBBBA Statutory Surcharge)',
+        amount: 250,
+        currency: 'USD',
+        approxPkr: 69500,
+        mandatory: true,
+        notes: 'Mandatory statutory fee enacted under the Omnibus Budget Bill (OBBBA) effective October 1, 2025. Assessed for nonimmigrant visa processing; refundable to the applicant upon timely departure or compliant change of status.',
+      },
       {
         name: 'SEVIS I-901 Statutory Fee',
         amount: 350,
@@ -1040,7 +1048,9 @@ export const usaGuide: CountryGuideData = {
     jobSeekerVisaDuration: 'Up to 3 years total (12 Months Initial Post-Completion OPT + 24 Months STEM OPT Extension)',
     workPermitType: 'Employment Authorization Document (EAD card under Form I-765)',
     prPathwaysSummary:
-      'International graduates typically transition through employment authorization pathways: (1) Post-Completion OPT (12 months); (2) STEM OPT Extension (24 months) for qualifying science, technology, engineering, and mathematics degrees working for E-Verify employers; (3) Employer sponsorship for the H-1B Specialty Occupation visa (subject to the annual 85,000 lottery cap, with 20,000 slots reserved for U.S. advanced degree holders); (4) Permanent Residence via Employment-Based Green Cards (EB-2 Advanced Degree, EB-2 National Interest Waiver / NIW, or EB-3 Skilled Worker).',
+      'Statutory Rule: The F-1 visa is strictly a nonimmigrant classification; there is NO direct pathway from F-1 student status or OPT to lawful permanent residence (Green Card). International graduates wishing to settle permanently must transition via employer-sponsored dual-intent status: (1) Post-Completion OPT (12 months) and STEM OPT extension (24 months); (2) Employer sponsorship for the H-1B Specialty Occupation visa (annual cap lottery with 20,000 slots reserved for U.S. advanced degree holders); (3) Employer PERM Labor Certification with the U.S. Department of Labor; (4) Form I-140 Immigrant Petition and Form I-485 Adjustment of Status under employment categories (EB-2 Advanced Degree or EB-3 Skilled Worker), or self-petitioned EB-2 NIW (National Interest Waiver). This entire sequence typically takes 3 to 7+ years of continuous status maintenance.',
+    permanentResidencyTimeline:
+      'No direct PR route on F-1. Employer-sponsored Green Card (H-1B → EB-2/EB-3) typically takes 3–7+ years.',
     citizenshipTimeline:
       'After obtaining Permanent Residence (Green Card), continuous permanent lawful residence in the United States for at least 5 years (or 3 years if married to a U.S. citizen) qualifies an individual to apply for U.S. Naturalization (Form N-400). Time spent on F-1 student status or OPT does not count toward the permanent residency requirement.',
     sources: [
@@ -1120,7 +1130,7 @@ export const usaGuide: CountryGuideData = {
       headline: 'Beneficiary-Centric H-1B Registration Selection Codified',
       impact:
         'USCIS implemented the beneficiary-centric selection process for the annual H-1B cap lottery, ensuring each candidate is entered only once based on their passport number regardless of how many job offers or registrations are submitted, curbing lottery manipulation and improving selection odds for legitimate international student graduates.',
-      officialSourceUrl: 'https://www.uscis.gov/working-in-the-united-states/temporary-workers/h-1b-specialty-occupations',
+      officialSourceUrl: 'https://www.uscis.gov/working-in-the-united-states/h-1b-specialty-occupations',
       lastVerified: '2026-10-04',
     },
   ],
@@ -1221,7 +1231,7 @@ export const usaGuide: CountryGuideData = {
         'If you secure an on-campus student job or graduate assistantship, obtain an employment letter from your employer and a DSO endorsement. Visit the local Social Security Administration (SSA) office with your passport, I-20, and I-94 to receive your 9-digit SSN.',
       timeline: 'Within first 30 days once campus job offer is secured',
       mandatory: false,
-      officialPortalOrGuide: 'https://www.ssa.gov/number-card/apply-adult',
+      officialPortalOrGuide: 'https://www.ssa.gov/ssnumber/',
     },
     {
       stepNumber: 5,
@@ -1276,9 +1286,9 @@ export const usaGuide: CountryGuideData = {
       lastVerified: '2026-10-04',
     },
     {
-      question: 'What is the SEVIS I-901 fee and how much is it?',
+      question: 'What are the mandatory visa fees for an F-1 student applying from Pakistan?',
       answer:
-        'The SEVIS I-901 fee is a mandatory $350 USD statutory fee paid to the U.S. Department of Homeland Security to maintain the Student and Exchange Visitor Information System. It must be paid online at FMJfee.com after receiving your Form I-20 and before attending your consular interview at the embassy.',
+        'Applicants must pay three statutory government fees totaling $785 USD (PKR ~218,230): (1) Mandatory $350 USD SEVIS I-901 fee paid online at FMJfee.com; (2) $185 USD Machine Readable Visa (MRV) application fee paid upon scheduling the consular interview; and (3) $250 USD Visa Integrity Fee implemented under OBBBA effective October 1, 2025 (refundable to the applicant upon timely departure or lawful change of status in compliance with visa terms).',
       category: 'Statutory Fees',
       sources: [
         {
@@ -1388,7 +1398,7 @@ export const usaGuide: CountryGuideData = {
       sources: [
         {
           title: 'USCIS - H-1B Specialty Occupations',
-          url: 'https://www.uscis.gov/working-in-the-united-states/temporary-workers/h-1b-specialty-occupations',
+          url: 'https://www.uscis.gov/working-in-the-united-states/h-1b-specialty-occupations',
           publisher: 'USCIS',
           publisherType: 'immigration_authority',
         },
@@ -1402,8 +1412,8 @@ export const usaGuide: CountryGuideData = {
       category: 'SEVIS & Regulations',
       sources: [
         {
-          title: 'DHS Study in the States - Transferring to Another School',
-          url: 'https://studyinthestates.dhs.gov/students/transfer-to-another-school',
+          title: 'DHS Study in the States - Maintaining Status',
+          url: 'https://studyinthestates.dhs.gov/students/maintaining-status',
           publisher: 'U.S. Department of Homeland Security',
           publisherType: 'immigration_authority',
         },

@@ -7,10 +7,10 @@ export const canadaGuide: CountryGuideData = {
   flagEmoji: '🇨🇦',
   tagline: 'World-Class Post-Secondary Education, Robust Co-op Programs, and Multi-Year Post-Graduation Work Permits',
   metaDescription:
-    'Complete, authoritative guide for Pakistani students applying to Canadian universities in 2025/2026. IRCC Study Permit rules, CAD $20,635 living funds, Provincial Attestation Letter (PAL), VFS Global Pakistan VACs, PGWP pathways, and tuition fees.',
+    'Complete, authoritative guide for Pakistani students applying to Canadian universities in 2025/2026. IRCC Study Permit rules, CAD $22,895 living funds requirement, Provincial Attestation Letter (PAL), VFS Global Pakistan VACs, PGWP pathways, and tuition fees.',
   lastVerified: '2026-10-04',
   heroDisclaimer:
-    'Canadian immigration policies underwent comprehensive structural updates in 2024 and 2025. The Student Direct Stream (SDS) was discontinued on November 8, 2024; all applicants now apply through the regular study permit process. Study permit applicants require a Provincial Attestation Letter (PAL), and statutory cost-of-living funds are CAD $20,635. Always verify current instructions via Immigration, Refugees and Citizenship Canada (IRCC).',
+    'Canadian immigration policies underwent comprehensive structural updates in 2024 and 2025. The Student Direct Stream (SDS) was discontinued on November 8, 2024; all applicants now apply through the regular study permit process. Study permit applicants require a Provincial Attestation Letter (PAL), and statutory cost-of-living funds are CAD $22,895. Always verify current instructions via Immigration, Refugees and Citizenship Canada (IRCC).',
 
   defaultHomeCountry: {
     countryCode: 'PK',
@@ -81,7 +81,7 @@ export const canadaGuide: CountryGuideData = {
         },
       ],
       lastVerified: '2026-10-04',
-      note: 'IRCC statutory living fund benchmark is CAD $20,635 per year (~CAD $1,720/month) for a single student outside Quebec. Living expenses in Toronto and Vancouver typically reach CAD $2,000–$2,500/month.',
+      note: 'IRCC statutory living fund benchmark is CAD $22,895 per year (~CAD $1,908/month) for a single student outside Quebec. Living expenses in Toronto and Vancouver typically reach CAD $2,200–$2,600/month.',
     },
     postStudyWorkDuration: 'Up to 3 years (Post-Graduation Work Permit - PGWP)',
     partTimeWorkHoursTerm: '24 hours per week off-campus (Effective Nov 8, 2024; on-campus work is uncapped)',
@@ -96,7 +96,7 @@ export const canadaGuide: CountryGuideData = {
       subCategory: 'IMM 1442 (Permit) + V-1 Visa Counterfoil in Passport',
       purpose: 'Primary immigration authorization enabling non-Canadians to enroll in degree, diploma, or certificate programs exceeding 6 months at an approved Designated Learning Institution (DLI).',
       eligibilitySummary:
-        'Unconditional Letter of Acceptance (LOA) from an approved DLI, valid Provincial Attestation Letter (PAL) or Territorial Attestation Letter (unless exempt), proof of tuition payment, unencumbered financial proof of CAD $20,635 living funds (via GIC or seasoned bank statement), upfront medical examination, and valid police clearance.',
+        'Unconditional Letter of Acceptance (LOA) from an approved DLI, valid Provincial Attestation Letter (PAL) or Territorial Attestation Letter (unless exempt), proof of tuition payment, unencumbered financial proof of CAD $22,895 living funds (via GIC or seasoned bank statement), upfront medical examination, and valid police clearance.',
       feeLocal: 150,
       feeCurrency: 'CAD',
       approxFeePkr: 30300,
@@ -138,7 +138,7 @@ export const canadaGuide: CountryGuideData = {
       subCategory: 'C42 Open Work Permit for Spouses of International Students',
       purpose: 'Authorizes the legal spouse or common-law partner of an active international student to work full-time in Canada without an LMIA.',
       eligibilitySummary:
-        'Effective March 19, 2024, SOWP eligibility is restricted to spouses of students enrolled in master degree programs of at least 16 months duration, doctoral programs, or designated professional degree programs (medicine, dentistry, law, engineering). Spouses of undergraduate college/university students are no longer eligible.',
+        'Effective January 21, 2025, SOWP eligibility is restricted to spouses of students enrolled in master degree programs of at least 16 months duration, doctoral programs, or designated professional degree programs (medicine, dentistry, law, engineering). Spouses of undergraduate college/university students are no longer eligible.',
       feeLocal: 255,
       feeCurrency: 'CAD',
       approxFeePkr: 51510,
@@ -223,7 +223,7 @@ export const canadaGuide: CountryGuideData = {
         stepNumber: 2,
         title: 'Establish Guaranteed Investment Certificate (GIC) & Financial Proof',
         description:
-          'Open a Canadian student investment account with a CDIC-insured Canadian bank (such as Scotiabank, CIBC, or RBC) and transfer CAD $20,635 to purchase your GIC certificate. Gather supplementary sponsor bank statements (6 months) showing consistent, seasoned funds and official tax returns.',
+          'Open a Canadian student investment account with a CDIC-insured Canadian bank (such as Scotiabank, CIBC, or RBC) and transfer CAD $22,895 to purchase your GIC certificate. Gather supplementary sponsor bank statements (6 months) showing consistent, seasoned funds and official tax returns.',
       },
       {
         stepNumber: 3,
@@ -316,7 +316,7 @@ export const canadaGuide: CountryGuideData = {
         ],
       },
       {
-        documentName: 'Guaranteed Investment Certificate (GIC) of CAD $20,635',
+        documentName: 'Guaranteed Investment Certificate (GIC) of CAD $22,895',
         description: 'Proof of funds held in a CDIC-insured Canadian financial institution (Scotiabank, CIBC, RBC) guaranteeing first-year living allowance.',
         mandatory: true,
         sources: [
@@ -450,21 +450,21 @@ export const canadaGuide: CountryGuideData = {
 
   // 4. Financial Requirements & Proof of Funds
   financialRequirements: {
-    livingCostRequirementPerYear: 20635,
+    livingCostRequirementPerYear: 22895,
     currencyCode: 'CAD',
-    approxLivingCostPkr: 4168270,
+    approxLivingCostPkr: 4624790,
     exchangeRateDate: '2026-10-04',
     proofOfFundsOptions: [
       {
-        methodName: 'Guaranteed Investment Certificate (GIC) of CAD $20,635',
+        methodName: 'Guaranteed Investment Certificate (GIC) of CAD $22,895',
         details:
-          'The gold-standard method for proving living funds to IRCC. Students deposit CAD $20,635 with a participating CDIC-insured Canadian institution (Scotiabank, CIBC, RBC, ICICI Bank Canada, Simplii Financial). Upon arrival in Canada and identity verification, approximately CAD $4,000–$5,000 is released immediately, and the remainder is disbursed in equal monthly installments over 10–12 months.',
+          'The gold-standard method for proving living funds to IRCC. Students deposit CAD $22,895 with a participating CDIC-insured Canadian institution (Scotiabank, CIBC, RBC, ICICI Bank Canada, Simplii Financial). Upon arrival in Canada and identity verification, approximately CAD $4,000–$5,000 is released immediately, and the remainder is disbursed in equal monthly installments over 10–12 months.',
         isPreferred: true,
       },
       {
         methodName: 'Sponsor Bank Statement (6 Months Consecutive History)',
         details:
-          'If relying on family sponsorship, submit 6 months of continuous, verified bank statements showing consistent cash balances exceeding first-year tuition plus CAD $20,635. Avoid large sudden unexplained lump-sum deposits within 90 days of application without official documentary proof of source (e.g., sale of real estate, mature provident fund disinvestments).',
+          'If relying on family sponsorship, submit 6 months of continuous, verified bank statements showing consistent cash balances exceeding first-year tuition plus CAD $22,895. Avoid large sudden unexplained lump-sum deposits within 90 days of application without official documentary proof of source (e.g., sale of real estate, mature provident fund disinvestments).',
         isPreferred: false,
       },
       {
@@ -1043,7 +1043,7 @@ export const canadaGuide: CountryGuideData = {
       description:
         'Sudden, unexplained large deposits into sponsor bank accounts shortly before application submission, lack of proof regarding legitimate income generation, or failure to demonstrate funds to cover subsequent academic years.',
       howToAvoid:
-        'Always obtain a CAD $20,635 Guaranteed Investment Certificate (GIC) to establish clear liquid living funds. Provide 6 continuous months of bank statements for all family sponsors accompanied by FBR Active Taxpayer certificates, certified tax returns (IT-2 / CPRs), business registrations (Form C / SECP), and verifiable source documents (salary slips, property sale deeds).',
+        'Always obtain a CAD $22,895 Guaranteed Investment Certificate (GIC) to establish clear liquid living funds. Provide 6 continuous months of bank statements for all family sponsors accompanied by FBR Active Taxpayer certificates, certified tax returns (IT-2 / CPRs), business registrations (Form C / SECP), and verifiable source documents (salary slips, property sale deeds).',
       sources: [
         {
           title: 'IRCC - Financial Proof Guidelines',
@@ -1114,11 +1114,11 @@ export const canadaGuide: CountryGuideData = {
     canBringSpouse: true,
     canBringChildren: true,
     spouseWorkRights:
-      'Restricted. Effective March 19, 2024, Spousal Open Work Permits (SOWP) are only available to spouses of students enrolled in master degree programs of at least 16 months duration, doctoral programs, or select professional degree programs (e.g., medicine, law, engineering). Spouses of undergraduate students are not eligible for open work permits but may apply for a standard visitor visa or their own employer-specific work permit.',
+      'Restricted. Effective January 21, 2025, Spousal Open Work Permits (SOWP) are only available to spouses of students enrolled in master degree programs of at least 16 months duration, doctoral programs, or select professional degree programs (e.g., medicine, law, engineering). Spouses of undergraduate students are not eligible for open work permits but may apply for a standard visitor visa or their own employer-specific work permit.',
     childrenSchooling:
       'Minor accompanying children of international study permit holders are entitled to free public elementary and secondary education in most Canadian provinces without requiring an independent study permit under IRPA §30(2).',
     financialRequirementsPerDependent:
-      'Additional CAD $5,055 for the first accompanying family member; CAD $5,893 for each subsequent family member, in addition to the principal applicant’s CAD $20,635 living funds.',
+      'Additional CAD $5,609 for the first accompanying family member; CAD $6,539 for each subsequent family member, in addition to the principal applicant’s CAD $22,895 living funds.',
     sources: [
       {
         title: 'IRCC - Changes to Open Work Permits for Spouses of International Students',
@@ -1133,10 +1133,10 @@ export const canadaGuide: CountryGuideData = {
   // 13. Recent Law & Policy Changes (2024 - 2026 Timeline)
   recentPolicyTimeline: [
     {
-      date: '2024-01-01',
-      headline: 'Statutory Living Funds Raised from CAD $10,000 to CAD $20,635',
+      date: '2025-09-01',
+      headline: 'Statutory Living Funds Updated to CAD $22,895',
       impact:
-        'IRCC updated the cost-of-living financial requirement for study permits to CAD $20,635 (75% of Statistics Canada Low-Income Cut-Off / LICO) to prevent student financial vulnerability in response to national inflation.',
+        'IRCC updated the cost-of-living financial requirement for study permits to CAD $22,895 (tied to 75% of Statistics Canada Low-Income Cut-Off / LICO) to reflect prevailing living costs across Canadian provinces.',
       officialSourceUrl: 'https://www.canada.ca/en/immigration-refugees-citizenship/services/study-canada/study-permit/get-documents.html',
       lastVerified: '2026-10-04',
     },
@@ -1322,7 +1322,7 @@ export const canadaGuide: CountryGuideData = {
     {
       question: 'What happened to the Student Direct Stream (SDS) for Pakistani students?',
       answer:
-        'On November 8, 2024, IRCC officially discontinued the Student Direct Stream (SDS) worldwide. Pakistani students now apply through the regular study permit process. While SDS no longer exists, holding an official GIC of CAD $20,635 and a strong IELTS/PTE score remains the most effective, credible way to demonstrate financial solvency and English proficiency in the regular stream.',
+        'On November 8, 2024, IRCC officially discontinued the Student Direct Stream (SDS) worldwide. Pakistani students now apply through the regular study permit process. While SDS no longer exists, holding an official GIC of CAD $22,895 and a strong IELTS/PTE score remains the most effective, credible way to demonstrate financial solvency and English proficiency in the regular stream.',
       category: 'Visa Application',
       sources: [
         {
@@ -1352,7 +1352,7 @@ export const canadaGuide: CountryGuideData = {
     {
       question: 'How much money must I show in total for a Canadian study permit from Pakistan?',
       answer:
-        'You must prove: (1) First-year tuition fee (paid or unencumbered in bank); (2) Statutory cost-of-living funds of CAD $20,635 (PKR ~4.17M), preferably via a GIC; and (3) Approximately CAD $2,000–$3,000 for return airfare. For a student with a CAD $25,000 tuition fee, total liquid funds required equal approximately CAD $48,000 (PKR ~9.7M). If bringing an eligible spouse, add CAD $5,055, and CAD $5,893 for each child.',
+        'You must prove: (1) First-year tuition fee (paid or unencumbered in bank); (2) Statutory cost-of-living funds of CAD $22,895 (PKR ~4.62M), preferably via a GIC; and (3) Approximately CAD $2,000–$3,000 for return airfare. For a student with a CAD $25,000 tuition fee, total liquid funds required equal approximately CAD $50,895 (PKR ~10.3M). If bringing an eligible spouse, add CAD $5,609, and CAD $6,539 for each child.',
       category: 'Finances',
       sources: [
         {
@@ -1382,7 +1382,7 @@ export const canadaGuide: CountryGuideData = {
     {
       question: 'Can I bring my spouse with me, and can they work in Canada?',
       answer:
-        'Under policy changes implemented on March 19, 2024, Spousal Open Work Permits (SOWP) are only available if the principal student is enrolled in a master degree program of at least 16 months duration, a doctoral program, or select professional degree programs (e.g. medicine, law). Spouses of undergraduate college and university students are no longer eligible for open work permits.',
+        'Under policy changes implemented on January 21, 2025, Spousal Open Work Permits (SOWP) are only available if the principal student is enrolled in a master degree program of at least 16 months duration, a doctoral program, or select professional degree programs (e.g. medicine, law). Spouses of undergraduate college and university students are no longer eligible for open work permits.',
       category: 'Family & Dependents',
       sources: [
         {

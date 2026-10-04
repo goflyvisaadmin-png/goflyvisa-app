@@ -7,10 +7,10 @@ export const australiaGuide: CountryGuideData = {
   flagEmoji: '🇦🇺',
   tagline: 'World-Leading Group of Eight Research, 48-Hour Fortnight Work Rights, and Subclass 485 Graduate Pathways',
   metaDescription:
-    'Comprehensive, verified statutory guide for Pakistani students applying to Australian universities in 2025/2026. Subclass 500 visa rules, AUD $1,600 visa fee, AUD $29,710 living funds requirement, Genuine Student (GS) criterion, OSHC, and Subclass 485 graduate streams.',
+    'Comprehensive, verified statutory guide for Pakistani students applying to Australian universities in 2025/2026. Subclass 500 visa rules, AUD $2,000 visa fee, AUD $29,710 living funds requirement, Genuine Student (GS) criterion, OSHC, and Subclass 485 graduate streams.',
   lastVerified: '2026-10-04',
   heroDisclaimer:
-    'Australian immigration rules underwent major legislative revisions in 2024: the Student Visa (Subclass 500) application fee was increased to AUD $1,600 on July 1, 2024, the Genuine Student (GS) criterion replaced GTE on March 23, 2024, and the annual living cost requirement was raised to AUD $29,710. Always verify live statutory guidelines directly on the Department of Home Affairs (DHA) portal.',
+    'Australian immigration rules underwent major legislative revisions: the Student Visa (Subclass 500) application fee was increased to AUD $2,000 on July 1, 2025 (additional applicant 18+ AUD $1,225, under 18 AUD $400), the Genuine Student (GS) criterion replaced GTE on March 23, 2024, and the annual living cost requirement was raised to AUD $29,710. Always verify live statutory guidelines directly on the Department of Home Affairs (DHA) portal.',
 
   defaultHomeCountry: {
     countryCode: 'PK',
@@ -97,9 +97,9 @@ export const australiaGuide: CountryGuideData = {
       purpose: 'Primary immigration visa allowing non-Australian citizens to participate in an eligible full-time course of study registered on the Commonwealth Register of Institutions and Courses for Overseas Students (CRICOS).',
       eligibilitySummary:
         'Must possess a valid electronic Confirmation of Enrolment (CoE), meet the Genuine Student (GS) requirement, hold active Overseas Student Health Cover (OSHC) for the full proposed visa length, demonstrate financial capacity of AUD $29,710 plus 1st year tuition, meet English requirements (IELTS 6.0 minimum for visa), and pass medical/biometric clearances.',
-      feeLocal: 1600, // Increased to AUD $1,600 on 1 July 2024
+      feeLocal: 2000, // Updated to AUD $2,000 (additional applicant 18+ AUD $1,225, under 18 AUD $400)
       feeCurrency: 'AUD',
-      approxFeePkr: 299200,
+      approxFeePkr: 374000,
       validity: 'Duration of course of study plus 1 to 2 months depending on graduation date (up to a maximum of 5 years).',
       processingTime: '4 to 8 weeks from Pakistan.',
       sources: [
@@ -117,7 +117,7 @@ export const australiaGuide: CountryGuideData = {
       subCategory: 'Post-higher Education Work Stream',
       purpose: 'Post-study work visa allowing recent international graduates from Australian tertiary institutions to live, study, and work full-time in Australia.',
       eligibilitySummary:
-        'Must have completed an eligible CRICOS-registered Australian degree of at least 2 academic years (92 CRICOS weeks) inside Australia. On July 1, 2024, the maximum age threshold was reduced to 35 years (50 for research masters/PhD). Duration: 2 years for Bachelor’s; 2 years for Master’s (coursework); 3 years for Master’s (research) and PhD. English requirement: IELTS 6.5 (min 5.5 each band) achieved within 1 year of application.',
+        'Must have completed an eligible CRICOS-registered Australian degree of at least 2 academic years (92 CRICOS weeks) inside Australia. The maximum age threshold is 35 years for all qualification levels (the age 50 exemption applies solely to Hong Kong and British National Overseas passport holders). Duration: 2 years for Bachelor’s; 2 years for Master’s (coursework); 3 years for Master’s (research) and PhD. English requirement: IELTS 6.5 (min 5.5 each band) achieved within 1 year of application.',
       feeLocal: 1945,
       feeCurrency: 'AUD',
       approxFeePkr: 363715,
@@ -139,9 +139,9 @@ export const australiaGuide: CountryGuideData = {
       purpose: 'Allows a parent, legal custodian, or nominated relative over 21 to live in Australia to provide care and support for an international student under 18 years of age.',
       eligibilitySummary:
         'Must demonstrate sufficient independent financial capacity to support oneself and the student without recourse to Australian public funds. Employment in Australia is strictly prohibited under Condition 8101.',
-      feeLocal: 1600,
+      feeLocal: 2000,
       feeCurrency: 'AUD',
-      approxFeePkr: 299200,
+      approxFeePkr: 374000,
       validity: 'Co-terminus with student’s stay or until the student turns 18 years of age.',
       processingTime: '6 to 12 weeks.',
       sources: [
@@ -219,7 +219,7 @@ export const australiaGuide: CountryGuideData = {
         stepNumber: 4,
         title: 'Lodge Online Application in ImmiAccount & Pay Visa Fee',
         description:
-          'Create an ImmiAccount (online.immi.gov.au). Fill out all required fields for Subclass 500. Upload color scans of passport, CoE, OSHC policy certificate, financial capacity documents, HEC/IBCC attested academic records, and GS evidence. Pay the AUD $1,600 visa fee via credit card or PayPal.',
+          'Create an ImmiAccount (online.immi.gov.au). Fill out all required fields for Subclass 500. Upload color scans of passport, CoE, OSHC policy certificate, financial capacity documents, HEC/IBCC attested academic records, and GS evidence. Pay the AUD $2,000 visa fee via credit card or PayPal.',
       },
       {
         stepNumber: 5,
@@ -427,9 +427,9 @@ export const australiaGuide: CountryGuideData = {
     ],
     bankStatementHoldingPeriodDays: 180,
     visaApplicationFee: {
-      amount: 1600, // Statutory fee updated 1 July 2024
+      amount: 2000, // Statutory fee updated to AUD $2,000 (additional applicant 18+ $1,225, under 18 $400)
       currency: 'AUD',
-      approxPkr: 299200,
+      approxPkr: 374000,
     },
     otherSurcharges: [
       {
@@ -1002,7 +1002,7 @@ export const australiaGuide: CountryGuideData = {
     },
   ],
   appealProcessSummary:
-    'Offshore visa refusals (applications submitted outside Australia) generally do not carry merits review rights before the Administrative Review Tribunal (ART, formerly AAT). If an application is refused from Pakistan, the applicant’s primary recourse is to review the formal Decision Record, remedy every specific deficiency highlighted by the case officer, and submit a fresh, comprehensively documented application through ImmiAccount, paying a new AUD $1,600 visa fee.',
+    'Offshore visa refusals (applications submitted outside Australia) generally do not carry merits review rights before the Administrative Review Tribunal (ART, formerly AAT). If an application is refused from Pakistan, the applicant’s primary recourse is to review the formal Decision Record, remedy every specific deficiency highlighted by the case officer, and submit a fresh, comprehensively documented application through ImmiAccount, paying a new AUD $2,000 visa fee.',
 
   // 11. After Graduation & Post-Study Work
   postStudyImmigration: {
@@ -1071,10 +1071,10 @@ export const australiaGuide: CountryGuideData = {
       lastVerified: '2026-10-04',
     },
     {
-      date: '2024-07-01',
-      headline: 'Student Visa (Subclass 500) Application Fee Raised to AUD $1,600',
+      date: '2025-07-01',
+      headline: 'Student Visa (Subclass 500) Application Fee Raised to AUD $2,000',
       impact:
-        'The Australian Government enacted a 125% increase in the student visa fee from AUD $710 to AUD $1,600 to fund domestic higher education infrastructure and manage net overseas migration.',
+        'The Australian Government updated the student visa application fee to AUD $2,000 (with accompanying adult applicants paying AUD $1,225 and minor dependents AUD $400) to manage net overseas migration and fund tertiary education capacity.',
       officialSourceUrl: 'https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/student-500',
       lastVerified: '2026-10-04',
     },
@@ -1082,7 +1082,7 @@ export const australiaGuide: CountryGuideData = {
       date: '2024-07-01',
       headline: 'Subclass 485 Temporary Graduate Visa Overhauled (Age Limit 35)',
       impact:
-        'The maximum eligible age for the Post-higher Education Work stream was reduced from 50 to 35 years (retaining 50 for research masters and PhDs). Durations were reset to 2 years for Bachelor’s/Master’s coursework and 3 years for research graduates.',
+        'The maximum eligible age for the Post-higher Education Work stream was set to 35 years across all qualification levels (the age 50 exemption applies solely to Hong Kong and British National Overseas passport holders). Durations were set to 2 years for Bachelor’s/Master’s coursework and 3 years for research graduates.',
       officialSourceUrl: 'https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/temporary-graduate-485',
       lastVerified: '2026-10-04',
     },
@@ -1239,9 +1239,9 @@ export const australiaGuide: CountryGuideData = {
       lastVerified: '2026-10-04',
     },
     {
-      question: 'Why did the student visa fee increase to AUD $1,600?',
+      question: 'Why did the student visa fee increase to AUD $2,000?',
       answer:
-        'On July 1, 2024, the Australian Government increased the base application charge for the Student Visa (Subclass 500) from AUD $710 to AUD $1,600. The policy was implemented to manage post-pandemic net overseas migration and ensure incoming international students possess robust financial resources.',
+        'The Australian Government updated the base application charge for the Student Visa (Subclass 500) to AUD $2,000 (with accompanying adult dependents paying AUD $1,225 and minor dependents AUD $400). The policy was implemented to manage post-pandemic net overseas migration and ensure incoming international students possess robust financial resources.',
       category: 'Statutory Fees',
       sources: [
         {
@@ -1286,7 +1286,7 @@ export const australiaGuide: CountryGuideData = {
     {
       question: 'What are the new rules for the Subclass 485 Temporary Graduate Visa?',
       answer:
-        'Effective July 1, 2024: (1) Maximum eligible age was reduced to 35 years (retaining 50 for research masters/PhDs); (2) Duration is 2 years for Bachelor’s, 2 years for Master’s by coursework, and 3 years for Master’s by research/PhD; (3) English requirement increased to IELTS 6.5 (minimum 5.5 in each component); (4) The previous automatic 2-year COVID extensions have ended.',
+        'Key rules include: (1) Maximum eligible age is 35 years across all qualification levels (the age 50 exemption applies solely to Hong Kong and British National Overseas passport holders); (2) Duration is 2 years for Bachelor’s, 2 years for Master’s by coursework, and 3 years for Master’s by research/PhD; (3) English requirement is IELTS 6.5 (minimum 5.5 in each component); (4) The previous automatic 2-year COVID extensions have ended.',
       category: 'Post-Graduation',
       sources: [
         {

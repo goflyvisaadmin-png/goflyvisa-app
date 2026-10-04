@@ -76,7 +76,7 @@ export const italyGuide: CountryGuideData = {
         },
       ],
       lastVerified: '2026-10-04',
-      note: 'Statutory minimum financial means required by Italian immigration decree is €467.65 per month (€6,079.45/year). Living costs in northern hubs (Milan, Bologna) range from €800–€1,100/month; central and southern cities (Turin, Padua, Pisa, Rome, Naples) average €600–€850/month.',
+      note: 'Statutory minimum financial means required by Italian Ministry of University and Research (MUR) circular for 2026/27 and 2027/28 is €10,179.85 per year (~€848.32/month, ≈ 3,094,674 PKR). Living costs in northern hubs (Milan, Bologna) range from €800–€1,100/month; central and southern cities (Turin, Padua, Pisa, Rome, Naples) average €600–€850/month.',
     },
     postStudyWorkDuration: '9 to 12 months under the Permesso di Soggiorno per Ricerca Lavoro o Imprenditorialità (Job Search Permit for Master/PhD graduates)',
     partTimeWorkHoursTerm: '20 hours per week (Maximum statutory limit of 1,040 hours per calendar year under Legislative Decree 286/98)',
@@ -91,7 +91,7 @@ export const italyGuide: CountryGuideData = {
       subCategory: 'Visto Nazionale D per Studio / Immatricolazione Università',
       purpose: 'The statutory long-stay entry visa permitting non-EU students to enter Italy to attend full-time degree programs exceeding 90 days at an accredited Italian university.',
       eligibilitySummary:
-        'Validated pre-enrollment summary (Riepilogo) approved on Universitaly, university Letter of Admission, CIMEA Statement of Comparability / DOV, proof of minimum financial means of €6,079.45 (via seasoned 6-month bank statement), international health insurance covering at least €30,000, and proof of accommodation in Italy.',
+        'Validated pre-enrollment summary (Riepilogo) approved on Universitaly, university Letter of Admission, CIMEA Statement of Comparability / DOV, proof of minimum financial means of €10,179.85 for 2026/27 (via seasoned 6-month bank statement), international health insurance covering at least €30,000, and proof of accommodation in Italy.',
       feeLocal: 50,
       feeCurrency: 'EUR',
       approxFeePkr: 15250,
@@ -139,7 +139,7 @@ export const italyGuide: CountryGuideData = {
       subCategory: 'Post-Graduation Job Search / Entrepreneurship Permit (D.Lgs. 286/98 Art. 39-bis.1)',
       purpose: 'Authorizes foreign graduates of Italian Master’s degrees (Laurea Magistrale) or Doctoral degrees (Dottorato) to remain in Italy for 9 to 12 months to seek employment or launch an innovative startup.',
       eligibilitySummary:
-        'Must hold an official Italian Master’s or PhD degree and demonstrate financial resources not lower than the annual social allowance (€6,079.45) plus health insurance.',
+        'Must hold an official Italian Master’s or PhD degree and demonstrate financial resources not lower than the statutory annual requirement (€10,179.85) plus health insurance.',
       feeLocal: 116,
       feeCurrency: 'EUR',
       approxFeePkr: 35380,
@@ -231,7 +231,7 @@ export const italyGuide: CountryGuideData = {
         stepNumber: 5,
         title: 'Submit Visa File & Biometrics at BLS-Intiana Centre',
         description:
-          'Attend your appointment with your original passport, validated Universitaly Riepilogo, admission letter, CIMEA certificate / DOV, 6-month bank statements of student/sponsor showing at least €6,079.45 with FBR tax returns, travel health insurance (€30,000 cover), flight booking, and proof of initial accommodation. Complete biometric fingerprint scans. Pay the €50 statutory visa fee in PKR.',
+          'Attend your appointment with your original passport, validated Universitaly Riepilogo, admission letter, CIMEA certificate / DOV, 6-month bank statements of student/sponsor showing at least €10,179.85 with FBR tax returns, travel health insurance (€30,000 cover), flight booking, and proof of initial accommodation. Complete biometric fingerprint scans. Pay the €50 statutory visa fee in PKR.',
       },
       {
         stepNumber: 6,
@@ -331,7 +331,7 @@ export const italyGuide: CountryGuideData = {
         ],
       },
       {
-        documentName: 'Bank Statements & Financial Solvency Proof (€6,079.45+)',
+        documentName: 'Bank Statements & Financial Solvency Proof (€10,179.85+)',
         description: 'Original bank statements covering 6 continuous months for the student or parents, Bank Maintenance Certificate, FBR tax returns (3 years), and wealth statement.',
         mandatory: true,
         sources: [
@@ -426,15 +426,15 @@ export const italyGuide: CountryGuideData = {
 
   // 4. Financial Requirements & Proof of Funds
   financialRequirements: {
-    livingCostRequirementPerYear: 6080,
+    livingCostRequirementPerYear: 10180,
     currencyCode: 'EUR',
-    approxLivingCostPkr: 1854400,
+    approxLivingCostPkr: 3094674,
     exchangeRateDate: '2026-10-04',
     proofOfFundsOptions: [
       {
         methodName: 'Sponsor Bank Account Statements (6-Month History)',
         details:
-          'Original statements from a recognized Pakistani scheduled bank covering 6 consecutive months in the name of the student or parent. Must show consistent cash balances exceeding €6,079.45 (recommended €7,500 to €8,500 / PKR ~2.3M to 2.6M) to comfortably prove living maintenance. Must be supported by FBR tax returns, tax assessment orders, and proof of legitimate business or employment income.',
+          'Original statements from a recognized Pakistani scheduled bank covering 6 consecutive months in the name of the student or parent. Must show consistent cash balances exceeding the MUR statutory threshold of €10,179.85 (recommended €11,500 to €12,500 / PKR ~3.5M to 3.8M) to comfortably prove living maintenance. Must be supported by FBR tax returns, tax assessment orders, and proof of legitimate business or employment income.',
         isPreferred: true,
       },
       {
@@ -987,11 +987,11 @@ export const italyGuide: CountryGuideData = {
   // 10. Why Visas Get Rejected & How to Avoid
   refusalReasons: [
     {
-      reasonTitle: 'Inadequate or Unverified Financial Means (€6,079.45 Statutory Requirement)',
+      reasonTitle: 'Inadequate or Unverified Financial Means (€10,179.85 Statutory Requirement)',
       description:
         'Presenting bank accounts with sudden unseasoned deposits shortly before the visa appointment, relying on distant third-party sponsors, or failing to substantiate the source of deposits with FBR tax returns.',
       howToAvoid:
-        'Maintain seasoned liquid funds of at least €7,500–€8,500 in the name of the student or parents for at least 6 continuous months. Provide official FBR Active Taxpayer certificates, certified tax returns (3 years), bank account maintenance certificates, and evidence of income (salary slips, business registrations).',
+        'Maintain seasoned liquid funds of at least €11,500–€12,500 in the name of the student or parents for at least 6 continuous months. Provide official FBR Active Taxpayer certificates, certified tax returns (3 years), bank account maintenance certificates, and evidence of income (salary slips, business registrations).',
       sources: [
         {
           title: 'Embassy of Italy in Islamabad - Financial Assessment Rules',
@@ -1082,7 +1082,7 @@ export const italyGuide: CountryGuideData = {
     childrenSchooling:
       'Under the Italian Constitution, minor children of foreign residents are legally guaranteed free universal enrollment in Italian public schools (Scuola dell’Infanzia, Primaria, and Secondaria).',
     financialRequirementsPerDependent:
-      'Must demonstrate an annual legal income exceeding the social allowance (€6,079.45) increased by 50% for each accompanying dependent family member, plus registered housing adequacy certificate (Idoneità Alloggiativa).',
+      'Must demonstrate an annual legal income exceeding the statutory benchmark (€10,179.85) increased by 50% for each accompanying dependent family member, plus registered housing adequacy certificate (Idoneità Alloggiativa).',
     sources: [
       {
         title: 'Polizia di Stato - Family Reunification Guidelines',
@@ -1113,10 +1113,10 @@ export const italyGuide: CountryGuideData = {
       lastVerified: '2026-10-04',
     },
     {
-      date: '2024-01-01',
-      headline: 'Statutory Annual Living Maintenance Set to €6,079.45',
+      date: '2025-06-01',
+      headline: 'MUR Circular Sets Living Maintenance for 2026/27 to €10,179.85',
       impact:
-        'The Ministry of the Interior updated the minimum annual maintenance figure for study visas to €6,079.45 (€467.65/month), pegged to the national social allowance benchmark.',
+        'The Ministry of University and Research (MUR) established the official minimum annual maintenance figure for international students at €10,179.85/year (~€848.32/month) for academic years 2026/27 and 2027/28.',
       officialSourceUrl: 'https://www.esteri.it/en/',
       lastVerified: '2026-10-04',
     },
@@ -1296,7 +1296,7 @@ export const italyGuide: CountryGuideData = {
     {
       question: 'How much money must I show in my bank account for an Italian study visa from Pakistan?',
       answer:
-        'The statutory minimum financial requirement set by the Italian Ministry of the Interior is €467.65 per month for the academic year, which totals €6,079.45 (PKR ~1.85M). However, the Embassy of Italy in Islamabad strongly recommends showing a seasoned liquid bank balance of €7,500 to €8,500 (PKR ~2.3M to 2.6M) in the student’s or parent’s bank account covering 6 continuous months, supported by FBR tax returns.',
+        'The statutory minimum financial requirement established by the MUR circular for 2026/27 and 2027/28 is €10,179.85 (~€848.32 per month, PKR ~3.09M). The Embassy of Italy in Islamabad strongly recommends showing a seasoned liquid bank balance of €11,500 to €12,500 (PKR ~3.5M to 3.8M) in the student’s or parent’s bank account covering 6 continuous months, supported by FBR tax returns.',
       category: 'Finances',
       sources: [
         {

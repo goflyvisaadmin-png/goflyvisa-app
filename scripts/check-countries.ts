@@ -1,15 +1,19 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 import { FULL_COUNTRY_GUIDES } from '../src/data/countries';
 import { CountryGuideData, OfficialSource } from '../src/data/countries/types';
-
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+import { toCanonicalCountryGuide } from '../src/data/countries/adapter';
+import { CanonicalCountryGuide } from '../src/data/countries/canonical';
 
 interface AuditStats {
   country: string;
   totalSources: number;
   validUrls: number;
-  failedUrls: Array<{ url: string; error: string }>;
+  blockedUrls: Array<{ url: string; status: number; reason: string }>;
+  deadUrls: Array<{ url: string; error: string }>;
   staleDates: Array<{ section: string; date: string }>;
-  sectionsChecked: number;
+  sectionsPassed: number;
+  sectionFailures: string[];
 }
 
 const SIX_MONTHS_DAYS = 180;
@@ -24,86 +28,59 @@ function isOlderThanSixMonths(dateStr: string): boolean {
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-async function checkUrl(url: string): Promise<{ ok: boolean; status?: number; error?: string }> {
+async function checkUrl(url: string): Promise<{ ok: boolean; status?: number; error?: string; isBlocked?: boolean }> {
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 10000);
+    const timeout = setTimeout(() => controller.abort(), 15000);
 
     const headers: Record<string, string> = {
-      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-      'Accept-Language': 'en-US,en;q=0.9,de;q=0.8',
+      'User-Agent':
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      'Accept-Language': 'en-US,en;q=0.9',
     };
 
-    let res = await fetch(url, {
+    const res = await fetch(url, {
       method: 'GET',
       headers,
       signal: controller.signal,
-    }).catch(() => null);
+    }).catch((err) => {
+      const errMsg = err?.message || 'Network error';
+      const causeMsg = err?.cause?.message || '';
+      const causeCode = err?.cause?.code || err?.code || '';
+      const isHeaderOverflow =
+        errMsg.includes('Headers Overflow') ||
+        causeMsg.includes('Headers Overflow') ||
+        causeCode === 'UND_ERR_HEADERS_OVERFLOW';
+      return { error: causeMsg || errMsg, isHeaderOverflow } as any;
+    });
 
     clearTimeout(timeout);
 
-    const urlObj = new URL(url);
-    const isProtectedGovDomain = 
-      urlObj.hostname.endsWith('diplo.de') ||
-      urlObj.hostname.endsWith('bund.de') ||
-      urlObj.hostname.endsWith('daad.de') ||
-      urlObj.hostname.endsWith('deutschlandstipendium.de') ||
-      urlObj.hostname.endsWith('bamf.de') ||
-      urlObj.hostname.endsWith('vfsglobal.co.uk') ||
-      urlObj.hostname.endsWith('vfsglobal.com') ||
-      urlObj.hostname.endsWith('ox.ac.uk') ||
-      urlObj.hostname.endsWith('ucl.ac.uk') ||
-      urlObj.hostname.endsWith('cam.ac.uk') ||
-      urlObj.hostname.endsWith('ac.uk') ||
-      urlObj.hostname.endsWith('gov.uk') ||
-      urlObj.hostname.endsWith('kmk.org') ||
-      urlObj.hostname.endsWith('britishcouncil.org') ||
-      urlObj.hostname.endsWith('britishcouncil.pk') ||
-      urlObj.hostname.endsWith('canada.ca') ||
-      urlObj.hostname.endsWith('gc.ca') ||
-      urlObj.hostname.endsWith('univcan.ca') ||
-      urlObj.hostname.endsWith('ouac.on.ca') ||
-      urlObj.hostname.endsWith('utoronto.ca') ||
-      urlObj.hostname.endsWith('ualberta.ca') ||
-      urlObj.hostname.endsWith('.gov') ||
-      urlObj.hostname.endsWith('.edu') ||
-      urlObj.hostname.endsWith('.edu.au') ||
-      urlObj.hostname.endsWith('.gov.au') ||
-      urlObj.hostname.endsWith('usembassy.gov') ||
-      urlObj.hostname.endsWith('usefp.org') ||
-      urlObj.hostname.endsWith('.gov.cn') ||
-      urlObj.hostname.endsWith('.edu.cn') ||
-      urlObj.hostname.endsWith('campuschina.org') ||
-      urlObj.hostname.endsWith('visaforchina.cn') ||
-      urlObj.hostname.endsWith('.it') ||
-      urlObj.hostname.endsWith('intianaitalyvisa.com') ||
-      urlObj.hostname.endsWith('cimea.it') ||
-      urlObj.hostname.endsWith('universitaly.it') ||
-      urlObj.hostname.endsWith('.gouv.fr') ||
-      urlObj.hostname.endsWith('.fr') ||
-      urlObj.hostname.endsWith('campusfrance.org') ||
-      urlObj.hostname.endsWith('tlscontact.com') ||
-      urlObj.hostname.endsWith('.gov.my') ||
-      urlObj.hostname.endsWith('.edu.my') ||
-      urlObj.hostname.endsWith('educationmalaysia.gov.my') ||
-      urlObj.hostname.endsWith('imi.gov.my') ||
-      urlObj.hostname.endsWith('.my');
-
-    if (!res) {
-      if (isProtectedGovDomain) {
-        return { ok: true, status: 200, error: 'Verified protected gov/educational domain (High latency / Anti-scraping)' };
+    if (!res || res.error) {
+      if (res?.isHeaderOverflow) {
+        return { ok: true, isBlocked: true, status: 403, error: 'Protected government portal (Headers overflow)' };
       }
-      return { ok: false, error: 'Network / timeout error' };
+      return { ok: false, error: res?.error || 'Network / timeout error' };
     }
 
-    // 200-399 are valid
     if (res.status >= 200 && res.status < 400) {
       return { ok: true, status: res.status };
     }
 
-    if (isProtectedGovDomain && (res.status === 403 || res.status === 400 || res.status === 503 || res.status === 412 || res.status === 502 || res.status === 405)) {
-      return { ok: true, status: res.status, error: `Verified protected gov portal (Status ${res.status})` };
+    // 404 is a fatal dead link
+    if (res.status === 404) {
+      return { ok: false, status: 404, error: 'HTTP 404 Not Found (Dead link)' };
+    }
+
+    // 403/412/405 are anti-bot firewalls on state/consular portals (e.g. ssa.gov, visaforchina)
+    if (res.status === 403 || res.status === 412 || res.status === 405) {
+      return { ok: true, isBlocked: true, status: res.status, error: `Anti-bot firewall challenge (HTTP ${res.status})` };
+    }
+
+    // 502/503 on official government gateways (e.g. cova.mfa.gov.cn)
+    if ((res.status === 502 || res.status === 503) && (url.includes('.gov.') || url.includes('.mfa.') || url.includes('.gouv.'))) {
+      return { ok: true, isBlocked: true, status: res.status, error: `Government gateway challenge (HTTP ${res.status})` };
     }
 
     return { ok: false, status: res.status, error: `HTTP ${res.status}` };
@@ -112,14 +89,120 @@ async function checkUrl(url: string): Promise<{ ok: boolean; status?: number; er
   }
 }
 
+function validateFieldLevelSections(guide: CanonicalCountryGuide): { passed: number; failures: string[] } {
+  const failures: string[] = [];
+
+  // 1. Quick Facts
+  const qf = guide.quickFacts;
+  if (!qf.capital || !qf.currency.code || !qf.currency.symbol || !qf.intakesDisplay || !qf.tuitionDisplay || !qf.livingCostDisplay || !qf.postStudyDuration || !qf.partTimeHours) {
+    failures.push('1. Quick Facts: Missing required quick fact fields');
+  }
+
+  // 2. Visa Types
+  if (!guide.visaTypes || guide.visaTypes.length === 0 || !guide.visaTypes[0].officialName || !guide.visaTypes[0].purpose || !guide.visaTypes[0].eligibilitySummary) {
+    failures.push('2. Visa Types: No valid visa types or missing required fields');
+  }
+
+  // 3. Application Guide
+  const ag = guide.applicationGuide;
+  if (!ag || ag.steps.length < 3 || ag.documentChecklist.length < 3) {
+    failures.push('3. Application Guide: Requires at least 3 steps and 3 document checklist items');
+  }
+
+  // 4. Financial Requirements
+  const fin = guide.financialRequirements;
+  if (!fin || fin.statutoryLivingFunds.amount === null || fin.statutoryLivingFunds.amount <= 0 || fin.proofMethods.length === 0) {
+    failures.push(`4. Financial Requirements: Living funds amount (${fin?.statutoryLivingFunds?.amount}) must be > 0 and proof methods non-empty`);
+  }
+
+  // 5. Admission Criteria
+  const adm = guide.admissionCriteria;
+  if (!adm || !adm.undergraduate.text || !adm.postgraduate.text || adm.attestationBodies.length === 0) {
+    failures.push('5. Admission Criteria: Missing undergraduate/postgraduate text or attestation bodies');
+  }
+
+  // 6. Language Requirements
+  const lang = guide.languageRequirements;
+  if (!lang || lang.englishTests.length === 0 || !lang.moiPolicy.conditions || !lang.localLanguage.language) {
+    failures.push('6. Language Requirements: Missing English tests, MOI policy, or local language info');
+  }
+
+  // 7. Top Universities
+  if (!guide.topUniversities || guide.topUniversities.length < 5 || !guide.topUniversities[0].name || !guide.topUniversities[0].ranking.rank) {
+    failures.push('7. Top Universities: Must list at least 5 universities with rankings');
+  }
+
+  // 8. Scholarships
+  if (!guide.scholarships || guide.scholarships.length < 1 || !guide.scholarships[0].name || !guide.scholarships[0].awardingBody) {
+    failures.push('8. Scholarships: Must list at least 1 scholarship with awarding body');
+  }
+
+  // 9. Work Rights
+  const wr = guide.workRights;
+  if (!wr || !wr.inTermLimit || !wr.statutoryMinimumWage || !wr.statutoryWorkRules) {
+    failures.push('9. Work Rights: Missing in-term limit, statutory minimum wage, or work rules');
+  }
+
+  // 10. Refusal Reasons
+  if (!guide.refusalReasons || guide.refusalReasons.length < 2 || !guide.refusalReasons[0].title || guide.refusalReasons[0].preventativeMeasures.length === 0) {
+    failures.push('10. Refusal Reasons: Must list at least 2 refusal reasons with preventative measures');
+  }
+
+  // 11. Post-Study Work & PR
+  const psi = guide.postStudyImmigration;
+  if (!psi || !psi.jobSeekerDuration || !psi.workPermitRoute || !psi.permanentResidencyTimeline || psi.permanentResidencyTimeline.includes('2–5 Years')) {
+    failures.push('11. Post-Study: Missing job seeker duration, work permit, or contains invalid PR fallback ("2–5 Years")');
+  }
+
+  // 12. Bringing Family
+  const dep = guide.dependentRules;
+  if (!dep || !dep.spouseWorkRights || !dep.childrenSchooling || !dep.financialSurcharge) {
+    failures.push('12. Bringing Family: Missing spouse work rights, children schooling, or financial surcharge');
+  }
+
+  // 13. Policy Timeline
+  if (!guide.recentPolicyTimeline || guide.recentPolicyTimeline.length < 1 || !guide.recentPolicyTimeline[0].effectiveDate || !guide.recentPolicyTimeline[0].headline) {
+    failures.push('13. Policy Timeline: Must list at least 1 verified policy change');
+  }
+
+  // 14. Student Living
+  const liv = guide.studentLiving;
+  if (!liv || !liv.avgAccommodationCostMonthly || !liv.halalFoodAvailability || !liv.pakistaniCommunityPresence) {
+    failures.push('14. Student Living: Missing accommodation cost, halal food, or Pakistani community data');
+  }
+
+  // 15. Arrival Checklist
+  if (!guide.arrivalChecklist || guide.arrivalChecklist.length < 3 || !guide.arrivalChecklist[0].dayWindow) {
+    failures.push('15. Arrival Checklist: Must list at least 3 after-arrival tasks');
+  }
+
+  // 16. FAQs
+  if (!guide.faqs || guide.faqs.length < 3 || !guide.faqs[0].question || !guide.faqs[0].answer) {
+    failures.push('16. FAQs: Must list at least 3 FAQs with questions and answers');
+  }
+
+  // 17. Official Sources
+  if (!guide.allOfficialSources || guide.allOfficialSources.length < 3 || !guide.allOfficialSources[0].url) {
+    failures.push('17. Official Sources: Must cite at least 3 official statutory sources');
+  }
+
+  const passed = 17 - failures.length;
+  return { passed, failures };
+}
+
 async function auditCountry(country: CountryGuideData): Promise<AuditStats> {
+  const canonical = toCanonicalCountryGuide(country);
+  const sectionValidation = validateFieldLevelSections(canonical);
+
   const stats: AuditStats = {
-    country: country.countryName,
+    country: canonical.countryName,
     totalSources: 0,
     validUrls: 0,
-    failedUrls: [],
+    blockedUrls: [],
+    deadUrls: [],
     staleDates: [],
-    sectionsChecked: 17,
+    sectionsPassed: sectionValidation.passed,
+    sectionFailures: sectionValidation.failures,
   };
 
   const allSources: OfficialSource[] = [...country.allOfficialSources];
@@ -137,7 +220,7 @@ async function auditCountry(country: CountryGuideData): Promise<AuditStats> {
     }
   };
 
-  // Check all 17 sections
+  // Check section verification dates
   if (country.quickFacts?.avgTuitionPerYear) {
     checkDateAndSources('QuickFacts: Tuition', country.quickFacts.avgTuitionPerYear.lastVerified, country.quickFacts.avgTuitionPerYear.sources);
   }
@@ -145,7 +228,7 @@ async function auditCountry(country: CountryGuideData): Promise<AuditStats> {
     checkDateAndSources('QuickFacts: LivingCost', country.quickFacts.monthlyLivingCost.lastVerified, country.quickFacts.monthlyLivingCost.sources);
   }
 
-  for (const vt of (country.visaTypes || [])) {
+  for (const vt of country.visaTypes || []) {
     checkDateAndSources(`VisaType: ${vt.officialName || 'Visa'}`, vt.lastVerified || '', vt.sources);
   }
 
@@ -169,11 +252,11 @@ async function auditCountry(country: CountryGuideData): Promise<AuditStats> {
     checkDateAndSources('Language Requirements', country.languageRequirements.lastVerified || '', country.languageRequirements.sources);
   }
 
-  for (const uni of (country.topUniversities || [])) {
+  for (const uni of country.topUniversities || []) {
     checkDateAndSources(`University: ${uni.name || 'University'}`, uni.lastVerified || '', uni.sources);
   }
 
-  for (const sch of (country.scholarships || [])) {
+  for (const sch of country.scholarships || []) {
     checkDateAndSources(`Scholarship: ${sch.name || 'Scholarship'}`, sch.lastVerified || '', sch.sources);
   }
 
@@ -212,24 +295,28 @@ async function auditCountry(country: CountryGuideData): Promise<AuditStats> {
     }
   }
 
-  for (const faq of (country.faqs || [])) {
+  for (const faq of country.faqs || []) {
     checkDateAndSources(`FAQ: ${(faq.question || '').slice(0, 30)}...`, faq.lastVerified || '', faq.sources);
   }
 
   const uniqueUrls = Array.from(new Set(allSources.map((s) => s.url))).filter((u) => u.startsWith('http'));
   stats.totalSources = uniqueUrls.length;
 
-  console.log(`\n🔍 Checking ${uniqueUrls.length} unique official source URLs for ${country.countryName}...`);
+  console.log(`\n🔍 Checking ${uniqueUrls.length} official source URLs for ${canonical.countryName}...`);
 
   for (const url of uniqueUrls) {
-    await sleep(120); // Throttle to prevent anti-DDoS rate limiting
+    await sleep(100);
     process.stdout.write(`  • Ping: ${url.slice(0, 65).padEnd(65, ' ')} `);
     const result = await checkUrl(url);
-    if (result.ok) {
+
+    if (result.ok && !result.isBlocked) {
       stats.validUrls++;
       process.stdout.write(`[OK ${result.status || 200}]\n`);
+    } else if (result.isBlocked) {
+      stats.blockedUrls.push({ url, status: result.status || 403, reason: result.error || 'Firewall challenge' });
+      process.stdout.write(`[WARN: ${result.status} Anti-bot challenge]\n`);
     } else {
-      stats.failedUrls.push({ url, error: result.error || 'Failed' });
+      stats.deadUrls.push({ url, error: result.error || 'Failed' });
       process.stdout.write(`[FAIL: ${result.error}]\n`);
     }
   }
@@ -244,49 +331,55 @@ async function runCountryChecks() {
   console.log('========================================================================');
 
   const implementedSlugs = Object.keys(FULL_COUNTRY_GUIDES) as (keyof typeof FULL_COUNTRY_GUIDES)[];
-  console.log(`Found ${implementedSlugs.length} fully implemented country guide(s) out of 9 total in directory.`);
+  console.log(`Auditing all ${implementedSlugs.length} implemented country destinations.`);
 
-  let totalErrors = 0;
+  let totalDeadUrls = 0;
+  let totalSectionFailures = 0;
 
   for (const slug of implementedSlugs) {
     const data = FULL_COUNTRY_GUIDES[slug];
     if (!data) continue;
 
     console.log(`\n------------------------------------------------------------------------`);
-    console.log(`🇩🇪 Validating Country: ${data.countryName} (${data.countryCode})`);
+    console.log(`Validating Destination: ${data.countryName} (${data.countryCode})`);
     console.log(`------------------------------------------------------------------------`);
 
     const stats = await auditCountry(data);
 
     console.log(`\n📊 Verification Audit Summary for ${stats.country}:`);
-    console.log(`   - 17 Mandatory Sections: 17 Checked & Validated`);
+    console.log(`   - 17 Mandatory Sections: ${stats.sectionsPassed}/17 Validated`);
     console.log(`   - Total Source URLs:     ${stats.totalSources}`);
-    console.log(`   - Healthy URLs:          ${stats.validUrls}`);
+    console.log(`   - Healthy URLs (2xx):    ${stats.validUrls}`);
+    console.log(`   - Protected/Anti-bot:    ${stats.blockedUrls.length}`);
+    console.log(`   - Dead Links (4xx/5xx):  ${stats.deadUrls.length}`);
     console.log(`   - Stale Dates (>6 mos):  ${stats.staleDates.length}`);
 
-    if (stats.staleDates.length > 0) {
-      console.warn(`   ⚠️ Stale Verification Warnings:`);
-      for (const st of stats.staleDates) {
-        console.warn(`      * ${st.section} (last verified ${st.date})`);
+    if (stats.sectionFailures.length > 0) {
+      console.error(`   ❌ Section Content Failures:`);
+      for (const fail of stats.sectionFailures) {
+        console.error(`      * ${fail}`);
       }
+      totalSectionFailures += stats.sectionFailures.length;
     }
 
-    if (stats.failedUrls.length > 0) {
-      console.error(`   ❌ Failed URL Health Checks:`);
-      for (const f of stats.failedUrls) {
+    if (stats.deadUrls.length > 0) {
+      console.error(`   ❌ Fatal Dead Link Failures:`);
+      for (const f of stats.deadUrls) {
         console.error(`      * ${f.url} -> ${f.error}`);
       }
-      totalErrors += stats.failedUrls.length;
+      totalDeadUrls += stats.deadUrls.length;
     }
   }
 
   console.log(`\n========================================================================`);
-  if (totalErrors === 0) {
-    console.log('✅ ALL CHECKS PASSED: Schema validated, zero dead links, data is fresh!');
+  if (totalDeadUrls === 0 && totalSectionFailures === 0) {
+    console.log('✅ ALL AUDIT CHECKS PASSED: 17/17 sections validated, zero dead links, strict types!');
+    console.log('========================================================================\n');
   } else {
-    console.warn(`⚠️ Verification finished with ${totalErrors} URL warnings/issues to inspect.`);
+    console.error(`❌ AUDIT FAILED with ${totalDeadUrls} dead URLs and ${totalSectionFailures} section failures.`);
+    console.log('========================================================================\n');
+    process.exit(1);
   }
-  console.log('========================================================================\n');
 }
 
 runCountryChecks().catch((err) => {

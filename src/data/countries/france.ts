@@ -43,11 +43,11 @@ export const franceGuide: CountryGuideData = {
       },
     ],
     avgTuitionPerYear: {
-      minLocal: 2770,
-      maxLocal: 3770,
+      minLocal: 2895,
+      maxLocal: 3941,
       currencyCode: 'EUR',
-      approxPkrMin: 844850,
-      approxPkrMax: 1149850,
+      approxPkrMin: 882975,
+      approxPkrMax: 1202005,
       exchangeRateDate: '2026-10-04',
       sources: [
         {
@@ -58,7 +58,7 @@ export const franceGuide: CountryGuideData = {
         },
       ],
       lastVerified: '2026-10-04',
-      note: 'Under the "Bienvenue en France" policy, statutory national non-EU tuition is €2,770/year for Bachelor’s (Licence) and €3,770/year for Master’s at public universities (PhD is €380/year). However, dozens of leading universities (including Paris-Saclay, Grenoble Alpes, Aix-Marseille) automatically grant partial fee waivers reducing tuition to the domestic EU rate: €175/year for Bachelor’s and €250/year for Master’s! Elite business schools (HEC, INSEAD, ESSEC) charge commercial fees (€15,000–€35,000/year).',
+      note: 'Under the "Bienvenue en France" policy, statutory national non-EU tuition is €2,895/year for Bachelor’s (Licence) and €3,941/year for Master’s at public universities (PhD is €380/year). Under 2026 finance regulations, university fee exemption quotas are capped at 30% for 2026/27 and 25% for 2027/28, meaning partial waivers reducing tuition to the domestic EU rate (€175/year for Bachelor’s and €250/year for Master’s) are increasingly competitive rather than automatic. Elite business schools (HEC, INSEAD, ESSEC) charge commercial fees (€15,000–€35,000/year).',
     },
     monthlyLivingCost: {
       minLocal: 650,
@@ -601,9 +601,9 @@ export const franceGuide: CountryGuideData = {
         rankNumber: 24,
       },
       strongPrograms: ['Physics & Quantum Computing', 'Mathematics (Dauphine)', 'Chemistry (Chimie ParisTech)', 'Astrophysics (Observatoire de Paris)', 'Economics'],
-      avgTuitionPerYearLocal: 3770,
+      avgTuitionPerYearLocal: 3941,
       currency: 'EUR',
-      approxTuitionPkr: 1149850,
+      approxTuitionPkr: 1202005,
       internationalStudentsPercentage: '20%',
       officialWebsite: 'https://psl.eu/en',
       sources: [
@@ -649,9 +649,9 @@ export const franceGuide: CountryGuideData = {
         rankNumber: 63,
       },
       strongPrograms: ['Mathematics', 'Oceanography & Marine Biology', 'Medicine & Public Health', 'Computer Science', 'Philosophy'],
-      avgTuitionPerYearLocal: 3770,
+      avgTuitionPerYearLocal: 3941,
       currency: 'EUR',
-      approxTuitionPkr: 1149850,
+      approxTuitionPkr: 1202005,
       internationalStudentsPercentage: '18%',
       officialWebsite: 'https://www.sorbonne-universite.fr/en',
       sources: [
@@ -697,9 +697,9 @@ export const franceGuide: CountryGuideData = {
         rankNumber: 184,
       },
       strongPrograms: ['Theoretical Physics', 'Mathematics', 'Computer Science', 'Molecular Biology'],
-      avgTuitionPerYearLocal: 3770,
+      avgTuitionPerYearLocal: 3941,
       currency: 'EUR',
-      approxTuitionPkr: 1149850,
+      approxTuitionPkr: 1202005,
       internationalStudentsPercentage: '14%',
       officialWebsite: 'https://www.ens-lyon.fr/en/',
       sources: [
@@ -721,9 +721,9 @@ export const franceGuide: CountryGuideData = {
         rankNumber: 205,
       },
       strongPrograms: ['Civil & Environmental Engineering', 'Quantitative Finance', 'Applied Mathematics', 'Transportation Systems'],
-      avgTuitionPerYearLocal: 3770,
+      avgTuitionPerYearLocal: 3941,
       currency: 'EUR',
-      approxTuitionPkr: 1149850,
+      approxTuitionPkr: 1202005,
       internationalStudentsPercentage: '36%',
       officialWebsite: 'https://ecoledesponts.fr/en',
       sources: [
@@ -769,9 +769,9 @@ export const franceGuide: CountryGuideData = {
         rankNumber: 260,
       },
       strongPrograms: ['Medicine & Biomedical Sciences', 'Dentistry', 'Neuroscience', 'Mathematics', 'Earth Sciences'],
-      avgTuitionPerYearLocal: 3770,
+      avgTuitionPerYearLocal: 3941,
       currency: 'EUR',
-      approxTuitionPkr: 1149850,
+      approxTuitionPkr: 1202005,
       internationalStudentsPercentage: '18%',
       officialWebsite: 'https://u-paris.fr/en/',
       sources: [
@@ -865,9 +865,9 @@ export const franceGuide: CountryGuideData = {
         rankNumber: 485,
       },
       strongPrograms: ['Ecology & Biodiversity', 'Agronomy', 'Health Biology', 'Law', 'Water Management'],
-      avgTuitionPerYearLocal: 3770,
+      avgTuitionPerYearLocal: 3941,
       currency: 'EUR',
-      approxTuitionPkr: 1149850,
+      approxTuitionPkr: 1202005,
       internationalStudentsPercentage: '16%',
       officialWebsite: 'https://www.umontpellier.fr/',
       sources: [
@@ -1277,7 +1277,7 @@ export const franceGuide: CountryGuideData = {
     {
       question: 'How much are tuition fees at public universities in France?',
       answer:
-        'Statutory differentiated non-EU fees at public universities under "Bienvenue en France" are €2,770/year for Bachelor’s (Licence) and €3,770/year for Master’s (PhD is €380/year). However, many top universities (including Paris-Saclay, Grenoble Alpes, and Aix-Marseille) automatically grant institutional partial waivers reducing tuition to the domestic EU fee: only €175/year for Bachelor’s and €250/year for Master’s!',
+        'Statutory differentiated non-EU fees at public universities under "Bienvenue en France" are €2,895/year for Bachelor’s (Licence) and €3,941/year for Master’s (PhD is €380/year). While select universities previously granted broad institutional waivers down to the domestic rate (€175/€250), under 2026 finance regulations waivers are strictly capped at 30% for 2026/27 and 25% for 2027/28, meaning international students should budget for statutory differentiated fees.',
       category: 'Tuition Fees',
       sources: [
         {

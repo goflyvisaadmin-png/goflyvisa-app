@@ -49,9 +49,9 @@ export const UK_GUIDE_DATA: CountryGuideData = {
       lastVerified: '2026-10-04',
     },
     monthlyLivingCost: {
-      amountDomesticCurrency: 1136,
-      approxPKR: 411800,
-      textSummary: 'UKVI Statutory Maintenance: £1,136/month outside London (total £10,224 for 9 months); £1,483/month in London (total £13,347 for 9 months). Must be held for 28 consecutive days.',
+      amountDomesticCurrency: 1171,
+      approxPKR: 424500,
+      textSummary: 'UKVI Statutory Maintenance (effective 11 Nov 2025): £1,171/month outside London (total £10,539 for 9 months, ≈ 3,820,400 PKR); £1,529/month in London (total £13,761 for 9 months, ≈ 4,988,360 PKR). Must be held for 28 consecutive days.',
       sources: [
         {
           title: 'GOV.UK Student Visa Financial Evidence',
@@ -62,7 +62,7 @@ export const UK_GUIDE_DATA: CountryGuideData = {
       ],
       lastVerified: '2026-10-04',
     },
-    postStudyWorkDuration: '2 Years (Graduate Route for Bachelor and Master graduates); 3 Years for PhD / Doctoral graduates.',
+    postStudyWorkDuration: '2 Years for applications before 1 Jan 2027 (reduced to 18 Months for Bachelor/Master applications submitted on or after 1 Jan 2027; PhD remains 3 Years).',
     partTimeWorkHoursTerm: '20 hours per week during term time (degree-level studies RQF 6+); full-time during official vacation periods.',
     visaProcessingTimeAverage: 'Standard service: 3 weeks (15 working days) from biometric appointment at VFS Global Pakistan. Priority service (5 working days) and Super Priority (24 hours) available for an extra fee.',
   },
@@ -78,7 +78,7 @@ export const UK_GUIDE_DATA: CountryGuideData = {
       purpose: 'Enrolment on full-time degree-level courses (RQF Level 6 Bachelor, Level 7 Master, Level 8 PhD) with a licensed Student Sponsor holding a Confirmation of Acceptance for Studies (CAS).',
       eligibility: [
         'Valid Confirmation of Acceptance for Studies (CAS) issued by a licensed UK higher education sponsor',
-        'Proof of financial maintenance (£1,136/mo outside London or £1,483/mo inside London for 9 months) + outstanding first-year tuition',
+        'Proof of financial maintenance (£1,171/mo outside London or £1,529/mo inside London for 9 months) + outstanding first-year tuition',
         'Strict 28-day bank statement holding period ending within 31 days of application date',
         'Academic Progression rule (RQF level must be higher than previous qualification)',
         'Approved Tuberculosis (TB) medical test certificate from IOM/AMC Pakistan',
@@ -206,7 +206,7 @@ export const UK_GUIDE_DATA: CountryGuideData = {
       {
         stepNumber: 2,
         title: 'Complete 28-Day Bank Holding Period',
-        description: 'Deposit remaining first-year tuition plus 9 months of maintenance funds (£10,224 outside London; £13,347 in London) into a recognized commercial bank account. Funds must remain untouched above the threshold for at least 28 consecutive days.',
+        description: 'Deposit remaining first-year tuition plus 9 months of maintenance funds (£10,539 outside London; £13,761 in London) into a recognized commercial bank account. Funds must remain untouched above the threshold for at least 28 consecutive days.',
         portalName: 'GOV.UK Financial Requirements Guide',
         portalUrl: 'https://www.gov.uk/student-visa/money',
         pakistanSpecificNotes: 'Must be in the applicant’s name or parent’s/legal guardian’s name. If using a parent’s account, provide original birth certificate, FRC (Family Registration Certificate from NADRA), and a signed sponsorship consent letter.',
@@ -329,7 +329,7 @@ export const UK_GUIDE_DATA: CountryGuideData = {
         requiredOriginals: true,
         attestationRequired: 'None',
         copiesNeeded: 1,
-        detail: 'Official stamped statement showing funds (£10,224 or £13,347 + unpaid tuition) held for 28 consecutive days. Dated within 31 days of visa submission.',
+        detail: 'Official stamped statement showing funds (£10,539 or £13,761 + unpaid tuition) held for 28 consecutive days. Dated within 31 days of visa submission.',
         sources: [{ title: 'Money Guidance', url: 'https://www.gov.uk/student-visa/money', publisher: 'UKVI', publisherType: 'government' }],
       },
       {
@@ -391,10 +391,10 @@ export const UK_GUIDE_DATA: CountryGuideData = {
   financialRequirements: {
     proofOfFundsType: 'Bank Statement',
     officialMinimumAmount: {
-      amount: 10224,
+      amount: 10539,
       currency: 'GBP',
-      approxPKR: 3706200,
-      period: '£1,136 per month for 9 months = £10,224 (Outside London); £1,483 per month for 9 months = £13,347 (Inside London, ≈ 4,838,280 PKR). Plus any unpaid tuition balance.',
+      approxPKR: 3820400,
+      period: '£1,171 per month for 9 months = £10,539 (Outside London, ≈ 3,820,400 PKR); £1,529 per month for 9 months = £13,761 (Inside London, ≈ 4,988,360 PKR). Plus any unpaid tuition balance.',
     },
     holdingPeriodDays: 28,
     approvedProvidersOrBanks: [
@@ -817,7 +817,7 @@ export const UK_GUIDE_DATA: CountryGuideData = {
     {
       reasonTitle: '28-Day Financial Rule Violation (Appendix Finance)',
       statutoryClause: 'Appendix Finance (FIN 2.1 & FIN 7.1) - Inadequate Funds Holding Period',
-      explanation: 'The closing balance dropped below the mandated maintenance sum (£10,224 or £13,347 + remaining tuition) for even a single day during the 28-day window. Or the bank statement is dated more than 31 days before the online visa application date.',
+      explanation: 'The closing balance dropped below the mandated maintenance sum (£10,539 or £13,761 + remaining tuition) for even a single day during the 28-day window. Or the bank statement is dated more than 31 days before the online visa application date.',
       preventativeMeasures: [
         'Calculate funds in GBP using the exact OANDA exchange rate on the day of checking.',
         'Deposit a buffer of at least 200,000–300,000 PKR above the minimum requirement to guard against PKR currency depreciation during the 28 days.',
@@ -966,21 +966,21 @@ export const UK_GUIDE_DATA: CountryGuideData = {
   // --------------------------------------------------------------------------
   recentPolicyTimeline: [
     {
-      effectiveDate: '2025-01-02',
-      headline: 'UKVI Maintenance Requirement Increases',
-      summary: 'Living maintenance requirements rose to £1,483/month in London (£13,347 total) and £1,136/month outside London (£10,224 total) to reflect higher inflation and living costs.',
+      effectiveDate: '2025-11-11',
+      headline: 'UKVI Statutory Maintenance Rates Updated',
+      summary: 'Living maintenance requirements rose to £1,529/month in London (£13,761 total for 9 months) and £1,171/month outside London (£10,539 total for 9 months) to reflect statutory inflation metrics.',
       impactOnStudents: 'Pakistani applicants must demonstrate higher 28-day bank balances for student visa applications.',
       officialAnnouncementUrl: 'https://www.gov.uk/student-visa/money',
-      publisher: 'Home Office',
+      publisher: 'Home Office / UKVI',
       lastVerified: '2026-10-04',
     },
     {
-      effectiveDate: '2024-05-14',
-      headline: 'Migration Advisory Committee (MAC) Recommends Retaining Graduate Route',
-      summary: 'Following an extensive review ordered by the government, the independent MAC concluded the Graduate Route was operating effectively and recommended keeping the 2-year post-study work visa intact.',
-      impactOnStudents: 'International graduates continue to enjoy 2 full years of post-study work authorization.',
+      effectiveDate: '2025-10-15',
+      headline: 'Graduate Route Post-Study Work Reduced to 18 Months From 1 Jan 2027',
+      summary: 'Confirmed in the October 2025 Statement of Changes to Immigration Rules: Graduate Route duration will be 18 months for Bachelor and Master degree applications submitted on or after 1 January 2027 (PhD/Doctoral graduates remain at 3 years). Current 2-year duration remains valid for applications submitted before 1 January 2027.',
+      impactOnStudents: 'Students graduating and applying on or after 1 Jan 2027 will receive an 18-month stay instead of 2 years to transition into Skilled Worker employment.',
       officialAnnouncementUrl: 'https://www.gov.uk/graduate-visa',
-      publisher: 'Migration Advisory Committee / Home Office',
+      publisher: 'Home Office',
       lastVerified: '2026-10-04',
     },
     {
@@ -1111,7 +1111,7 @@ export const UK_GUIDE_DATA: CountryGuideData = {
   faqs: [
     {
       question: 'What is the exact 28-day rule for bank statements, and what are the most common mistakes?',
-      answer: 'The 28-day rule requires that your maintenance funds (£10,224 outside London; £13,347 in London) PLUS any unpaid first-year tuition fees must be held continuously in your (or your parents\') bank account for at least 28 consecutive days. The closing balance must never fall below the required sum even for an hour. Crucially, the bank statement must be dated no more than 31 days before the date you submit your online application. The most common mistake is spending funds or receiving a statement dated on day 27 rather than completing the full 28 days.',
+      answer: 'The 28-day rule requires that your maintenance funds (£10,539 outside London; £13,761 in London) PLUS any unpaid first-year tuition fees must be held continuously in your (or your parents\') bank account for at least 28 consecutive days. The closing balance must never fall below the required sum even for an hour. Crucially, the bank statement must be dated no more than 31 days before the date you submit your online application. The most common mistake is spending funds or receiving a statement dated on day 27 rather than completing the full 28 days.',
       category: 'finances',
       sources: [{ title: 'UKVI Financial Evidence Guidance', url: 'https://www.gov.uk/student-visa/money', publisher: 'UKVI', publisherType: 'government' }],
       lastVerified: '2026-10-04',
@@ -1125,7 +1125,7 @@ export const UK_GUIDE_DATA: CountryGuideData = {
     },
     {
       question: 'What is the Graduate Route, and is it still available for 2 years?',
-      answer: 'YES. The Graduate Route is a 2-year post-study work visa for international students who successfully complete a UK undergraduate or Master’s degree (3 years for PhD graduates). In May 2024, following a comprehensive review by the independent Migration Advisory Committee (MAC), the UK government officially confirmed that the Graduate Route is retained in its full form. It allows you to work unrestricted in any job without needing an employer sponsor.',
+      answer: 'For applications submitted before 1 January 2027, the Graduate Route provides 2 full years of post-study work authorization (3 years for PhD/doctoral graduates). Under the October 2025 Statement of Changes, applications submitted on or after 1 January 2027 will receive an 18-month grant for undergraduate and Master’s graduates (PhD remains 3 years). It allows you to work unrestricted in any job without needing an immediate employer sponsor.',
       category: 'settlement',
       sources: [{ title: 'GOV.UK Graduate Visa Overview', url: 'https://www.gov.uk/graduate-visa', publisher: 'UKVI', publisherType: 'government' }],
       lastVerified: '2026-10-04',

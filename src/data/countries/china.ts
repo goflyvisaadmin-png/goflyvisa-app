@@ -52,7 +52,7 @@ export const chinaGuide: CountryGuideData = {
       sources: [
         {
           title: 'China Scholarship Council - Study in China Overview',
-          url: 'https://www.campuschina.org/',
+          url: 'https://campuschina.org/',
           publisher: 'China Scholarship Council (CSC)',
           publisherType: 'scholarship',
         },
@@ -70,7 +70,7 @@ export const chinaGuide: CountryGuideData = {
       sources: [
         {
           title: 'Campus China - Cost of Living for International Students',
-          url: 'https://www.campuschina.org/',
+          url: 'https://campuschina.org/',
           publisher: 'China Scholarship Council',
           publisherType: 'scholarship',
         },
@@ -192,7 +192,7 @@ export const chinaGuide: CountryGuideData = {
       },
       {
         name: 'Campus China (China Scholarship Council Portal)',
-        url: 'https://www.campuschina.org/',
+        url: 'https://campuschina.org/',
         description: 'Official digital application repository for Chinese Government Scholarships (CSC Type A and Type B).',
       },
     ],
@@ -331,7 +331,7 @@ export const chinaGuide: CountryGuideData = {
         sources: [
           {
             title: 'Campus China - Medical Examination Form',
-            url: 'https://www.campuschina.org/',
+            url: 'https://campuschina.org/',
             publisher: 'China Scholarship Council',
             publisherType: 'scholarship',
           },
@@ -489,12 +489,12 @@ export const chinaGuide: CountryGuideData = {
     applicationPortals: [
       {
         portalName: 'Campus China (CSC Online Application System)',
-        url: 'https://www.campuschina.org/',
+        url: 'https://campuschina.org/',
         scope: 'Primary official portal for applying for Chinese Government Scholarships (Type A bilateral and Type B university programs).',
       },
       {
         portalName: 'Direct University International Student Portals',
-        url: 'https://www.campuschina.org/',
+        url: 'https://campuschina.org/',
         scope: 'Used for direct institutional admissions, provincial scholarships, and university presidential awards.',
       },
     ],
@@ -503,7 +503,7 @@ export const chinaGuide: CountryGuideData = {
     sources: [
       {
         title: 'China Scholarship Council - Application Guidelines',
-        url: 'https://www.campuschina.org/',
+        url: 'https://campuschina.org/',
         publisher: 'China Scholarship Council',
         publisherType: 'scholarship',
       },
@@ -865,11 +865,11 @@ export const chinaGuide: CountryGuideData = {
       eligibility:
         'Pakistani citizens nominated by the Higher Education Commission (HEC) of Pakistan under the bilateral quota. Monthly stipend: Bachelor’s 2,500 RMB/mo, Master’s 3,000 RMB/mo, PhD 3,500 RMB/mo.',
       deadlineMonths: 'December – February (annual HEC application cycle)',
-      officialLink: 'https://www.campuschina.org/',
+      officialLink: 'https://campuschina.org/',
       sources: [
         {
           title: 'CSC - Chinese Government Scholarship Program',
-          url: 'https://www.campuschina.org/',
+          url: 'https://campuschina.org/',
           publisher: 'China Scholarship Council',
           publisherType: 'scholarship',
         },
@@ -883,11 +883,11 @@ export const chinaGuide: CountryGuideData = {
       eligibility:
         'Master’s and PhD applicants applying directly to designated Chinese universities using the university’s unique Agency Code.',
       deadlineMonths: 'January – April (university specific)',
-      officialLink: 'https://www.campuschina.org/',
+      officialLink: 'https://campuschina.org/',
       sources: [
         {
           title: 'CSC Type B University Program Guidelines',
-          url: 'https://www.campuschina.org/',
+          url: 'https://campuschina.org/',
           publisher: 'China Scholarship Council',
           publisherType: 'scholarship',
         },
@@ -905,7 +905,7 @@ export const chinaGuide: CountryGuideData = {
       sources: [
         {
           title: 'ANSO Scholarship Official Portal',
-          url: 'https://www.campuschina.org/',
+          url: 'https://campuschina.org/',
           publisher: 'Alliance of International Science Organizations',
           publisherType: 'scholarship',
         },
@@ -1123,7 +1123,7 @@ export const chinaGuide: CountryGuideData = {
     sources: [
       {
         title: 'Campus China - Life in China Guide',
-        url: 'https://www.campuschina.org/',
+        url: 'https://campuschina.org/',
         publisher: 'China Scholarship Council',
         publisherType: 'scholarship',
       },
@@ -1149,7 +1149,7 @@ export const chinaGuide: CountryGuideData = {
         'Report to the International Student Office at your university with your original Admission Notice, JW201/JW202 form, and passport to finalize matriculation and collect your campus student ID card.',
       timeline: 'On scheduled orientation dates',
       mandatory: true,
-      officialPortalOrGuide: 'https://www.campuschina.org/',
+      officialPortalOrGuide: 'https://campuschina.org/',
     },
     {
       stepNumber: 3,
@@ -1176,7 +1176,7 @@ export const chinaGuide: CountryGuideData = {
         'Visit a campus branch of ICBC or Bank of China with your passport and student card to open a bank account and debit card. Immediately link your debit card to WeChat Pay and Alipay to enable cashless mobile payments across China.',
       timeline: 'Within first week of arrival',
       mandatory: true,
-      officialPortalOrGuide: 'https://www.campuschina.org/',
+      officialPortalOrGuide: 'https://campuschina.org/',
     },
     {
       stepNumber: 6,
@@ -1185,7 +1185,7 @@ export const chinaGuide: CountryGuideData = {
         'Visit a China Mobile or China Unicom service outlet with your original passport to register a local Chinese mobile number for high-speed 5G data and campus app authentications.',
       timeline: 'First 2 to 3 days',
       mandatory: true,
-      officialPortalOrGuide: 'https://www.campuschina.org/',
+      officialPortalOrGuide: 'https://campuschina.org/',
     },
   ],
 
@@ -1214,7 +1214,7 @@ export const chinaGuide: CountryGuideData = {
       sources: [
         {
           title: 'Campus China - Study Visa Documentation',
-          url: 'https://www.campuschina.org/',
+          url: 'https://campuschina.org/',
           publisher: 'China Scholarship Council',
           publisherType: 'scholarship',
         },
@@ -1229,7 +1229,7 @@ export const chinaGuide: CountryGuideData = {
       sources: [
         {
           title: 'CSC - Scholarship Coverage Breakdown',
-          url: 'https://www.campuschina.org/',
+          url: 'https://campuschina.org/',
           publisher: 'China Scholarship Council',
           publisherType: 'scholarship',
         },
@@ -1259,7 +1259,7 @@ export const chinaGuide: CountryGuideData = {
       sources: [
         {
           title: 'Campus China - Language Proficiency Standards',
-          url: 'https://www.campuschina.org/',
+          url: 'https://campuschina.org/',
           publisher: 'China Scholarship Council',
           publisherType: 'scholarship',
         },
@@ -1304,7 +1304,7 @@ export const chinaGuide: CountryGuideData = {
       sources: [
         {
           title: 'Campus China - Campus Dining and Living Guide',
-          url: 'https://www.campuschina.org/',
+          url: 'https://campuschina.org/',
           publisher: 'China Scholarship Council',
           publisherType: 'scholarship',
         },
@@ -1401,7 +1401,7 @@ export const chinaGuide: CountryGuideData = {
     },
     {
       title: 'Campus China - China Scholarship Council (CSC Official Portal)',
-      url: 'https://www.campuschina.org/',
+      url: 'https://campuschina.org/',
       publisher: 'China Scholarship Council (CSC)',
       publisherType: 'scholarship',
     },

@@ -1,21 +1,22 @@
 // ============================================================================
 // Types for Study Destinations Country Guide
-// Comprehensive typed data model covering 17 core sections per destination
-// with strict official sourcing and Pakistan-specific localization.
+// Comprehensive strictly-typed data model covering all 17 core sections
+// with official sourcing and Pakistan-specific localization.
+// STRICT: ZERO index signatures ([key: string]: any).
 // ============================================================================
 
-export type TargetCountrySlug = 
-  | 'germany' 
-  | 'uk' 
-  | 'canada' 
-  | 'usa' 
-  | 'australia' 
-  | 'china' 
-  | 'italy' 
-  | 'france' 
+export type TargetCountrySlug =
+  | 'germany'
+  | 'uk'
+  | 'canada'
+  | 'usa'
+  | 'australia'
+  | 'china'
+  | 'italy'
+  | 'france'
   | 'malaysia';
 
-export type SourcePublisherType = 
+export type SourcePublisherType =
   | 'government'           // Auswärtiges Amt, UK Home Office, IRCC, US Dept of State, etc.
   | 'embassy'              // German Embassy Islamabad, British High Commission Islamabad, etc.
   | 'visa_centre'          // VFS Global Pakistan, TLScontact, Gerry's, etc.
@@ -31,7 +32,6 @@ export interface OfficialSource {
   publisher: string;
   publisherType: SourcePublisherType;
   accessDate?: string;
-  [key: string]: any;
 }
 
 export interface VerifiedField<T> {
@@ -40,7 +40,6 @@ export interface VerifiedField<T> {
   lastVerified: string; // ISO format "YYYY-MM-DD"
   note?: string;
   needsVerification?: boolean;
-  [key: string]: any;
 }
 
 // ----------------------------------------------------------------------------
@@ -61,7 +60,6 @@ export interface EmbassyLocation {
   servicesOffered?: string[];
   sources?: OfficialSource[];
   lastVerified?: string;
-  [key: string]: any;
 }
 
 export interface AttestationAuthority {
@@ -74,7 +72,6 @@ export interface AttestationAuthority {
   processingTimeDays: string;
   sources: OfficialSource[];
   lastVerified: string;
-  [key: string]: any;
 }
 
 export interface HomeCountryConfig {
@@ -95,9 +92,7 @@ export interface HomeCountryConfig {
     platform: 'Facebook' | 'WhatsApp' | 'Discord' | 'Student Association' | 'Website' | string;
     url: string;
     verified: boolean;
-    [key: string]: any;
   }>;
-  [key: string]: any;
 }
 
 // ----------------------------------------------------------------------------
@@ -106,11 +101,11 @@ export interface HomeCountryConfig {
 
 export interface QuickFacts {
   capital: string;
-  currency: { code: string; symbol: string; name: string; [key: string]: any };
+  currency: { code: string; symbol: string; name: string };
   officialLanguages: string[];
   mainIntakes?: string[];
-  intakes?: Array<{ name: string; months: string; notes?: string; [key: string]: any }> | string[];
-  avgTuitionPerYear: {
+  intakes?: Array<{ name: string; months: string; notes?: string }> | string[];
+  avgTuitionPerYear?: {
     minDomesticCurrency?: number;
     maxDomesticCurrency?: number;
     minLocal?: number;
@@ -122,25 +117,48 @@ export interface QuickFacts {
     textSummary?: string;
     sources: OfficialSource[];
     lastVerified: string;
-    [key: string]: any;
+    note?: string;
   };
-  monthlyLivingCost: {
+  avgAnnualTuition?: {
+    amountDomesticCurrency?: number;
+    currencyCode?: string;
+    approxPKR?: number;
+    description?: string;
+    sources: OfficialSource[];
+    lastVerified: string;
+  };
+  monthlyLivingCost?: {
     amountDomesticCurrency?: number;
     amountLocal?: number;
+    minLocal?: number;
+    maxLocal?: number;
     approxPKR?: number;
     approxPkr?: number;
+    approxPkrMin?: number;
+    approxPkrMax?: number;
     currencyCode?: string;
+    exchangeRateDate?: string;
     textSummary?: string;
     sources: OfficialSource[];
     lastVerified: string;
-    [key: string]: any;
+    note?: string;
   };
   postStudyWorkDuration: string;
+  postStudyWorkPermit?: {
+    name: string;
+    duration: string;
+    conditions: string;
+  };
   partTimeWorkHoursTerm?: string;
+  partTimeWorkHoursHolidays?: string;
   partTimeWorkHours?: string;
+  partTimeWorkRights?: {
+    hoursPerWeek: number;
+    regulations: string;
+  };
   visaProcessingTimeAverage?: string;
+  visaProcessingTimeWeeks?: string;
   visaProcessingTime?: string;
-  [key: string]: any;
 }
 
 export interface VisaTypeItem {
@@ -161,14 +179,12 @@ export interface VisaTypeItem {
     currencyCode: string;
     approxPkr: number;
     description: string;
-    [key: string]: any;
   } | number;
   financialRequirement?: {
     amountLocal: number;
     currencyCode: string;
     approxPkr: number;
     description: string;
-    [key: string]: any;
   };
   validity?: string;
   processingTime?: string;
@@ -178,7 +194,6 @@ export interface VisaTypeItem {
   sources?: OfficialSource[];
   lastVerified?: string;
   note?: string;
-  [key: string]: any;
 }
 
 export interface ApplicationStep {
@@ -190,7 +205,6 @@ export interface ApplicationStep {
   pakistanSpecificNotes?: string;
   actionRequired?: string;
   sources?: OfficialSource[];
-  [key: string]: any;
 }
 
 export interface DocumentChecklistItem {
@@ -207,7 +221,6 @@ export interface DocumentChecklistItem {
   mandatory?: boolean;
   sources?: OfficialSource[];
   lastVerified?: string;
-  [key: string]: any;
 }
 
 export interface ApplicationProcedure {
@@ -217,7 +230,6 @@ export interface ApplicationProcedure {
     name: string;
     url: string;
     description: string;
-    [key: string]: any;
   }>;
   steps?: ApplicationStep[];
   pakistanAppointmentGuide?: {
@@ -225,7 +237,6 @@ export interface ApplicationProcedure {
     bookingProcedure?: string;
     biometricsDetails?: string;
     interviewPreparationTips?: string[];
-    [key: string]: any;
   };
   vacLocationsInHomeCountry?: Array<{
     city: string;
@@ -235,7 +246,6 @@ export interface ApplicationProcedure {
     jurisdiction?: string;
     bookingUrl?: string;
     averageWaitDays?: string;
-    [key: string]: any;
   }>;
   pakistanCentres?: Array<{
     city: string;
@@ -244,17 +254,14 @@ export interface ApplicationProcedure {
     jurisdiction?: string;
     bookingUrl?: string;
     averageWaitDays?: string;
-    [key: string]: any;
   }>;
   interviewGuidelines?: {
     isMandatory?: boolean;
     description?: string;
     tips?: string[];
-    [key: string]: any;
   };
   documentChecklist?: DocumentChecklistItem[];
   checklist?: DocumentChecklistItem[];
-  [key: string]: any;
 }
 
 export interface FinancialRequirements {
@@ -264,7 +271,6 @@ export interface FinancialRequirements {
     currency: string;
     approxPKR: number;
     period: string;
-    [key: string]: any;
   };
   livingCostRequirementPerYear?: number;
   currencyCode?: string;
@@ -274,14 +280,12 @@ export interface FinancialRequirements {
     methodName: string;
     details: string;
     isPreferred?: boolean;
-    [key: string]: any;
   }>;
   tuition?: {
     undergraduatePerYear?: string;
     postgraduatePerYear?: string;
     branchCampusPerYear?: string;
     notes?: string;
-    [key: string]: any;
   };
   livingCosts?: {
     monthlyEstimateLocal?: number;
@@ -291,9 +295,7 @@ export interface FinancialRequirements {
       amountLocal: number;
       amountPkr: number;
       description?: string;
-      [key: string]: any;
     }>;
-    [key: string]: any;
   };
   proofOfFunds?: {
     method: string;
@@ -304,14 +306,12 @@ export interface FinancialRequirements {
     explanation?: string;
     sources?: OfficialSource[];
     lastVerified?: string;
-    [key: string]: any;
   };
   mandatoryFees?: Array<{
     name: string;
     amountLocal: number;
     amountPkr: number;
     notes?: string;
-    [key: string]: any;
   }>;
   holdingPeriodDays?: number;
   bankStatementHoldingPeriodDays?: number;
@@ -320,20 +320,17 @@ export interface FinancialRequirements {
     type?: string;
     costPerMonthOrYear?: string;
     providers?: string[];
-    [key: string]: any;
   };
   visaFeeDetails?: {
     embassyFee?: number;
     embassyFeeCurrency?: string;
     vacServiceFeePKR?: number;
     surcharges?: string;
-    [key: string]: any;
   };
   visaApplicationFee?: {
     amount: number;
     currency: string;
     approxPkr: number;
-    [key: string]: any;
   };
   otherSurcharges?: Array<{
     name: string;
@@ -342,25 +339,24 @@ export interface FinancialRequirements {
     approxPkr: number;
     mandatory?: boolean;
     notes?: string;
-    [key: string]: any;
   }>;
   sources?: OfficialSource[];
   lastVerified?: string;
   note?: string;
-  [key: string]: any;
+  sourceOfFundsRules?: string;
 }
 
 export interface AcademicEquivalenceLevel {
   pakistaniCredential?: string;
   minimumEducation?: string;
   localEquivalence?: string;
+  academicRequirements?: string;
   minimumGradeCGPA?: string;
   minimumGrades?: string;
   gapAcceptancePolicy?: string;
   studyGapAcceptable?: string;
   attestationSteps?: string[];
   pakistaniEquivalence?: string;
-  [key: string]: any;
 }
 
 export interface AdmissionCriteria {
@@ -370,6 +366,32 @@ export interface AdmissionCriteria {
   undergraduate?: AcademicEquivalenceLevel;
   postgraduateMaster?: AcademicEquivalenceLevel;
   postgraduatePhD?: AcademicEquivalenceLevel;
+  undergraduateRequirements?: string;
+  postgraduateRequirements?: string;
+  doctoralRequirements?: string;
+  pakistaniEquivalenceGuide?: {
+    matriculation?: string;
+    intermediateFSc?: string;
+    fourteenYearBachelors?: string;
+    sixteenYearBachelors?: string;
+    studyGapsAcceptability?: string;
+  };
+  attestationBodies?: Array<{
+    bodyName?: string;
+    authority?: string;
+    mandate?: string;
+    procedureSummary?: string;
+    link?: string;
+    officialPortal?: string;
+  }>;
+  applicationPortals?: Array<{
+    portalName?: string;
+    name?: string;
+    url?: string;
+    scope?: string;
+    role?: string;
+    fee?: string;
+  }>;
   ectsOrCreditSystemExplanation?: string;
   evaluationPortals?: Array<{
     name: string;
@@ -377,34 +399,44 @@ export interface AdmissionCriteria {
     fee: string;
     processingWeeks: string;
     url: string;
-    [key: string]: any;
   }>;
+  deadlinesSummary?: string;
   mqaAccreditationOverview?: string;
   sources?: OfficialSource[];
   lastVerified?: string;
-  [key: string]: any;
 }
 
 export interface LanguageRequirements {
   englishRequirements?: {
-    ieltsMinScore?: { overall: number; subscore: number; typicalRequirement: string; [key: string]: any };
+    ieltsMinScore?: { overall: number; subscore: number; typicalRequirement: string };
     toeflMinScore?: number;
     pteMinScore?: number;
     duolingoAccepted?: boolean;
     moiWaiverAllowed?: boolean;
     moiConditions?: string;
-    [key: string]: any;
   };
   englishTests?: Array<{
     testName: string;
     undergraduateMinimum: string;
     postgraduateMinimum: string;
     notes?: string;
-    [key: string]: any;
+  }>;
+  acceptedEnglishTests?: Array<{
+    testName: string;
+    minScoreOverall: string;
+    subScoreRequirements: string;
   }>;
   moiWaiverAllowed?: boolean;
   moiConditions?: string;
+  moiWaiverAcceptability?: string;
   preparatoryEnglishPrograms?: string;
+  localLanguageImportance?: {
+    study?: string;
+    dailyLife?: string;
+    partTimeJobs?: string;
+    postStudyPR?: string;
+    recommendedCertifications?: string[];
+  };
   localLanguageRequirements?: {
     language: string;
     studyRequirement: string;
@@ -412,7 +444,6 @@ export interface LanguageRequirements {
     partTimeJobImportance: 'Low' | 'Moderate' | 'High' | 'Essential' | string;
     postStudyPrImportance: string;
     recognizedTests: string[];
-    [key: string]: any;
   };
   localLanguageNecessity?: {
     language: string;
@@ -422,11 +453,10 @@ export interface LanguageRequirements {
     partTimeJobImportance: string;
     partTimeNotes?: string;
     prAndSettlementImportance: string;
-    [key: string]: any;
   };
+  localLanguageTests?: Array<string | { name: string; description: string }>;
   sources?: OfficialSource[];
   lastVerified?: string;
-  [key: string]: any;
 }
 
 export interface UniversityItem {
@@ -438,12 +468,15 @@ export interface UniversityItem {
     year?: number;
     rank?: string;
     rankNumber?: number;
-    [key: string]: any;
   };
   tuitionType?: 'Tuition-Free (Admin Fee Only)' | 'Public Nominal' | 'State Fee' | 'Private' | string;
   type?: string;
   estimatedAnnualTuition?: string;
   tuitionRangePerYear?: string;
+  avgTuitionPerYearLocal?: number;
+  currency?: string;
+  approxTuitionPkr?: number;
+  internationalStudentsPercentage?: string;
   internationalStudentPercentage?: string;
   internationalStudentShare?: string;
   strongPrograms?: string[];
@@ -452,13 +485,13 @@ export interface UniversityItem {
   notes?: string;
   sources?: OfficialSource[];
   lastVerified?: string;
-  [key: string]: any;
 }
 
 export interface ScholarshipItem {
   id?: string;
   name?: string;
   awardingBody?: string;
+  grantingBody?: string;
   provider?: string;
   coverage?: 'Full Tuition + Monthly Stipend' | 'Partial Tuition' | 'Living Allowance Only' | string;
   coverageType?: string;
@@ -467,13 +500,13 @@ export interface ScholarshipItem {
   eligibilityCriteria?: string[];
   eligibility?: string[] | string;
   pakistanDeadlines?: string;
+  deadlineMonths?: string;
   applicationPeriod?: string;
   officialLink?: string;
   websiteUrl?: string;
   notes?: string;
   sources?: OfficialSource[];
   lastVerified?: string;
-  [key: string]: any;
 }
 
 export interface WorkRights {
@@ -494,27 +527,29 @@ export interface WorkRights {
   prohibitedJobs?: string[];
   procedureToWork?: string;
   averageStudentWageLocal?: string;
+  regulationsSummary?: string;
   sources?: OfficialSource[];
   lastVerified?: string;
-  [key: string]: any;
 }
 
 export interface VisaRefusalPoint {
   reasonTitle?: string;
   title?: string;
   category?: string;
+  refusalCategory?: string;
   frequency?: string;
   statutoryClause?: string;
   explanation?: string;
   description?: string;
   preventativeMeasures?: string[];
+  howToAvoid?: string;
   prevention?: string;
+  avoidanceTips?: string[];
   remedyProcess?: 'Administrative Appeal (Remonstration)' | 'Judicial Review' | 'Fresh Application' | string;
   remedy?: string;
   remedyTimeline?: string;
   sources?: OfficialSource[];
   lastVerified?: string;
-  [key: string]: any;
 }
 
 export interface PostStudyImmigration {
@@ -524,59 +559,66 @@ export interface PostStudyImmigration {
     duration: string;
     eligibility: string[];
     applicationSteps?: string;
-    [key: string]: any;
   };
   durationMonths?: number;
   eligibilityRequirements?: string[];
   transitionToWorkPermit?: {
     workPermitName: string;
     salaryThreshold: string;
-    [key: string]: any;
   };
   prPermanentResidencyRoute?: {
     visaName: string;
     qualificationTimeMonths: string;
     languageRequirement: string;
-    [key: string]: any;
   };
   prPathway?: {
     name: string;
     timeline: string;
     requirements: string[];
     notes?: string;
-    [key: string]: any;
   };
   deRantauNomadPass?: {
     name: string;
     duration: string;
     details: string;
-    [key: string]: any;
   };
   jobSeekerVisaDuration?: string;
+  jobSeekingPermitDuration?: string;
+  workVisaOptions?: string;
+  workPermitType?: string;
+  prPathwaysSummary?: string;
+  permanentResidencyTimeline?: string;
+  prPathwayDuration?: string;
+  citizenshipTimeline?: string;
   citizenshipTimelineYears?: string;
+  citizenshipPathwayDuration?: string;
   sources?: OfficialSource[];
   lastVerified?: string;
-  [key: string]: any;
 }
 
 export interface DependentRules {
   spousalVisaPermittedDuringStudy?: boolean;
   allowedDuringStudy?: boolean;
   canBringSpouse?: boolean;
+  canBringChildren?: boolean;
   dependentPassName?: string;
   eligibleStudents?: string;
   eligibleDependents?: string[];
   workRightsForSpouse?: string;
   conditions?: string[];
+  eligibilityCriteria?: string[];
   spousalWorkRights?: string;
+  spouseWorkRights?: string;
   childDependentRules?: string;
+  childrenSchooling?: string;
   financialSponsorshipRequirementExtraMonthly?: string;
+  financialRequirementsPerDependent?: string;
   financialRequirement?: string;
+  additionalFundsRequired?: string;
   requiredDocuments?: string[];
   sources?: OfficialSource[];
   lastVerified?: string;
   note?: string;
-  [key: string]: any;
 }
 
 export interface PolicyTimelineItem {
@@ -590,63 +632,63 @@ export interface PolicyTimelineItem {
   officialSourceUrl?: string;
   publisher?: string;
   lastVerified?: string;
-  [key: string]: any;
 }
 
 export interface StudentLivingInfo {
   avgAccommodationCostMonthly?: string;
+  averageMonthlyRent?: string;
   accommodation?: {
     overview?: string;
     monthlyCostLocal?: string;
     searchPortals?: string[];
     tips?: string;
-    [key: string]: any;
   };
-  accommodationTypes?: any[];
+  accommodationTypes?: Array<{
+    type: string;
+    avgMonthlyCostLocal?: number;
+    currencyCode?: string;
+    approxCostPkr?: number;
+    description: string;
+  }>;
   housingSearchPortals?: string[];
   healthCareSystemSummary?: string;
   halalFoodAndDining?: {
     status: string;
     description: string;
-    [key: string]: any;
   };
+  groceriesAndHalalFood?: string;
   safety?: {
     index: string;
     description: string;
-    [key: string]: any;
   };
   safetyIndex?: string;
+  safetyAndCrime?: string;
   climate?: {
     description: string;
-    [key: string]: any;
   };
   climateOverview?: string;
+  climateAndWeather?: string;
   halalFoodAvailability?: 'Abundant' | 'Moderate' | 'Limited' | string;
   pakistaniCommunityPresence?: string;
   pakistaniCommunity?: {
     description: string;
-    [key: string]: any;
   };
   simAndBanking?: {
     simProviders: string[];
     bankingInstitutions: string[];
     tips?: string;
-    [key: string]: any;
   };
   simAndBankingRecommended?: {
     simProviders: string[];
     digitalBanks: string[];
-    [key: string]: any;
   };
   transportation?: {
     overview?: string;
     perks?: string;
-    [key: string]: any;
   };
   transportationStudentPerks?: string;
   sources?: OfficialSource[];
   lastVerified?: string;
-  [key: string]: any;
 }
 
 export interface ArrivalChecklistTask {
@@ -655,12 +697,14 @@ export interface ArrivalChecklistTask {
   stepNumber?: number;
   title?: string;
   officialTerm?: string;
+  description?: string;
+  timeline?: string;
+  mandatory?: boolean;
   tasks?: string[];
   criticalWarning?: string;
   requiredDocuments?: string[];
   consequenceOfDelay?: string;
   officialPortalOrGuide?: string;
-  [key: string]: any;
 }
 
 export interface StudentFAQItem {
@@ -669,7 +713,6 @@ export interface StudentFAQItem {
   category?: 'admissions' | 'visa' | 'finances' | 'jobs' | 'settlement' | string;
   sources?: OfficialSource[];
   lastVerified?: string;
-  [key: string]: any;
 }
 
 // ----------------------------------------------------------------------------
@@ -697,7 +740,6 @@ export interface CountryGuideData {
     schengenOrEu: boolean;
     highPrPathway: boolean;
     partTimeJobAvailability?: 'High' | 'Medium' | 'Low' | string;
-    [key: string]: any;
   };
 
   defaultHomeCountry?: HomeCountryConfig;
@@ -714,6 +756,7 @@ export interface CountryGuideData {
   workRights?: WorkRights;
   refusalReasons?: VisaRefusalPoint[];
   rejectionReasons?: VisaRefusalPoint[];
+  appealProcessSummary?: string;
   postStudyImmigration?: PostStudyImmigration;
   afterGraduation?: PostStudyImmigration;
   dependentRules?: DependentRules;
@@ -728,5 +771,4 @@ export interface CountryGuideData {
   allOfficialSources: OfficialSource[];
 
   pakistanContext?: HomeCountryConfig;
-  [key: string]: any;
 }
