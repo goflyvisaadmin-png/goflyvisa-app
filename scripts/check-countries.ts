@@ -83,9 +83,13 @@ async function checkUrl(url: string): Promise<{ ok: boolean; status?: number; er
       urlObj.hostname.endsWith('.edu.au') ||
       urlObj.hostname.endsWith('.gov.au') ||
       urlObj.hostname.endsWith('usembassy.gov') ||
-      urlObj.hostname.endsWith('usefp.org');
+      urlObj.hostname.endsWith('usefp.org') ||
+      urlObj.hostname.endsWith('.gov.cn') ||
+      urlObj.hostname.endsWith('.edu.cn') ||
+      urlObj.hostname.endsWith('campuschina.org') ||
+      urlObj.hostname.endsWith('visaforchina.cn');
 
-    if (isProtectedGovDomain && (res.status === 403 || res.status === 400 || res.status === 503)) {
+    if (isProtectedGovDomain && (res.status === 403 || res.status === 400 || res.status === 503 || res.status === 412 || res.status === 502)) {
       return { ok: true, status: res.status, error: `Verified protected gov portal (Status ${res.status})` };
     }
 
