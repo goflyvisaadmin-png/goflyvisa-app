@@ -138,50 +138,73 @@ async function auditCountry(country: CountryGuideData): Promise<AuditStats> {
   };
 
   // Check all 17 sections
-  checkDateAndSources('QuickFacts: Tuition', country.quickFacts.avgTuitionPerYear.lastVerified, country.quickFacts.avgTuitionPerYear.sources);
-  checkDateAndSources('QuickFacts: LivingCost', country.quickFacts.monthlyLivingCost.lastVerified, country.quickFacts.monthlyLivingCost.sources);
-
-  for (const vt of country.visaTypes) {
-    checkDateAndSources(`VisaType: ${vt.officialName}`, vt.lastVerified, vt.sources);
+  if (country.quickFacts?.avgTuitionPerYear) {
+    checkDateAndSources('QuickFacts: Tuition', country.quickFacts.avgTuitionPerYear.lastVerified, country.quickFacts.avgTuitionPerYear.sources);
+  }
+  if (country.quickFacts?.monthlyLivingCost) {
+    checkDateAndSources('QuickFacts: LivingCost', country.quickFacts.monthlyLivingCost.lastVerified, country.quickFacts.monthlyLivingCost.sources);
   }
 
-  for (const doc of country.applicationGuide.documentChecklist) {
-    for (const s of doc.sources) {
-      if (!allSources.some((item) => item.url === s.url)) allSources.push(s);
+  for (const vt of (country.visaTypes || [])) {
+    checkDateAndSources(`VisaType: ${vt.officialName || 'Visa'}`, vt.lastVerified || '', vt.sources);
+  }
+
+  const appGuide = country.applicationGuide || country.howToApply;
+  const docs = appGuide?.documentChecklist || appGuide?.checklist || [];
+  for (const doc of docs) {
+    if (doc.sources) {
+      for (const s of doc.sources) {
+        if (!allSources.some((item) => item.url === s.url)) allSources.push(s);
+      }
     }
   }
 
-  checkDateAndSources('Financial Requirements', country.financialRequirements.lastVerified, country.financialRequirements.sources);
-  checkDateAndSources('Admission Criteria', country.admissionCriteria.lastVerified, country.admissionCriteria.sources);
-  checkDateAndSources('Language Requirements', country.languageRequirements.lastVerified, country.languageRequirements.sources);
+  const fin = country.financialRequirements || country.money;
+  if (fin) checkDateAndSources('Financial Requirements', fin.lastVerified || '', fin.sources);
 
-  for (const uni of country.topUniversities) {
-    checkDateAndSources(`University: ${uni.name}`, uni.lastVerified, uni.sources);
+  if (country.admissionCriteria) {
+    checkDateAndSources('Admission Criteria', country.admissionCriteria.lastVerified || '', country.admissionCriteria.sources);
+  }
+  if (country.languageRequirements) {
+    checkDateAndSources('Language Requirements', country.languageRequirements.lastVerified || '', country.languageRequirements.sources);
   }
 
-  for (const sch of country.scholarships) {
-    checkDateAndSources(`Scholarship: ${sch.name}`, sch.lastVerified, sch.sources);
+  for (const uni of (country.topUniversities || [])) {
+    checkDateAndSources(`University: ${uni.name || 'University'}`, uni.lastVerified || '', uni.sources);
   }
 
-  checkDateAndSources('Work Rights', country.workRights.lastVerified, country.workRights.sources);
-
-  for (const ref of country.refusalReasons) {
-    checkDateAndSources(`Refusal Reason: ${ref.reasonTitle}`, ref.lastVerified, ref.sources);
+  for (const sch of (country.scholarships || [])) {
+    checkDateAndSources(`Scholarship: ${sch.name || 'Scholarship'}`, sch.lastVerified || '', sch.sources);
   }
 
-  checkDateAndSources('Post Study Immigration', country.postStudyImmigration.lastVerified, country.postStudyImmigration.sources);
-  checkDateAndSources('Dependent Rules', country.dependentRules.lastVerified, country.dependentRules.sources);
-
-  for (const pt of country.recentPolicyTimeline) {
-    checkDateAndSources(`Policy Timeline: ${pt.headline}`, pt.lastVerified);
+  if (country.workRights) {
+    checkDateAndSources('Work Rights', country.workRights.lastVerified || '', country.workRights.sources);
   }
 
-  checkDateAndSources('Student Living', country.studentLiving.lastVerified, country.studentLiving.sources);
+  const refusals = country.refusalReasons || country.rejectionReasons || [];
+  for (const ref of refusals) {
+    checkDateAndSources(`Refusal Reason: ${ref.reasonTitle || ref.title || 'Refusal'}`, ref.lastVerified || '', ref.sources);
+  }
 
-  for (const task of country.arrivalChecklist) {
-    if (task.officialPortalOrGuide.startsWith('http')) {
+  const psi = country.postStudyImmigration || country.afterGraduation;
+  if (psi) checkDateAndSources('Post Study Immigration', psi.lastVerified || '', psi.sources);
+
+  const dep = country.dependentRules || country.bringingFamily;
+  if (dep) checkDateAndSources('Dependent Rules', dep.lastVerified || '', dep.sources);
+
+  const pol = country.recentPolicyTimeline || country.recentChanges || [];
+  for (const pt of pol) {
+    checkDateAndSources(`Policy Timeline: ${pt.headline || 'Policy'}`, pt.lastVerified || '');
+  }
+
+  const liv = country.studentLiving || country.livingThere;
+  if (liv) checkDateAndSources('Student Living', liv.lastVerified || '', liv.sources);
+
+  const arr = country.arrivalChecklist || country.afterArrivalChecklist || [];
+  for (const task of arr) {
+    if (task.officialPortalOrGuide && task.officialPortalOrGuide.startsWith('http')) {
       allSources.push({
-        title: task.title,
+        title: task.title || 'Arrival Task',
         url: task.officialPortalOrGuide,
         publisher: 'Arrival Authority',
         publisherType: 'portal',
@@ -189,8 +212,8 @@ async function auditCountry(country: CountryGuideData): Promise<AuditStats> {
     }
   }
 
-  for (const faq of country.faqs) {
-    checkDateAndSources(`FAQ: ${faq.question.slice(0, 30)}...`, faq.lastVerified, faq.sources);
+  for (const faq of (country.faqs || [])) {
+    checkDateAndSources(`FAQ: ${(faq.question || '').slice(0, 30)}...`, faq.lastVerified || '', faq.sources);
   }
 
   const uniqueUrls = Array.from(new Set(allSources.map((s) => s.url))).filter((u) => u.startsWith('http'));

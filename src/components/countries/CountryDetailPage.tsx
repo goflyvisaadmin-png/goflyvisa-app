@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
   Globe,
-  Calendar,
   Building2,
   DollarSign,
   Briefcase,
@@ -13,10 +12,8 @@ import {
   Printer,
   Copy,
   ExternalLink,
-  ChevronDown,
   ChevronRight,
   CheckCircle2,
-  Sparkles,
   Layers,
   Languages,
   Award,
@@ -28,7 +25,7 @@ import {
   ArrowLeft,
   Info,
 } from 'lucide-react';
-import { CountryGuideData, TargetCountrySlug, DocumentChecklistItem } from '../../data/countries/types';
+import { TargetCountrySlug } from '../../data/countries/types';
 import { getCountryGuide } from '../../data/countries';
 
 interface CountryDetailPageProps {
@@ -52,13 +49,13 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
     { id: 'quick-facts', label: '1. Quick Facts Bar', icon: CompassIcon },
     { id: 'visa-types', label: '2. Visa Categories', icon: FileCheck },
     { id: 'how-to-apply', label: '3. Step-by-Step Guide', icon: Layers },
-    { id: 'finances', label: '4. Money & Blocked Account', icon: DollarSign },
+    { id: 'finances', label: '4. Money & Proof of Funds', icon: DollarSign },
     { id: 'admissions', label: '5. Admissions & Equivalence', icon: GraduationCap },
     { id: 'language', label: '6. English & Local Language', icon: Languages },
     { id: 'universities', label: '7. Top Universities', icon: Building2 },
     { id: 'scholarships', label: '8. Scholarships', icon: Award },
     { id: 'work-rights', label: '9. Work Rights & Wages', icon: Briefcase },
-    { id: 'refusal-reasons', label: '10. Rejection Traps & SOP', icon: AlertTriangle },
+    { id: 'refusal-reasons', label: '10. Rejection Traps & Appeal', icon: AlertTriangle },
     { id: 'post-study', label: '11. Post-Study Work & PR', icon: BookmarkCheck },
     { id: 'dependents', label: '12. Bringing Family', icon: Users },
     { id: 'policy-timeline', label: '13. Recent Law Changes', icon: Clock },
@@ -131,7 +128,7 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
         </div>
         <h2 className="text-2xl font-bold text-white mb-2">Guide Under Construction</h2>
         <p className="text-slate-400 text-sm max-w-md mx-auto mb-6">
-          The full factual guide for this destination is scheduled for release in Phase 3. Please inspect the completed <strong>Germany</strong> guide first.
+          The full factual guide for this destination is scheduled for release. Please inspect the completed <strong>Germany</strong> guide first.
         </p>
         <button
           onClick={() => onSelectCountry('germany')}
@@ -142,6 +139,95 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
       </div>
     );
   }
+
+  // Safe fallback extractors across both data schemas
+  const heroTagline = guide.heroTagline || guide.tagline || `Complete Student Visa & University Admissions Guide for ${guide.countryName}`;
+  const oneLineSummary = guide.oneLineSummary || guide.metaDescription || '';
+  const lastUpdated = guide.lastUpdatedDate || guide.lastVerified || '2026-10-04';
+  const officialPortal = guide.officialPortalUrl || guide.allOfficialSources?.[0]?.url || 'https://www.google.com';
+
+  // Home Country / FX
+  const pkContext: any = guide.pakistanContext || guide.defaultHomeCountry || {};
+  const exchangeRate = pkContext.exchangeRateToDestCurrency ?? pkContext.exchangeRateToDestinationCurrency ?? 1;
+  const exchangeDate = pkContext.exchangeRateDate || '2026-10-04';
+  const curr = guide.quickFacts?.currency || { code: 'USD', symbol: '$', name: 'Dollar' };
+
+  // Quick Facts
+  const qf: any = guide.quickFacts || {};
+  const capital = qf.capital || 'Capital';
+  const officialLanguages = Array.isArray(qf.officialLanguages) ? qf.officialLanguages.join(', ') : 'English';
+  const visaProcessingTime = qf.visaProcessingTimeAverage || qf.visaProcessingTimeWeeks || '4 to 8 weeks';
+  const postStudyDuration = qf.postStudyWorkDuration || qf.postStudyWorkPermit?.duration || (guide.postStudyImmigration as any)?.jobSeekingPermitDuration || '18 to 36 Months';
+  const partTimeHours = qf.partTimeWorkHoursTerm || (qf.partTimeWorkRights ? `${qf.partTimeWorkRights.hoursPerWeek} hrs/week` : '20-24 hrs/week');
+
+  // Tuition
+  let tuitionDisplay = 'Free / Low-Cost';
+  let tuitionSubtext = '';
+  if (qf.avgTuitionPerYear) {
+    tuitionDisplay = `${curr.symbol}${qf.avgTuitionPerYear.minLocal?.toLocaleString()} – ${curr.symbol}${qf.avgTuitionPerYear.maxLocal?.toLocaleString()} / yr`;
+    tuitionSubtext = `≈ PKR ${qf.avgTuitionPerYear.approxPkrMin?.toLocaleString()} – ${qf.avgTuitionPerYear.approxPkrMax?.toLocaleString()}`;
+  } else if (qf.avgAnnualTuition) {
+    tuitionDisplay = qf.avgAnnualTuition.amountDomesticCurrency === 0 ? `${curr.symbol}0 (Tuition-Free)` : `${curr.symbol}${qf.avgAnnualTuition.amountDomesticCurrency?.toLocaleString()} / yr`;
+    tuitionSubtext = qf.avgAnnualTuition.description || `≈ PKR ${qf.avgAnnualTuition.approxPKR?.toLocaleString()}`;
+  }
+
+  // Monthly Living
+  let livingDisplay = `${curr.symbol}800 – ${curr.symbol}1,500 / mo`;
+  let livingSubtext = '';
+  if (qf.monthlyLivingCost) {
+    if (qf.monthlyLivingCost.minLocal !== undefined) {
+      livingDisplay = `${curr.symbol}${qf.monthlyLivingCost.minLocal?.toLocaleString()} – ${curr.symbol}${qf.monthlyLivingCost.maxLocal?.toLocaleString()} / mo`;
+      livingSubtext = `≈ PKR ${qf.monthlyLivingCost.approxPkrMin?.toLocaleString()} – ${qf.monthlyLivingCost.approxPkrMax?.toLocaleString()}`;
+    } else if (qf.monthlyLivingCost.amountDomesticCurrency !== undefined) {
+      livingDisplay = `${curr.symbol}${qf.monthlyLivingCost.amountDomesticCurrency?.toLocaleString()} / mo`;
+      const approxPkr = qf.monthlyLivingCost.approxPKR || Math.round(qf.monthlyLivingCost.amountDomesticCurrency * exchangeRate);
+      livingSubtext = `≈ PKR ${approxPkr.toLocaleString()}`;
+    }
+  }
+
+  // Intakes
+  let intakesDisplay = 'Fall & Spring Semesters';
+  let intakesSubtext = 'Deadlines vary by faculty';
+  if (Array.isArray(qf.intakes) && qf.intakes.length > 0) {
+    intakesDisplay = qf.intakes.slice(0, 2).map((i: any) => i.name || i.months || i).join(' & ');
+    intakesSubtext = qf.intakes[0]?.notes || qf.intakes[0]?.months || 'Primary Intake';
+  } else if (qf.intakes && typeof qf.intakes === 'object') {
+    intakesDisplay = `${qf.intakes.primary || 'Primary Intake'} & ${qf.intakes.secondary || 'Secondary Intake'}`;
+    intakesSubtext = `Deadlines: ${qf.intakes.deadlines || 'Check university'}`;
+  }
+
+  // Sections
+  const visaTypes: any[] = guide.visaTypes || [];
+  const appGuide: any = guide.applicationGuide || (guide as any).howToApply || { portalOverview: '', steps: [], documentChecklist: [] };
+  const appSteps: any[] = appGuide.steps || [];
+  const docChecklist: any[] = appGuide.documentChecklist || [];
+  const finReq: any = guide.financialRequirements || (guide as any).money || {};
+  const minAmount: any = finReq.officialMinimumAmount || {};
+  const minAmtVal = minAmount.amount ?? minAmount.minLocal ?? 0;
+  const minAmtPkr = minAmount.approxPKR ?? minAmount.approxPkrMin ?? Math.round(minAmtVal * exchangeRate);
+  const approvedBanks: string[] = finReq.approvedProvidersOrBanks || finReq.acceptedFinancialInstitutions || [];
+  const healthIns: any = finReq.healthInsuranceDetails || {};
+
+  const admCrit: any = guide.admissionCriteria || {};
+  const bachReq: any = admCrit.bachelorRequirements || {};
+  const mastReq: any = admCrit.masterRequirements || {};
+  const evalPortals: any[] = admCrit.evaluationPortals || admCrit.applicationPortals || [];
+
+  const langReq: any = guide.languageRequirements || {};
+  const engReq: any = langReq.englishRequirements || {};
+  const localLang: any = langReq.localLanguageRequirements || {};
+
+  const universities: any[] = guide.topUniversities || [];
+  const scholarships: any[] = guide.scholarships || [];
+  const workRights: any = guide.workRights || {};
+  const refusalReasons: any[] = guide.refusalReasons || (guide as any).rejectionReasons || [];
+  const postStudy: any = guide.postStudyImmigration || (guide as any).afterGraduation || {};
+  const dependentRules: any = guide.dependentRules || (guide as any).bringingFamily || {};
+  const recentPolicyTimeline: any[] = guide.recentPolicyTimeline || (guide as any).recentChanges || [];
+  const studentLiving: any = guide.studentLiving || (guide as any).livingThere || {};
+  const arrivalChecklist: any[] = guide.arrivalChecklist || (guide as any).afterArrivalChecklist || [];
+  const faqs: any[] = guide.faqs || [];
+  const allOfficialSources: any[] = guide.allOfficialSources || [];
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -166,13 +252,13 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
           </button>
 
           <a
-            href={guide.officialPortalUrl}
+            href={officialPortal}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20 text-xs font-semibold transition-all"
           >
             <ExternalLink className="w-3.5 h-3.5" />
-            <span>Official Embassy Portal</span>
+            <span>Official Government Portal</span>
           </a>
         </div>
       </div>
@@ -194,7 +280,7 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
                 </div>
                 <div className="flex items-center gap-2 text-xs text-slate-400 font-mono mt-1">
                   <span>Last Fact-Verified:</span>
-                  <span className="text-emerald-400 font-bold">{guide.lastUpdatedDate}</span>
+                  <span className="text-emerald-400 font-bold">{lastUpdated}</span>
                   <span>•</span>
                   <span>Target: Pakistani Students</span>
                 </div>
@@ -202,10 +288,10 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
             </div>
 
             <p className="text-base sm:text-lg font-semibold text-slate-200 mt-2 leading-snug">
-              {guide.heroTagline}
+              {heroTagline}
             </p>
             <p className="text-xs sm:text-sm text-slate-400 mt-2 leading-relaxed">
-              {guide.oneLineSummary}
+              {oneLineSummary}
             </p>
           </div>
 
@@ -213,19 +299,19 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
           <div className="bg-slate-950/80 border border-slate-800 rounded-2xl p-4 sm:p-5 flex flex-col gap-3 min-w-[240px] shrink-0 shadow-inner">
             <div className="flex items-center justify-between text-xs">
               <span className="text-slate-400">Tuition Standard:</span>
-              <span className="text-emerald-400 font-bold">100% Free (Public)</span>
+              <span className="text-emerald-400 font-bold">{tuitionDisplay}</span>
             </div>
             <div className="flex items-center justify-between text-xs">
               <span className="text-slate-400">Post-Study Work:</span>
-              <span className="text-amber-400 font-bold">18 Months</span>
+              <span className="text-amber-400 font-bold">{postStudyDuration.split(' ')[0]} {postStudyDuration.split(' ')[1] || 'Stay'}</span>
             </div>
             <div className="flex items-center justify-between text-xs">
               <span className="text-slate-400">Work Limit:</span>
-              <span className="text-slate-200 font-bold">140 Full Days/Yr</span>
+              <span className="text-slate-200 font-bold">{partTimeHours.split('(')[0].trim()}</span>
             </div>
             <div className="flex items-center justify-between text-xs">
-              <span className="text-slate-400">Fast-Track PR:</span>
-              <span className="text-blue-400 font-bold">21–24 Months</span>
+              <span className="text-slate-400">PR / Settlement:</span>
+              <span className="text-blue-400 font-bold">{postStudy.permanentResidencyTimeline || postStudy.prPathwayDuration || '2–5 Years'}</span>
             </div>
           </div>
         </div>
@@ -236,12 +322,12 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
           <div>
             <span className="font-bold text-amber-300">Statutory Notice:</span> Immigration rules, currency exchange rates, and visa fees change often. Always confirm your application packet directly with the{' '}
             <a
-              href={guide.officialPortalUrl}
+              href={officialPortal}
               target="_blank"
               rel="noopener noreferrer"
               className="text-amber-200 underline font-semibold hover:text-white"
             >
-              German Missions in Pakistan (Islamabad / Karachi)
+              official diplomatic missions and visa portals for {guide.countryName}
             </a>{' '}
             prior to booking biometric appointments.
           </div>
@@ -286,11 +372,11 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
           <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 text-xs text-slate-400 space-y-2">
             <div className="font-bold text-white flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>Embassy Jurisdiction</span>
+              <span>Embassy & VAC Presence</span>
             </div>
             <p className="text-[11px] leading-relaxed">
-              <strong>Islamabad Embassy:</strong> Punjab, KP, ICT, AJK, GB.<br />
-              <strong>Karachi Consulate:</strong> Sindh, Balochistan.
+              <strong>Diplomatic Missions:</strong> Islamabad & Karachi.<br />
+              <strong>VAC Centres:</strong> VFS Global / Gerry&apos;s / TLScontact / BLS in Islamabad, Lahore, Karachi.
             </p>
           </div>
         </div>
@@ -308,7 +394,7 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
               </div>
               <button
                 onClick={() => handleCopyLink('quick-facts')}
-                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1"
+                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1 cursor-pointer"
                 title="Copy Section Link"
               >
                 <Copy className="w-3 h-3" />
@@ -319,52 +405,48 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="bg-[#0A1128] border border-slate-800 rounded-2xl p-4">
                 <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Capital & Official Language</span>
-                <div className="text-sm font-bold text-white mt-1">{guide.quickFacts.capital}</div>
-                <div className="text-xs text-slate-400">{guide.quickFacts.officialLanguages.join(', ')}</div>
+                <div className="text-sm font-bold text-white mt-1">{capital}</div>
+                <div className="text-xs text-slate-400">{officialLanguages}</div>
               </div>
 
               <div className="bg-[#0A1128] border border-slate-800 rounded-2xl p-4">
                 <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Currency & Conversion</span>
                 <div className="text-sm font-bold text-white mt-1">
-                  {guide.quickFacts.currency.code} ({guide.quickFacts.currency.symbol})
+                  {curr.code} ({curr.symbol})
                 </div>
                 <div className="text-xs text-emerald-400 font-mono">
-                  1 EUR ≈ {guide.pakistanContext.exchangeRateToDestCurrency} PKR ({guide.pakistanContext.exchangeRateDate})
+                  1 {curr.code} ≈ {exchangeRate} PKR ({exchangeDate})
                 </div>
               </div>
 
               <div className="bg-[#0A1128] border border-slate-800 rounded-2xl p-4">
                 <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Primary Semesters / Intakes</span>
-                <div className="text-xs font-semibold text-white mt-1">Winter (Oct) & Summer (Apr)</div>
-                <div className="text-[11px] text-slate-400">Deadlines: July 15 & Jan 15</div>
+                <div className="text-xs font-semibold text-white mt-1">{intakesDisplay}</div>
+                <div className="text-[11px] text-slate-400">{intakesSubtext}</div>
               </div>
 
               <div className="bg-[#0A1128] border border-slate-800 rounded-2xl p-4">
                 <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Average Annual Tuition</span>
-                <div className="text-sm font-bold text-emerald-400 mt-1">€0 (Tuition-Free)</div>
-                <div className="text-[11px] text-slate-400">Only semester contribution of €150–€400</div>
+                <div className="text-sm font-bold text-emerald-400 mt-1">{tuitionDisplay}</div>
+                <div className="text-[11px] text-slate-400">{tuitionSubtext}</div>
               </div>
 
               <div className="bg-[#0A1128] border border-slate-800 rounded-2xl p-4">
-                <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Monthly Living Cost (BAföG)</span>
-                <div className="text-sm font-bold text-white mt-1">
-                  €{guide.quickFacts.monthlyLivingCost.amountDomesticCurrency} / mo
-                </div>
-                <div className="text-xs text-slate-400 font-mono">
-                  ≈ {guide.quickFacts.monthlyLivingCost.approxPKR.toLocaleString()} PKR
-                </div>
+                <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Monthly Living Cost</span>
+                <div className="text-sm font-bold text-white mt-1">{livingDisplay}</div>
+                <div className="text-xs text-slate-400 font-mono">{livingSubtext}</div>
               </div>
 
               <div className="bg-[#0A1128] border border-slate-800 rounded-2xl p-4">
                 <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Post-Study Work Permit</span>
-                <div className="text-sm font-bold text-amber-400 mt-1">18 Months (§20 AufenthG)</div>
-                <div className="text-[11px] text-slate-400">Full unrestricted employment rights</div>
+                <div className="text-sm font-bold text-amber-400 mt-1">{postStudyDuration}</div>
+                <div className="text-[11px] text-slate-400">Work rights for qualifying graduates</div>
               </div>
             </div>
 
             <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 text-xs text-slate-300 leading-relaxed">
               <span className="font-bold text-white">Consular Processing Timeline: </span>
-              {guide.quickFacts.visaProcessingTimeAverage}
+              {visaProcessingTime}
             </div>
           </section>
 
@@ -379,7 +461,7 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
               </div>
               <button
                 onClick={() => handleCopyLink('visa-types')}
-                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1"
+                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1 cursor-pointer"
               >
                 <Copy className="w-3 h-3" />
                 <span>{copiedLink === 'visa-types' ? 'Copied!' : 'Copy'}</span>
@@ -387,46 +469,56 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
             </div>
 
             <div className="space-y-4">
-              {guide.visaTypes.map((visa) => (
-                <div key={visa.id} className="bg-[#0A1128] border border-slate-800 rounded-2xl p-5 shadow-lg space-y-3">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-800/80">
-                    <div>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                        {visa.category.toUpperCase()}
-                      </span>
-                      <h3 className="text-base font-bold text-white mt-1">
-                        {visa.officialName}
-                      </h3>
-                    </div>
-                    <div className="text-left sm:text-right">
-                      <div className="text-xs font-mono text-emerald-400 font-bold">
-                        Fee: €{visa.feeDomesticCurrency} (≈ {visa.feePKR.toLocaleString()} PKR)
+              {visaTypes.map((visa, i) => {
+                const category = visa.category || visa.subCategory || 'Student Visa';
+                const feeAmt = visa.feeDomesticCurrency ?? visa.feeLocal ?? 0;
+                const feePkr = visa.feePKR ?? visa.approxFeePkr ?? Math.round(feeAmt * exchangeRate);
+                const elList = Array.isArray(visa.eligibility) ? visa.eligibility : visa.eligibilitySummary ? [visa.eligibilitySummary] : [];
+                const workInfo = visa.workDetails || visa.workRights;
+
+                return (
+                  <div key={visa.id || i} className="bg-[#0A1128] border border-slate-800 rounded-2xl p-5 shadow-lg space-y-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-800/80">
+                      <div>
+                        <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                          {category.toUpperCase()}
+                        </span>
+                        <h3 className="text-base font-bold text-white mt-1">
+                          {visa.officialName}
+                        </h3>
                       </div>
-                      <div className="text-[11px] text-slate-400">Validity: {visa.validity}</div>
+                      <div className="text-left sm:text-right">
+                        <div className="text-xs font-mono text-emerald-400 font-bold">
+                          Fee: {curr.symbol}{feeAmt.toLocaleString()} (≈ {feePkr.toLocaleString()} PKR)
+                        </div>
+                        <div className="text-[11px] text-slate-400">Validity: {visa.validity}</div>
+                      </div>
                     </div>
+
+                    <p className="text-xs text-slate-300 leading-relaxed">
+                      {visa.purpose}
+                    </p>
+
+                    {elList.length > 0 && (
+                      <div className="bg-slate-950/60 rounded-xl p-3 border border-slate-800/60 text-xs">
+                        <span className="font-semibold text-slate-300 block mb-1">Key Eligibility Criteria:</span>
+                        <ul className="list-disc list-inside space-y-1 text-slate-400">
+                          {elList.map((el: string, idx: number) => (
+                            <li key={idx}>{el}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {workInfo && (
+                      <div className="text-[11px] text-slate-400 flex items-center gap-1.5">
+                        <Briefcase className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                        <span>{workInfo}</span>
+                      </div>
+                    )}
                   </div>
-
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    {visa.purpose}
-                  </p>
-
-                  <div className="bg-slate-950/60 rounded-xl p-3 border border-slate-800/60 text-xs">
-                    <span className="font-semibold text-slate-300 block mb-1">Key Eligibility Criteria:</span>
-                    <ul className="list-disc list-inside space-y-1 text-slate-400">
-                      {visa.eligibility.map((el, i) => (
-                        <li key={i}>{el}</li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {visa.workDetails && (
-                    <div className="text-[11px] text-slate-400 flex items-center gap-1.5">
-                      <Briefcase className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                      <span>{visa.workDetails}</span>
-                    </div>
-                  )}
-                </div>
-              ))}
+                );
+              })}
             </div>
           </section>
 
@@ -441,7 +533,7 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
               </div>
               <button
                 onClick={() => handleCopyLink('how-to-apply')}
-                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1"
+                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1 cursor-pointer"
               >
                 <Copy className="w-3 h-3" />
                 <span>{copiedLink === 'how-to-apply' ? 'Copied!' : 'Copy'}</span>
@@ -450,107 +542,115 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
 
             <div className="bg-blue-950/20 border border-blue-500/20 rounded-2xl p-4 text-xs text-slate-300 leading-relaxed">
               <span className="font-bold text-blue-400">Pakistan Application Architecture: </span>
-              {guide.applicationGuide.portalOverview}
+              {appGuide.portalOverview || 'Online portal lodgement followed by biometric submission at authorized visa application centres.'}
             </div>
 
             {/* Stepper */}
             <div className="space-y-4 relative before:absolute before:inset-0 before:left-5 before:w-0.5 before:bg-slate-800/80 before:hidden sm:before:block">
-              {guide.applicationGuide.steps.map((st) => (
-                <div key={st.stepNumber} className="relative sm:pl-12 space-y-2">
-                  <div className="hidden sm:flex absolute left-2.5 -translate-x-1/2 top-3 w-6 h-6 rounded-full bg-slate-900 border-2 border-blue-500 items-center justify-center text-xs font-bold text-blue-400">
-                    {st.stepNumber}
-                  </div>
-                  <div className="bg-[#0A1128] border border-slate-800 rounded-2xl p-5 shadow-lg space-y-2">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                      <h4 className="text-sm font-bold text-white">
-                        Step {st.stepNumber}: {st.title}
-                      </h4>
-                      <a
-                        href={st.portalUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1 font-mono"
-                      >
-                        <span>{st.portalName}</span>
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
+              {appSteps.map((st: any, i: number) => {
+                const stepNum = st.stepNumber || i + 1;
+                return (
+                  <div key={stepNum} className="relative sm:pl-12 space-y-2">
+                    <div className="hidden sm:flex absolute left-2.5 -translate-x-1/2 top-3 w-6 h-6 rounded-full bg-slate-900 border-2 border-blue-500 items-center justify-center text-xs font-bold text-blue-400">
+                      {stepNum}
                     </div>
-                    <p className="text-xs text-slate-300 leading-relaxed">{st.description}</p>
-                    {st.pakistanSpecificNotes && (
-                      <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-2.5 text-[11px] text-amber-300/90">
-                        <strong>Pakistan Special Requirement:</strong> {st.pakistanSpecificNotes}
+                    <div className="bg-[#0A1128] border border-slate-800 rounded-2xl p-5 shadow-lg space-y-2">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <h4 className="text-sm font-bold text-white">
+                          Step {stepNum}: {st.title}
+                        </h4>
+                        {st.portalUrl && (
+                          <a
+                            href={st.portalUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1 font-mono"
+                          >
+                            <span>{st.portalName || 'Portal'}</span>
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                        )}
                       </div>
-                    )}
+                      <p className="text-xs text-slate-300 leading-relaxed">{st.description}</p>
+                      {st.pakistanSpecificNotes && (
+                        <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-2.5 text-[11px] text-amber-300/90">
+                          <strong>Pakistan Special Requirement:</strong> {st.pakistanSpecificNotes}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Interactive Document Checklist */}
-            <div className="mt-8 bg-[#0A1128] border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-800">
-                <div>
-                  <h3 className="text-base font-bold text-white flex items-center gap-2">
-                    <CheckSquare className="w-4 h-4 text-emerald-400" />
-                    <span>Printable Visa Document Checklist</span>
-                  </h3>
-                  <p className="text-xs text-slate-400">
-                    Prepare original plus 2 un-stapled sets of photocopies in DIN A4 format.
-                  </p>
+            {docChecklist.length > 0 && (
+              <div className="mt-8 bg-[#0A1128] border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-800">
+                  <div>
+                    <h3 className="text-base font-bold text-white flex items-center gap-2">
+                      <CheckSquare className="w-4 h-4 text-emerald-400" />
+                      <span>Printable Visa Document Checklist</span>
+                    </h3>
+                    <p className="text-xs text-slate-400">
+                      Prepare original certificates plus clear photocopies as required.
+                    </p>
+                  </div>
+                  <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/20">
+                    {Object.values(checkedDocs).filter(Boolean).length} of {docChecklist.length} Checked
+                  </span>
                 </div>
-                <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/20">
-                  {Object.values(checkedDocs).filter(Boolean).length} of {guide.applicationGuide.documentChecklist.length} Checked
-                </span>
-              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {guide.applicationGuide.documentChecklist.map((doc) => {
-                  const isChecked = !!checkedDocs[doc.id];
-                  return (
-                    <div
-                      key={doc.id}
-                      onClick={() => toggleDocChecked(doc.id)}
-                      className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-start gap-3 ${
-                        isChecked
-                          ? 'bg-emerald-950/20 border-emerald-500/40 text-slate-200'
-                          : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-300'
-                      }`}
-                    >
-                      <div className={`w-4 h-4 rounded mt-0.5 flex items-center justify-center shrink-0 border ${
-                        isChecked ? 'bg-emerald-500 border-emerald-500 text-slate-950' : 'border-slate-600'
-                      }`}>
-                        {isChecked && <CheckCircle2 className="w-3.5 h-3.5" />}
-                      </div>
-                      <div className="min-w-0">
-                        <div className="text-xs font-bold text-white">{doc.title}</div>
-                        <div className="text-[11px] text-slate-400 mt-0.5">{doc.detail}</div>
-                        <div className="flex items-center gap-2 mt-1.5 text-[10px] font-mono text-slate-500">
-                          {doc.attestationRequired && doc.attestationRequired !== 'None' && (
-                            <span className="text-amber-400 font-semibold">Attestation: {doc.attestationRequired}</span>
-                          )}
-                          <span>•</span>
-                          <span>Copies: {doc.copiesNeeded} sets</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {docChecklist.map((doc: any, idx: number) => {
+                    const docId = doc.id || `doc-${idx}`;
+                    const isChecked = !!checkedDocs[docId];
+                    return (
+                      <div
+                        key={docId}
+                        onClick={() => toggleDocChecked(docId)}
+                        className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-start gap-3 ${
+                          isChecked
+                            ? 'bg-emerald-950/20 border-emerald-500/40 text-slate-200'
+                            : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-300'
+                        }`}
+                      >
+                        <div className={`w-4 h-4 rounded mt-0.5 flex items-center justify-center shrink-0 border ${
+                          isChecked ? 'bg-emerald-500 border-emerald-500 text-slate-950' : 'border-slate-600'
+                        }`}>
+                          {isChecked && <CheckCircle2 className="w-3.5 h-3.5" />}
+                        </div>
+                        <div className="min-w-0">
+                          <div className="text-xs font-bold text-white">{doc.title}</div>
+                          <div className="text-[11px] text-slate-400 mt-0.5">{doc.detail || doc.description}</div>
+                          <div className="flex items-center gap-2 mt-1.5 text-[10px] font-mono text-slate-500">
+                            {doc.attestationRequired && doc.attestationRequired !== 'None' && (
+                              <span className="text-amber-400 font-semibold">Attestation: {doc.attestationRequired}</span>
+                            )}
+                            <span>•</span>
+                            <span>Copies: {doc.copiesNeeded || 2} sets</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            )}
           </section>
 
           {/* ================================================================= */}
-          {/* Section 4: Money & Blocked Account */}
+          {/* Section 4: Money & Proof of Funds */}
           {/* ================================================================= */}
           <section id="finances" className="scroll-mt-24 space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-slate-800">
               <div className="flex items-center gap-2">
                 <DollarSign className="w-5 h-5 text-emerald-400" />
-                <h2 className="text-xl font-bold text-white tracking-tight">4. Money & Proof of Funds (Sperrkonto)</h2>
+                <h2 className="text-xl font-bold text-white tracking-tight">4. Money & Proof of Funds</h2>
               </div>
               <button
                 onClick={() => handleCopyLink('finances')}
-                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1"
+                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1 cursor-pointer"
               >
                 <Copy className="w-3 h-3" />
                 <span>{copiedLink === 'finances' ? 'Copied!' : 'Copy'}</span>
@@ -559,41 +659,46 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
 
             <div className="bg-[#0A1128] border border-slate-800 rounded-3xl p-6 shadow-xl space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Blocked Account Box */}
+                {/* Proof of Funds Box */}
                 <div className="bg-slate-950 border border-slate-800 rounded-2xl p-5 space-y-3">
                   <span className="text-[11px] font-mono text-emerald-400 uppercase tracking-wider font-bold">
-                    Statutory Blocked Account (Sperrkonto)
+                    Statutory Maintenance / Living Funds
                   </span>
                   <div className="text-2xl sm:text-3xl font-extrabold text-white">
-                    €{guide.financialRequirements.officialMinimumAmount.amount.toLocaleString()}
+                    {curr.symbol}{minAmtVal.toLocaleString()}
                   </div>
                   <div className="text-xs text-slate-400 font-mono">
-                    ≈ {guide.financialRequirements.officialMinimumAmount.approxPKR.toLocaleString()} PKR (at 1 EUR = {guide.pakistanContext.exchangeRateToDestCurrency} PKR)
+                    ≈ {minAmtPkr.toLocaleString()} PKR (at 1 {curr.code} = {exchangeRate} PKR)
                   </div>
                   <p className="text-xs text-slate-300 leading-relaxed">
-                    {guide.financialRequirements.officialMinimumAmount.period}
+                    {minAmount.period || minAmount.notes || 'Required living maintenance funds for 1 academic year.'}
                   </p>
-                  <div className="text-[11px] text-amber-300 bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/20">
-                    💡 <strong>Pro Tip:</strong> {guide.financialRequirements.note}
-                  </div>
+                  {(finReq.note || finReq.sourceOfFundsRules) && (
+                    <div className="text-[11px] text-amber-300 bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/20">
+                      💡 <strong>Financial Rule:</strong> {finReq.note || finReq.sourceOfFundsRules}
+                    </div>
+                  )}
                 </div>
 
                 {/* Approved Providers */}
                 <div className="bg-slate-950 border border-slate-800 rounded-2xl p-5 space-y-3">
                   <span className="text-[11px] font-mono text-blue-400 uppercase tracking-wider font-bold">
-                    Approved Providers for Pakistani Students
+                    Accepted Banking & Financial Proof
                   </span>
                   <ul className="space-y-2 text-xs text-slate-300">
-                    {guide.financialRequirements.approvedProvidersOrBanks.map((prov, i) => (
+                    {approvedBanks.map((prov: string, i: number) => (
                       <li key={i} className="flex items-start gap-2">
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
                         <span>{prov}</span>
                       </li>
                     ))}
                   </ul>
-                  <div className="pt-2 text-[11px] text-slate-400">
-                    <strong>Health Insurance:</strong> {guide.financialRequirements.healthInsuranceDetails.costPerMonthOrYear} via {guide.financialRequirements.healthInsuranceDetails.providers.join(', ')}.
-                  </div>
+                  {healthIns.costPerMonthOrYear && (
+                    <div className="pt-2 text-[11px] text-slate-400 border-t border-slate-800/60">
+                      <strong>Health Insurance:</strong> {healthIns.costPerMonthOrYear}{' '}
+                      {healthIns.providers && healthIns.providers.length > 0 && `via ${healthIns.providers.join(', ')}`}.
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -610,7 +715,7 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
               </div>
               <button
                 onClick={() => handleCopyLink('admissions')}
-                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1"
+                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1 cursor-pointer"
               >
                 <Copy className="w-3 h-3" />
                 <span>{copiedLink === 'admissions' ? 'Copied!' : 'Copy'}</span>
@@ -621,46 +726,54 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
               {/* Bachelor Equivalence */}
               <div className="bg-[#0A1128] border border-slate-800 rounded-2xl p-5 shadow-lg space-y-3">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-bold text-white">Undergraduate Entry (Bachelor / Studienkolleg)</h3>
-                  <span className="text-xs font-mono text-amber-400">FSc vs Abitur (12 vs 13 Yrs)</span>
+                  <h3 className="text-sm font-bold text-white">Undergraduate Entry (Bachelor)</h3>
+                  <span className="text-xs font-mono text-amber-400">Pakistani Intermediate / A-Levels</span>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  {guide.admissionCriteria.bachelorRequirements.localEquivalence}
+                  {bachReq.localEquivalence || bachReq.academicRequirements || 'Standard 12 years of schooling (HSSC / FSc) or Cambridge A-Levels.'}
                 </p>
-                <div className="text-xs text-slate-400 bg-slate-950/60 p-3 rounded-xl border border-slate-800/60">
-                  <strong>Attestation Chain:</strong> {guide.admissionCriteria.bachelorRequirements.attestationSteps.join(' → ')}
-                </div>
+                {bachReq.attestationSteps && bachReq.attestationSteps.length > 0 && (
+                  <div className="text-xs text-slate-400 bg-slate-950/60 p-3 rounded-xl border border-slate-800/60">
+                    <strong>Attestation Chain:</strong> {bachReq.attestationSteps.join(' → ')}
+                  </div>
+                )}
               </div>
 
               {/* Master Equivalence */}
               <div className="bg-[#0A1128] border border-slate-800 rounded-2xl p-5 shadow-lg space-y-3">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-bold text-white">Postgraduate Entry (Master of Science)</h3>
-                  <span className="text-xs font-mono text-emerald-400">16-Year BS / BE Direct Entry</span>
+                  <h3 className="text-sm font-bold text-white">Postgraduate Entry (Master&apos;s Degree)</h3>
+                  <span className="text-xs font-mono text-emerald-400">16-Year Pakistani BS / Hons</span>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  {guide.admissionCriteria.masterRequirements.localEquivalence}
+                  {mastReq.localEquivalence || mastReq.academicRequirements || 'Standard 4-year Bachelor degree (16 years education) recognized by HEC Pakistan.'}
                 </p>
-                <div className="text-xs text-slate-400 bg-slate-950/60 p-3 rounded-xl border border-slate-800/60">
-                  <strong>Attestation Chain:</strong> {guide.admissionCriteria.masterRequirements.attestationSteps.join(' → ')}
-                </div>
+                {mastReq.attestationSteps && mastReq.attestationSteps.length > 0 && (
+                  <div className="text-xs text-slate-400 bg-slate-950/60 p-3 rounded-xl border border-slate-800/60">
+                    <strong>Attestation Chain:</strong> {mastReq.attestationSteps.join(' → ')}
+                  </div>
+                )}
               </div>
 
-              {/* Portals */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {guide.admissionCriteria.evaluationPortals.map((p, i) => (
-                  <div key={i} className="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 text-xs space-y-1.5">
-                    <div className="font-bold text-white flex items-center justify-between">
-                      <span>{p.name}</span>
-                      <a href={p.url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300">
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
+              {/* Evaluation Portals */}
+              {evalPortals.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {evalPortals.map((p: any, i: number) => (
+                    <div key={i} className="bg-slate-900/60 border border-slate-800 rounded-2xl p-4 text-xs space-y-1.5">
+                      <div className="font-bold text-white flex items-center justify-between">
+                        <span>{p.name}</span>
+                        {p.url && (
+                          <a href={p.url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300">
+                            <ExternalLink className="w-3 h-3" />
+                          </a>
+                        )}
+                      </div>
+                      <p className="text-slate-400">{p.role}</p>
+                      {p.fee && <div className="text-[11px] font-mono text-emerald-400">Fee: {p.fee}</div>}
                     </div>
-                    <p className="text-slate-400">{p.role}</p>
-                    <div className="text-[11px] font-mono text-emerald-400">Fee: {p.fee}</div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           </section>
 
@@ -675,7 +788,7 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
               </div>
               <button
                 onClick={() => handleCopyLink('language')}
-                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1"
+                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1 cursor-pointer"
               >
                 <Copy className="w-3 h-3" />
                 <span>{copiedLink === 'language' ? 'Copied!' : 'Copy'}</span>
@@ -691,12 +804,12 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
                 </div>
                 <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 text-center">
                   <span className="text-[11px] text-slate-400 uppercase font-mono">TOEFL iBT</span>
-                  <div className="text-xl font-bold text-white mt-1">88–92</div>
+                  <div className="text-xl font-bold text-white mt-1">80–90</div>
                   <span className="text-[10px] text-slate-500">Official ETS Score</span>
                 </div>
                 <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 text-center">
                   <span className="text-[11px] text-slate-400 uppercase font-mono">PTE Academic</span>
-                  <div className="text-xl font-bold text-white mt-1">65+</div>
+                  <div className="text-xl font-bold text-white mt-1">58–65+</div>
                   <span className="text-[10px] text-slate-500">Pearson Academic</span>
                 </div>
               </div>
@@ -705,18 +818,22 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
               <div className="bg-rose-950/30 border border-rose-500/30 rounded-2xl p-4 text-xs text-rose-200 leading-relaxed">
                 <div className="font-bold text-rose-400 flex items-center gap-1.5 mb-1">
                   <AlertTriangle className="w-4 h-4 text-rose-400" />
-                  <span>CRITICAL CONSULAR RULE: The MOI (Medium of Instruction) Trap</span>
+                  <span>CRITICAL CONSULAR RULE: The MOI (Medium of Instruction) Policy</span>
                 </div>
-                {guide.languageRequirements.englishRequirements.moiConditions}
+                {engReq.moiConditions || engReq.moiWaiverPolicy || 'Embassy and consular officers require standardized tests (IELTS/TOEFL/PTE). MOI letters from Pakistani universities are frequently rejected by visa officers.'}
               </div>
 
-              <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-xs text-slate-300 space-y-2">
-                <span className="font-bold text-white">German Language Importance:</span>
-                <p className="text-slate-400">{guide.languageRequirements.localLanguageRequirements.studyRequirement}</p>
-                <div className="pt-2 text-[11px] text-blue-400">
-                  <strong>Permanent Residency Lever:</strong> {guide.languageRequirements.localLanguageRequirements.postStudyPrImportance}
+              {(localLang.studyRequirement || localLang.dailyLifeRequirement) && (
+                <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-xs text-slate-300 space-y-2">
+                  <span className="font-bold text-white">Local Language Importance:</span>
+                  <p className="text-slate-400">{localLang.studyRequirement || localLang.dailyLifeRequirement}</p>
+                  {(localLang.postStudyPrImportance || localLang.prRequirement) && (
+                    <div className="pt-2 text-[11px] text-blue-400">
+                      <strong>Permanent Residency Lever:</strong> {localLang.postStudyPrImportance || localLang.prRequirement}
+                    </div>
+                  )}
                 </div>
-              </div>
+              )}
             </div>
           </section>
 
@@ -727,11 +844,11 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
             <div className="flex items-center justify-between pb-2 border-b border-slate-800">
               <div className="flex items-center gap-2">
                 <Building2 className="w-5 h-5 text-emerald-400" />
-                <h2 className="text-xl font-bold text-white tracking-tight">7. Top Universities (TU9 & Research Hubs)</h2>
+                <h2 className="text-xl font-bold text-white tracking-tight">7. Top Universities</h2>
               </div>
               <button
                 onClick={() => handleCopyLink('universities')}
-                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1"
+                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1 cursor-pointer"
               >
                 <Copy className="w-3 h-3" />
                 <span>{copiedLink === 'universities' ? 'Copied!' : 'Copy'}</span>
@@ -739,46 +856,56 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {guide.topUniversities.map((uni) => (
-                <div key={uni.id} className="bg-[#0A1128] border border-slate-800 rounded-2xl p-5 shadow-lg space-y-2">
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <h3 className="text-sm font-bold text-white hover:text-blue-400 transition-colors">
-                        {uni.name}
-                      </h3>
-                      <div className="text-xs text-slate-400">{uni.city}</div>
-                    </div>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                      QS #{uni.ranking.rank}
-                    </span>
-                  </div>
+              {universities.map((uni: any, idx: number) => {
+                const rankText = uni.ranking?.rank ? `QS #${uni.ranking.rank}` : uni.globalRanking || 'Leading Institution';
+                const tuitionVal = uni.estimatedAnnualTuition || uni.annualTuition || 'Standard Fees';
+                const progList = uni.strongPrograms || [];
 
-                  <div className="text-xs font-semibold text-emerald-400">
-                    {uni.estimatedAnnualTuition}
-                  </div>
-
-                  <div className="flex flex-wrap gap-1 pt-1">
-                    {uni.strongPrograms.map((pr, i) => (
-                      <span key={i} className="px-2 py-0.5 rounded text-[10px] bg-slate-900 border border-slate-800 text-slate-300">
-                        {pr}
+                return (
+                  <div key={uni.id || idx} className="bg-[#0A1128] border border-slate-800 rounded-2xl p-5 shadow-lg space-y-2">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <h3 className="text-sm font-bold text-white hover:text-blue-400 transition-colors">
+                          {uni.name}
+                        </h3>
+                        <div className="text-xs text-slate-400">{uni.city}</div>
+                      </div>
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                        {rankText}
                       </span>
-                    ))}
-                  </div>
+                    </div>
 
-                  <div className="pt-2 flex items-center justify-between text-[11px] text-slate-500">
-                    <span>Intl Students: {uni.internationalStudentPercentage}</span>
-                    <a
-                      href={uni.officialWebsite}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-400 hover:text-blue-300 flex items-center gap-1"
-                    >
-                      <span>Website</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
+                    <div className="text-xs font-semibold text-emerald-400">
+                      {tuitionVal}
+                    </div>
+
+                    {progList.length > 0 && (
+                      <div className="flex flex-wrap gap-1 pt-1">
+                        {progList.map((pr: string, i: number) => (
+                          <span key={i} className="px-2 py-0.5 rounded text-[10px] bg-slate-900 border border-slate-800 text-slate-300">
+                            {pr}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="pt-2 flex items-center justify-between text-[11px] text-slate-500">
+                      <span>Intl Students: {uni.internationalStudentPercentage || uni.internationalStudentRatio || 'N/A'}</span>
+                      {uni.officialWebsite && (
+                        <a
+                          href={uni.officialWebsite}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-400 hover:text-blue-300 flex items-center gap-1"
+                        >
+                          <span>Website</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </section>
 
@@ -793,7 +920,7 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
               </div>
               <button
                 onClick={() => handleCopyLink('scholarships')}
-                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1"
+                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1 cursor-pointer"
               >
                 <Copy className="w-3 h-3" />
                 <span>{copiedLink === 'scholarships' ? 'Copied!' : 'Copy'}</span>
@@ -801,47 +928,57 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
             </div>
 
             <div className="space-y-4">
-              {guide.scholarships.map((sch, i) => (
-                <div key={i} className="bg-[#0A1128] border border-slate-800 rounded-2xl p-5 shadow-lg space-y-3">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-800/80">
-                    <div>
-                      <h3 className="text-sm font-bold text-white">{sch.name}</h3>
-                      <div className="text-xs text-slate-400">{sch.awardingBody}</div>
+              {scholarships.map((sch: any, i: number) => {
+                const elCriteria = sch.eligibilityCriteria || [];
+                const deadline = sch.pakistanDeadlines || sch.deadlineForPakistanis || 'Annual cycle';
+                const link = sch.officialLink || sch.officialApplicationPortal || '#';
+
+                return (
+                  <div key={i} className="bg-[#0A1128] border border-slate-800 rounded-2xl p-5 shadow-lg space-y-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-800/80">
+                      <div>
+                        <h3 className="text-sm font-bold text-white">{sch.name}</h3>
+                        <div className="text-xs text-slate-400">{sch.awardingBody}</div>
+                      </div>
+                      <span className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        {sch.coverage}
+                      </span>
                     </div>
-                    <span className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                      {sch.coverage}
-                    </span>
-                  </div>
 
-                  {sch.stipendAmount && (
-                    <div className="text-xs font-mono text-emerald-400 font-bold">
-                      Stipend: {sch.stipendAmount}
+                    {sch.stipendAmount && (
+                      <div className="text-xs font-mono text-emerald-400 font-bold">
+                        Stipend: {sch.stipendAmount}
+                      </div>
+                    )}
+
+                    {elCriteria.length > 0 && (
+                      <div className="text-xs text-slate-300 space-y-1">
+                        <span className="font-semibold text-slate-400">Eligibility:</span>
+                        <ul className="list-disc list-inside space-y-0.5 text-slate-400">
+                          {elCriteria.map((crit: string, idx: number) => (
+                            <li key={idx}>{crit}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-slate-800/60 text-xs text-slate-400">
+                      <span>Deadline (Pakistan): <strong>{deadline}</strong></span>
+                      {link !== '#' && (
+                        <a
+                          href={link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-400 hover:text-blue-300 flex items-center gap-1 font-semibold"
+                        >
+                          <span>Apply on Official Portal</span>
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      )}
                     </div>
-                  )}
-
-                  <div className="text-xs text-slate-300 space-y-1">
-                    <span className="font-semibold text-slate-400">Eligibility:</span>
-                    <ul className="list-disc list-inside space-y-0.5 text-slate-400">
-                      {sch.eligibilityCriteria.map((crit, idx) => (
-                        <li key={idx}>{crit}</li>
-                      ))}
-                    </ul>
                   </div>
-
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-slate-800/60 text-xs text-slate-400">
-                    <span>Deadline (Pakistan): <strong>{sch.pakistanDeadlines}</strong></span>
-                    <a
-                      href={sch.officialLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-400 hover:text-blue-300 flex items-center gap-1 font-semibold"
-                    >
-                      <span>Apply on Official Portal</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </section>
 
@@ -856,7 +993,7 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
               </div>
               <button
                 onClick={() => handleCopyLink('work-rights')}
-                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1"
+                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1 cursor-pointer"
               >
                 <Copy className="w-3 h-3" />
                 <span>{copiedLink === 'work-rights' ? 'Copied!' : 'Copy'}</span>
@@ -866,31 +1003,37 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
             <div className="bg-[#0A1128] border border-slate-800 rounded-3xl p-6 shadow-xl space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4">
-                  <span className="text-[11px] font-mono text-slate-400 uppercase">Statutory Work Limit (March 2024 Reform)</span>
-                  <div className="text-lg font-bold text-emerald-400 mt-1">140 Full Days / 280 Half Days</div>
-                  <p className="text-xs text-slate-400 mt-1">Or up to 20 hours/week during semester</p>
+                  <span className="text-[11px] font-mono text-slate-400 uppercase">In-Term Work Limit</span>
+                  <div className="text-lg font-bold text-emerald-400 mt-1">{partTimeHours}</div>
+                  <p className="text-xs text-slate-400 mt-1">Full-time hours permitted during vacation breaks</p>
                 </div>
                 <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4">
-                  <span className="text-[11px] font-mono text-slate-400 uppercase">Statutory Minimum Wage (2025)</span>
-                  <div className="text-lg font-bold text-white mt-1">{guide.workRights.statutoryMinimumWage}</div>
-                  <p className="text-xs text-slate-400 mt-1">Technical roles pay €14–€20/hour</p>
+                  <span className="text-[11px] font-mono text-slate-400 uppercase">Statutory Minimum Wage</span>
+                  <div className="text-lg font-bold text-white mt-1">{workRights.statutoryMinimumWage || 'Applicable minimum wage'}</div>
+                  <p className="text-xs text-slate-400 mt-1">Skilled or tech roles typically pay above minimum</p>
                 </div>
               </div>
 
-              <p className="text-xs text-slate-300 leading-relaxed">
-                {guide.workRights.statutoryWorkRules}
-              </p>
+              {workRights.statutoryWorkRules && (
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  {workRights.statutoryWorkRules}
+                </p>
+              )}
 
               <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-3.5 text-xs text-slate-400 space-y-1">
-                <div><strong>Average Student Earnings:</strong> {guide.workRights.averagePartTimeEarningsMonthly}</div>
-                <div><strong>Tax Rules:</strong> {guide.workRights.taxExemptionLimits}</div>
-                <div className="text-rose-400 font-semibold">⚠️ Freelancing (Selbstständige Tätigkeit) is strictly barred on student visa.</div>
+                {workRights.averagePartTimeEarningsMonthly && (
+                  <div><strong>Average Student Earnings:</strong> {workRights.averagePartTimeEarningsMonthly}</div>
+                )}
+                {workRights.taxExemptionLimits && (
+                  <div><strong>Tax Rules:</strong> {workRights.taxExemptionLimits}</div>
+                )}
+                <div className="text-rose-400 font-semibold">⚠️ Working beyond statutory hourly limits can lead to visa cancellation.</div>
               </div>
             </div>
           </section>
 
           {/* ================================================================= */}
-          {/* Section 10: Rejection Traps & Consular Avoidance */}
+          {/* Section 10: Rejection Traps & Appeal Process */}
           {/* ================================================================= */}
           <section id="refusal-reasons" className="scroll-mt-24 space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-slate-800">
@@ -900,7 +1043,7 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
               </div>
               <button
                 onClick={() => handleCopyLink('refusal-reasons')}
-                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1"
+                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1 cursor-pointer"
               >
                 <Copy className="w-3 h-3" />
                 <span>{copiedLink === 'refusal-reasons' ? 'Copied!' : 'Copy'}</span>
@@ -908,37 +1051,48 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
             </div>
 
             <div className="space-y-4">
-              {guide.refusalReasons.map((ref, i) => (
-                <div key={i} className="bg-[#0A1128] border border-slate-800 rounded-2xl p-5 shadow-lg space-y-3">
-                  <div className="flex items-start justify-between gap-2">
-                    <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                      <span className="w-5 h-5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/30 flex items-center justify-center text-xs">
-                        {i + 1}
-                      </span>
-                      <span>{ref.reasonTitle}</span>
-                    </h3>
-                    <span className="text-[10px] font-mono text-slate-500 shrink-0">
-                      {ref.statutoryClause}
-                    </span>
-                  </div>
+              {refusalReasons.map((ref: any, i: number) => {
+                const title = ref.reasonTitle || ref.category || `Refusal Reason ${i + 1}`;
+                const preventList = ref.preventativeMeasures || ref.avoidanceTips || [];
+                const remedy = ref.remedyProcess || 'Administrative Review / Re-application';
+                const timeline = ref.remedyTimeline || '14–30 days';
 
-                  <p className="text-xs text-slate-300 leading-relaxed">{ref.explanation}</p>
+                return (
+                  <div key={i} className="bg-[#0A1128] border border-slate-800 rounded-2xl p-5 shadow-lg space-y-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                        <span className="w-5 h-5 rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/30 flex items-center justify-center text-xs">
+                          {i + 1}
+                        </span>
+                        <span>{title}</span>
+                      </h3>
+                      {ref.statutoryClause && (
+                        <span className="text-[10px] font-mono text-slate-500 shrink-0">
+                          {ref.statutoryClause}
+                        </span>
+                      )}
+                    </div>
 
-                  <div className="bg-slate-950/60 border border-slate-800/80 rounded-xl p-3 text-xs space-y-1">
-                    <span className="font-semibold text-emerald-400">How to Prevent This Refusal:</span>
-                    <ul className="list-disc list-inside text-slate-400 space-y-0.5">
-                      {ref.preventativeMeasures.map((pm, idx) => (
-                        <li key={idx}>{pm}</li>
-                      ))}
-                    </ul>
-                  </div>
+                    <p className="text-xs text-slate-300 leading-relaxed">{ref.explanation || ref.details}</p>
 
-                  <div className="text-[11px] text-slate-400 flex items-center justify-between pt-1">
-                    <span>Remedy: <strong>{ref.remedyProcess}</strong></span>
-                    <span>Timeline: <strong>{ref.remedyTimeline}</strong></span>
+                    {preventList.length > 0 && (
+                      <div className="bg-slate-950/60 border border-slate-800/80 rounded-xl p-3 text-xs space-y-1">
+                        <span className="font-semibold text-emerald-400">How to Prevent This Refusal:</span>
+                        <ul className="list-disc list-inside text-slate-400 space-y-0.5">
+                          {preventList.map((pm: string, idx: number) => (
+                            <li key={idx}>{pm}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    <div className="text-[11px] text-slate-400 flex items-center justify-between pt-1">
+                      <span>Remedy: <strong>{remedy}</strong></span>
+                      <span>Timeline: <strong>{timeline}</strong></span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </section>
 
@@ -949,11 +1103,11 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
             <div className="flex items-center justify-between pb-2 border-b border-slate-800">
               <div className="flex items-center gap-2">
                 <BookmarkCheck className="w-5 h-5 text-emerald-400" />
-                <h2 className="text-xl font-bold text-white tracking-tight">11. After Graduation: Post-Study Work, PR & Citizenship</h2>
+                <h2 className="text-xl font-bold text-white tracking-tight">11. After Graduation: Post-Study Work & PR</h2>
               </div>
               <button
                 onClick={() => handleCopyLink('post-study')}
-                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1"
+                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1 cursor-pointer"
               >
                 <Copy className="w-3 h-3" />
                 <span>{copiedLink === 'post-study' ? 'Copied!' : 'Copy'}</span>
@@ -963,26 +1117,28 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
             <div className="bg-[#0A1128] border border-slate-800 rounded-3xl p-6 shadow-xl space-y-5">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4">
-                  <span className="text-[11px] font-mono text-amber-400 font-bold uppercase">1. Job-Seeking Permit</span>
-                  <div className="text-lg font-bold text-white mt-1">18 Months (§20)</div>
-                  <p className="text-xs text-slate-400 mt-1">Unrestricted work rights to search for graduate roles</p>
+                  <span className="text-[11px] font-mono text-amber-400 font-bold uppercase">1. Post-Study Work</span>
+                  <div className="text-lg font-bold text-white mt-1">{postStudy.jobSeekingPermitDuration || postStudyDuration}</div>
+                  <p className="text-xs text-slate-400 mt-1">Open work rights to search for graduate-level employment</p>
                 </div>
                 <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4">
-                  <span className="text-[11px] font-mono text-blue-400 font-bold uppercase">2. EU Blue Card Route</span>
-                  <div className="text-lg font-bold text-white mt-1">€41,041/yr (STEM)</div>
-                  <p className="text-xs text-slate-400 mt-1">Lower salary threshold for university graduates</p>
+                  <span className="text-[11px] font-mono text-blue-400 font-bold uppercase">2. Skilled Work Permit</span>
+                  <div className="text-lg font-bold text-white mt-1">{postStudy.workVisaOptions || postStudy.workPermitRoute || 'Sponsored Route'}</div>
+                  <p className="text-xs text-slate-400 mt-1">Transition into full employer sponsorship</p>
                 </div>
                 <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4">
-                  <span className="text-[11px] font-mono text-emerald-400 font-bold uppercase">3. Fast-Track PR</span>
-                  <div className="text-lg font-bold text-white mt-1">21 Months (with B1)</div>
-                  <p className="text-xs text-slate-400 mt-1">Permanent residency with pension contributions</p>
+                  <span className="text-[11px] font-mono text-emerald-400 font-bold uppercase">3. Permanent Settlement</span>
+                  <div className="text-lg font-bold text-white mt-1">{postStudy.permanentResidencyTimeline || postStudy.prPathwayDuration || '2–5 Years'}</div>
+                  <p className="text-xs text-slate-400 mt-1">Permanent residency with continuous tax residency</p>
                 </div>
               </div>
 
-              <div className="bg-emerald-950/20 border border-emerald-500/30 rounded-2xl p-4 text-xs text-slate-300 leading-relaxed">
-                <span className="font-bold text-emerald-400">German Citizenship Reform (June 2024): </span>
-                {guide.postStudyImmigration.citizenshipTimelineYears}
-              </div>
+              {(postStudy.citizenshipTimelineYears || postStudy.citizenshipPathwayDuration) && (
+                <div className="bg-emerald-950/20 border border-emerald-500/30 rounded-2xl p-4 text-xs text-slate-300 leading-relaxed">
+                  <span className="font-bold text-emerald-400">Citizenship Pathway: </span>
+                  {postStudy.citizenshipTimelineYears || postStudy.citizenshipPathwayDuration}
+                </div>
+              )}
             </div>
           </section>
 
@@ -997,7 +1153,7 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
               </div>
               <button
                 onClick={() => handleCopyLink('dependents')}
-                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1"
+                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1 cursor-pointer"
               >
                 <Copy className="w-3 h-3" />
                 <span>{copiedLink === 'dependents' ? 'Copied!' : 'Copy'}</span>
@@ -1007,23 +1163,29 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
             <div className="bg-[#0A1128] border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
               <div className="flex items-center gap-2 text-xs font-semibold text-emerald-400">
                 <CheckCircle2 className="w-4 h-4" />
-                <span>Spouse & Children Permitted under §30/§32 AufenthG</span>
+                <span>Spouse & Minor Children Rules for {guide.countryName}</span>
               </div>
 
-              <ul className="space-y-2 text-xs text-slate-300">
-                {guide.dependentRules.conditions.map((cond, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 shrink-0" />
-                    <span>{cond}</span>
-                  </li>
-                ))}
-              </ul>
+              {((dependentRules.conditions || dependentRules.eligibilityCriteria) && (
+                <ul className="space-y-2 text-xs text-slate-300">
+                  {(dependentRules.conditions || dependentRules.eligibilityCriteria || []).map((cond: string, i: number) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 shrink-0" />
+                      <span>{cond}</span>
+                    </li>
+                  ))}
+                </ul>
+              ))}
 
               <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 text-xs text-slate-400 space-y-1">
-                <div><strong>Spouse Work Rights:</strong> {guide.dependentRules.spousalWorkRights}</div>
-                <div><strong>Extra Financial Surcharge:</strong> {guide.dependentRules.financialSponsorshipRequirementExtraMonthly}</div>
-                {guide.dependentRules.note && (
-                  <div className="text-amber-300 pt-1"><strong>Recommendation:</strong> {guide.dependentRules.note}</div>
+                {dependentRules.spousalWorkRights && (
+                  <div><strong>Spouse Work Rights:</strong> {dependentRules.spousalWorkRights}</div>
+                )}
+                {(dependentRules.financialSponsorshipRequirementExtraMonthly || dependentRules.additionalFundsRequired) && (
+                  <div><strong>Extra Financial Surcharge:</strong> {dependentRules.financialSponsorshipRequirementExtraMonthly || dependentRules.additionalFundsRequired}</div>
+                )}
+                {dependentRules.note && (
+                  <div className="text-amber-300 pt-1"><strong>Recommendation:</strong> {dependentRules.note}</div>
                 )}
               </div>
             </div>
@@ -1036,11 +1198,11 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
             <div className="flex items-center justify-between pb-2 border-b border-slate-800">
               <div className="flex items-center gap-2">
                 <Clock className="w-5 h-5 text-emerald-400" />
-                <h2 className="text-xl font-bold text-white tracking-tight">13. Recent Law & Policy Changes (2024–2025)</h2>
+                <h2 className="text-xl font-bold text-white tracking-tight">13. Recent Law & Policy Changes</h2>
               </div>
               <button
                 onClick={() => handleCopyLink('policy-timeline')}
-                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1"
+                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1 cursor-pointer"
               >
                 <Copy className="w-3 h-3" />
                 <span>{copiedLink === 'policy-timeline' ? 'Copied!' : 'Copy'}</span>
@@ -1048,21 +1210,23 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
             </div>
 
             <div className="space-y-3">
-              {guide.recentPolicyTimeline.map((item, i) => (
+              {recentPolicyTimeline.map((item: any, i: number) => (
                 <div key={i} className="bg-[#0A1128] border border-slate-800 rounded-2xl p-5 shadow-lg space-y-2">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                     <span className="text-xs font-mono font-bold text-emerald-400">
                       Effective: {item.effectiveDate}
                     </span>
-                    <a
-                      href={item.officialAnnouncementUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[11px] text-blue-400 hover:text-blue-300 flex items-center gap-1"
-                    >
-                      <span>Official Link ({item.publisher})</span>
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
+                    {item.officialAnnouncementUrl && (
+                      <a
+                        href={item.officialAnnouncementUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[11px] text-blue-400 hover:text-blue-300 flex items-center gap-1"
+                      >
+                        <span>Official Link ({item.publisher})</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    )}
                   </div>
                   <h3 className="text-sm font-bold text-white">{item.headline}</h3>
                   <p className="text-xs text-slate-300">{item.summary}</p>
@@ -1075,17 +1239,17 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
           </section>
 
           {/* ================================================================= */}
-          {/* Section 14: Living in Germany */}
+          {/* Section 14: Living There (Accommodation & Culture) */}
           {/* ================================================================= */}
           <section id="student-living" className="scroll-mt-24 space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-slate-800">
               <div className="flex items-center gap-2">
                 <Home className="w-5 h-5 text-emerald-400" />
-                <h2 className="text-xl font-bold text-white tracking-tight">14. Living in Germany (Accommodation & Culture)</h2>
+                <h2 className="text-xl font-bold text-white tracking-tight">14. Living in {guide.countryName}</h2>
               </div>
               <button
                 onClick={() => handleCopyLink('student-living')}
-                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1"
+                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1 cursor-pointer"
               >
                 <Copy className="w-3 h-3" />
                 <span>{copiedLink === 'student-living' ? 'Copied!' : 'Copy'}</span>
@@ -1095,23 +1259,31 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
             <div className="bg-[#0A1128] border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
                 <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4 space-y-1">
-                  <span className="text-[11px] text-slate-400 uppercase font-mono">Monthly Rent Breakdown</span>
-                  <p className="text-slate-300">{guide.studentLiving.avgAccommodationCostMonthly}</p>
+                  <span className="text-[11px] text-slate-400 uppercase font-mono">Monthly Accommodation Cost</span>
+                  <p className="text-slate-300">{studentLiving.avgAccommodationCostMonthly || studentLiving.averageMonthlyRent || 'Varies widely between shared flats and private studios.'}</p>
                 </div>
                 <div className="bg-slate-950 border border-slate-800 rounded-2xl p-4 space-y-1">
                   <span className="text-[11px] text-slate-400 uppercase font-mono">Halal Food & Diaspora</span>
                   <p className="text-slate-300">
-                    Halal: <strong className="text-emerald-400">{guide.studentLiving.halalFoodAvailability}</strong>.<br />
-                    {guide.studentLiving.pakistaniCommunityPresence}
+                    Halal: <strong className="text-emerald-400">{studentLiving.halalFoodAvailability || 'Available'}</strong>.<br />
+                    {studentLiving.pakistaniCommunityPresence || 'Active Pakistani student diaspora and associations across major cities.'}
                   </p>
                 </div>
               </div>
 
               <div className="bg-slate-950/60 border border-slate-800 rounded-2xl p-4 text-xs text-slate-400 space-y-2">
-                <div><strong>Housing Portals:</strong> {guide.studentLiving.housingSearchPortals.join(', ')}</div>
-                <div><strong>Recommended Banking:</strong> {guide.studentLiving.simAndBankingRecommended.digitalBanks.join(', ')}</div>
-                <div><strong>Recommended SIMs:</strong> {guide.studentLiving.simAndBankingRecommended.simProviders.join(', ')}</div>
-                <div><strong>Transit Benefit:</strong> {guide.studentLiving.transportationStudentPerks}</div>
+                {studentLiving.housingSearchPortals && studentLiving.housingSearchPortals.length > 0 && (
+                  <div><strong>Housing Portals:</strong> {studentLiving.housingSearchPortals.join(', ')}</div>
+                )}
+                {studentLiving.simAndBankingRecommended?.digitalBanks && studentLiving.simAndBankingRecommended.digitalBanks.length > 0 && (
+                  <div><strong>Recommended Banking:</strong> {studentLiving.simAndBankingRecommended.digitalBanks.join(', ')}</div>
+                )}
+                {studentLiving.simAndBankingRecommended?.simProviders && studentLiving.simAndBankingRecommended.simProviders.length > 0 && (
+                  <div><strong>Recommended SIMs:</strong> {studentLiving.simAndBankingRecommended.simProviders.join(', ')}</div>
+                )}
+                {studentLiving.transportationStudentPerks && (
+                  <div><strong>Transit Benefit:</strong> {studentLiving.transportationStudentPerks}</div>
+                )}
               </div>
             </div>
           </section>
@@ -1127,7 +1299,7 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
               </div>
               <button
                 onClick={() => handleCopyLink('arrival-checklist')}
-                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1"
+                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1 cursor-pointer"
               >
                 <Copy className="w-3 h-3" />
                 <span>{copiedLink === 'arrival-checklist' ? 'Copied!' : 'Copy'}</span>
@@ -1135,28 +1307,37 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
             </div>
 
             <div className="space-y-3">
-              {guide.arrivalChecklist.map((task, i) => (
-                <div key={i} className="bg-[#0A1128] border border-slate-800 rounded-2xl p-5 shadow-lg space-y-2">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                    <div className="flex items-center gap-2">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                        {task.dayWindow}
-                      </span>
-                      <h3 className="text-sm font-bold text-white">{task.title}</h3>
+              {arrivalChecklist.map((task: any, i: number) => {
+                const docList = task.requiredDocuments || [];
+                return (
+                  <div key={i} className="bg-[#0A1128] border border-slate-800 rounded-2xl p-5 shadow-lg space-y-2">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                      <div className="flex items-center gap-2">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-bold font-mono bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                          {task.dayWindow || 'First 14 Days'}
+                        </span>
+                        <h3 className="text-sm font-bold text-white">{task.title}</h3>
+                      </div>
+                      {task.officialTerm && (
+                        <span className="text-[11px] font-mono text-slate-400 italic">{task.officialTerm}</span>
+                      )}
                     </div>
-                    <span className="text-[11px] font-mono text-slate-400 italic">{task.officialTerm}</span>
-                  </div>
 
-                  <div className="text-xs text-slate-300">
-                    <span className="font-semibold text-slate-400">Required Documents: </span>
-                    {task.requiredDocuments.join(', ')}
-                  </div>
+                    {docList.length > 0 && (
+                      <div className="text-xs text-slate-300">
+                        <span className="font-semibold text-slate-400">Required Documents: </span>
+                        {docList.join(', ')}
+                      </div>
+                    )}
 
-                  <div className="text-[11px] text-amber-300/90 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/80">
-                    <strong>Consequence of Delay:</strong> {task.consequenceOfDelay}
+                    {task.consequenceOfDelay && (
+                      <div className="text-[11px] text-amber-300/90 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800/80">
+                        <strong>Consequence of Delay:</strong> {task.consequenceOfDelay}
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </section>
 
@@ -1171,7 +1352,7 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
               </div>
               <button
                 onClick={() => handleCopyLink('faqs')}
-                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1"
+                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1 cursor-pointer"
               >
                 <Copy className="w-3 h-3" />
                 <span>{copiedLink === 'faqs' ? 'Copied!' : 'Copy'}</span>
@@ -1179,7 +1360,7 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
             </div>
 
             <div className="space-y-3">
-              {guide.faqs.map((faq, i) => (
+              {faqs.map((faq: any, i: number) => (
                 <div key={i} className="bg-[#0A1128] border border-slate-800 rounded-2xl p-5 shadow-lg space-y-2">
                   <h3 className="text-sm font-bold text-white flex items-start gap-2">
                     <span className="text-emerald-400 font-bold shrink-0">Q:</span>
@@ -1204,7 +1385,7 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
               </div>
               <button
                 onClick={() => handleCopyLink('sources')}
-                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1"
+                className="text-xs text-slate-500 hover:text-slate-300 flex items-center gap-1 cursor-pointer"
               >
                 <Copy className="w-3 h-3" />
                 <span>{copiedLink === 'sources' ? 'Copied!' : 'Copy'}</span>
@@ -1217,7 +1398,7 @@ export const CountryDetailPage: React.FC<CountryDetailPageProps> = ({
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {guide.allOfficialSources.map((s, i) => (
+                {allOfficialSources.map((s: any, i: number) => (
                   <a
                     key={i}
                     href={s.url}
