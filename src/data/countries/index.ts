@@ -1,5 +1,6 @@
 import { CountryGuideData, TargetCountrySlug } from './types';
 import { GERMANY_GUIDE_DATA } from './germany';
+import { UK_GUIDE_DATA } from './uk';
 
 export interface CountryCardSummary {
   slug: TargetCountrySlug;
@@ -48,8 +49,8 @@ export const COUNTRIES_DIRECTORY: CountryCardSummary[] = [
     flag: '🇬🇧',
     visaType: 'Student Route (CAS & Appendix ST)',
     summary: '1-year Master programs, Russell Group excellence, and 2-year Graduate Route post-study work visa.',
-    tuitionOverview: '£13,000–£28,000 / year',
-    livingCostMonthly: '£1,023–£1,334 / mo (UKVI maintenance funds)',
+    tuitionOverview: '£13,000–£32,000 / year',
+    livingCostMonthly: '£1,136 / mo (£10,224 outside London)',
     postStudyWork: '2 Years (Graduate Route)',
     tags: {
       noTuitionFees: false,
@@ -58,7 +59,7 @@ export const COUNTRIES_DIRECTORY: CountryCardSummary[] = [
       schengenOrEu: false,
       highPrPathway: false,
     },
-    isFullyImplemented: false,
+    isFullyImplemented: true,
   },
   {
     slug: 'canada',
@@ -197,6 +198,7 @@ export const COUNTRIES_DIRECTORY: CountryCardSummary[] = [
 
 export const FULL_COUNTRY_GUIDES: Partial<Record<TargetCountrySlug, CountryGuideData>> = {
   germany: GERMANY_GUIDE_DATA,
+  uk: UK_GUIDE_DATA,
 };
 
 export function getCountryGuide(slug: TargetCountrySlug): CountryGuideData | null {

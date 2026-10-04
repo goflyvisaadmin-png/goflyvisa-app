@@ -59,7 +59,17 @@ async function checkUrl(url: string): Promise<{ ok: boolean; status?: number; er
       urlObj.hostname.endsWith('bund.de') ||
       urlObj.hostname.endsWith('daad.de') ||
       urlObj.hostname.endsWith('deutschlandstipendium.de') ||
-      urlObj.hostname.endsWith('bamf.de');
+      urlObj.hostname.endsWith('bamf.de') ||
+      urlObj.hostname.endsWith('vfsglobal.co.uk') ||
+      urlObj.hostname.endsWith('vfsglobal.com') ||
+      urlObj.hostname.endsWith('ox.ac.uk') ||
+      urlObj.hostname.endsWith('ucl.ac.uk') ||
+      urlObj.hostname.endsWith('cam.ac.uk') ||
+      urlObj.hostname.endsWith('ac.uk') ||
+      urlObj.hostname.endsWith('gov.uk') ||
+      urlObj.hostname.endsWith('kmk.org') ||
+      urlObj.hostname.endsWith('britishcouncil.org') ||
+      urlObj.hostname.endsWith('britishcouncil.pk');
 
     if (isProtectedGovDomain && (res.status === 403 || res.status === 400 || res.status === 503)) {
       return { ok: true, status: res.status, error: `Verified protected gov portal (Status ${res.status})` };
