@@ -240,4 +240,203 @@ Overcoming INA Section 214(b) - Definitive Intent to Return to India:
 3. Domestic Career Trajectory: India’s National Manufacturing Policy aims to increase manufacturing GDP contribution to 25%. Applying Purdue’s industrial engineering methodologies directly to our family’s tier-1 automotive supply operations provides an immediate enterprise ROI exceeding 40% efficiency gains.`,
     },
   },
+  australia: {
+    name: 'Australia',
+    flag: '🇦🇺',
+    visaType: 'Student Visa (Subclass 500 - Genuine Student)',
+    refusalClause: 'Migration Act s65 & Genuine Student (GS) Direction No. 106',
+    keyChecklist: [
+      'Confirmation of Enrolment (CoE) from CRICOS Registered Institution',
+      'Genuine Student (GS) Criterion: Evidence of current circumstances & domestic employment prospects',
+      'Financial Capacity Proof (Minimum AUD $29,710/yr living expenses + tuition + travel)',
+      'Overseas Student Health Cover (OSHC) for entire duration of visa',
+    ],
+    riskPoints: [
+      'Stating post-study migration (Subclass 485) as primary motivation rather than academic advancement',
+      'Course hopping into low-cost vocational colleges after arrival in Australia',
+      'Failure to justify why studying in Australia provides realistic financial return on investment (ROI)',
+    ],
+    sampleSop: {
+      highRisk: `Statement of Purpose for Australian Student Visa:
+I want to study Master of Information Technology in Sydney because Australia has great beaches, sunshine, and high minimum wages. After finishing my Bachelor in India, I want to experience Australian life.
+
+Australia allows students to work 48 hours per fortnight, which will let me earn enough to pay my college fees and send money back home. After graduation, I will apply for the 485 Temporary Graduate Visa and seek Permanent Residency through the points-based skilled migration system. Australia is my dream country to settle down forever.`,
+      moderateRisk: `Statement of Purpose for Master of Data Science at University of Queensland:
+I graduated with a Bachelor in Computer Applications and worked for one year as a junior analyst. I chose Australia because Australian universities have international prestige and modern research labs.
+
+The course at UQ covers advanced machine learning and cloud architectures. My parents are sponsoring my studies and have arranged an education loan and family savings to satisfy the Department of Home Affairs financial requirements. This degree will help me gain advanced competencies to succeed in my future technical career.`,
+      visaReady: `Genuine Student (GS) Criterion & Academic Purpose Statement:
+Applicant: Harpreet Singh | Program: Master of Agricultural Science | Institution: University of Melbourne (CRICOS: 00116A)
+
+I am formally submitting this Genuine Student statement in support of my Subclass 500 Student Visa application for the Master of Agricultural Science (Food Security Specialization) at the University of Melbourne. Having earned a Bachelor of Science (Honours) in Agriculture from Punjab Agricultural University (CGPA 8.42/10), my specialized goal is to acquire precision irrigation and drought-resilient crop management methodologies.
+
+Why University of Melbourne:
+Australia is a world benchmark in dryland agronomy and water-resource optimization. The University of Melbourne's Dookie Agricultural Campus provides specialized field laboratories and sensory robotics facilities for soil hydrology that are non-existent in South Asian institutions.
+
+Genuine Student Compliance & Ties to India (Direction No. 106):
+1. Economic Reality & ROI: In Punjab, groundwater depletion is a critical agricultural crisis. Corporate agribusinesses such as ITC Agri-Business and Godrej Agrovet are establishing precision farming units, actively recruiting specialists with Australian dryland credentials for Senior Agronomist positions offering initial packages of INR 1,600,000–2,000,000/yr (industry salary benchmark letters appended).
+2. Financial Capacity: My family holds liquid savings of AUD $68,400 with HDFC Bank alongside an approved education loan, comfortably exceeding tuition ($47,200 AUD) and Department of Home Affairs 12-month living benchmarks ($29,710 AUD).
+3. Irrefutable Home Ties: My family owns 18 acres of irrigated farmland and commercial agro-machinery in Ludhiana valued at INR 65,000,000 (~$1.15M AUD). As the eldest son, I am contractually bound to manage our family estate and integrate precision farming systems upon graduation.`,
+    },
+  },
+  china: {
+    name: 'China',
+    flag: '🇨🇳',
+    visaType: 'Study Visa (X1 Long-Term / X2 Short-Term & JW201/202)',
+    refusalClause: 'Exit and Entry Administration Law & JW201/202 Discrepancies',
+    keyChecklist: [
+      'Original Admission Notice from Ministry of Education accredited Chinese University',
+      'Form JW201 (CSC Scholarship) or Form JW202 (Self-Funded Study Authorization)',
+      'Foreigner Physical Examination Record (Standardized Blood, ECG, Chest X-Ray tests)',
+      'Non-Criminal Record Certificate (Police Clearance notarized and apostilled/consular-legalized)',
+    ],
+    riskPoints: [
+      'Inability to explain why China was chosen for this discipline (e.g. AI, hardware, civil engineering, language)',
+      'Unexplained educational gap years without documented employment or study evidence',
+      'Failing to specify intended lab, research institute, or faculty supervisor for postgraduate study',
+    ],
+    sampleSop: {
+      highRisk: `Study Plan for China Visa:
+I want to study in China because China is a big country and has cheap education with full scholarships. I saw many YouTube videos showing fast trains and big cities in Shanghai.
+
+I want to learn Chinese language and do business between China and my country, importing electronics and selling them. Please give me the X1 visa and full CSC scholarship with monthly stipend so I can study without paying.`,
+      moderateRisk: `Study Plan for Master in Civil Engineering at Tongji University:
+I completed my Bachelor in Civil Engineering and have a strong interest in infrastructure development. China has constructed the most advanced bridges, tunnels, and high-speed rail systems in modern history.
+
+Studying at Tongji University will give me direct exposure to mega-project engineering. I have secured the JW202 authorization form and passed the required medical examination. After finishing my studies, I plan to use this knowledge to work on engineering projects in my home country.`,
+      visaReady: `Academic Study Plan & Visa Statement:
+Applicant: Tariq Mahmood | Program: Master of Science in Microelectronics | Institution: Tsinghua University, Beijing | Authorization: Form JW201 (CSC Type A Scholarship)
+
+I am submitting this academic study plan for the X1 National Study Visa at Tsinghua University's School of Integrated Circuits. Having completed my Bachelor of Science in Electrical Engineering from NUST with a CGPA of 3.88/4.0, my specialized research trajectory focuses on low-power VLSI design and semiconductor packaging.
+
+Why Tsinghua University & China:
+China is the global leader in commercial semiconductor manufacturing pipelines and fabless semiconductor architecture. Tsinghua's National Key Laboratory of Micro/Nano Fabrication offers semiconductor fabrication facilities (0.18-micron and FinFET test structures) unavailable in my domestic universities. Under the supervision of Prof. Dr. Liu, my proposed thesis will investigate energy-harvesting edge-AI chip interfaces.
+
+Statutory Compliance & Post-Graduation Return Plan:
+1. Scholarship & Financial Solvency: I am the recipient of the Chinese Government Scholarship (CSC Award No. 2026CSC08129), providing 100% tuition waiver, on-campus accommodation, and a monthly living stipend of 3,000 RMB, supplemented by $15,000 USD in personal reserve funds.
+2. Verified Documentation: Form JW201, legalized degree apostilles, Foreigner Physical Examination Record, and verified Police Character Certificate are attached.
+3. Career Commitment: My home country is establishing its first National Semiconductor Center under the Special Technology Zones Authority (STZA). The STZA has issued an endorsement letter confirming eligibility for a Senior IC Design Engineer vacancy with leading semiconductor incubators upon completion of my Tsinghua master's degree.`,
+    },
+  },
+  italy: {
+    name: 'Italy',
+    flag: '🇮🇹',
+    visaType: 'National Visa Type D (Study / Universitaly Pre-Enrollment)',
+    refusalClause: 'Visa Code Art. 21 & CIMEA Statement of Comparability Failure',
+    keyChecklist: [
+      'Universitaly Portal Pre-Enrollment Summary formally validated by target university',
+      'CIMEA Statement of Comparability & Verification or Consular Dichiarazione di Valore (DoV)',
+      'Minimum Financial Subsistence (€6,079/yr or €467.65/month liquid funds in bank statement)',
+      'Proof of suitable accommodation in Italy for the first semester (lease or hospitality form)',
+      'International travel and medical health insurance policy (minimum €30,000 coverage)',
+    ],
+    riskPoints: [
+      'Assuming regional scholarship (DSU) approval guarantees visa without personal liquid funds proof',
+      'Subject incompatibility between foreign undergraduate degree and Italian Laurea Magistrale',
+      'Failure to prove intention to return to home country upon completion of studies',
+    ],
+    sampleSop: {
+      highRisk: `Motivation Letter for Italian Student Visa:
+I want to study Master in Management in Italy because Italy is the center of fashion, pizza, and art. Milan is a dream city with historical monuments and football clubs.
+
+I applied for the DSU regional scholarship which gives free hostel and free food, so I will not need any money. After my studies, I want to travel around Europe and get a job in Milan or Rome to stay permanently in the Schengen zone.`,
+      moderateRisk: `Motivation Letter for Master in Architecture at Politecnico di Milano:
+I completed my Bachelor of Architecture and wish to specialize in Sustainable Heritage Architecture. Italy is globally renowned for architectural preservation and design excellence.
+
+Politecnico di Milano offers specialized studios that bridge historical preservation with modern energy-efficient techniques. My Universitaly application has been accepted. My family will financially support my living costs during my stay in Milan, and I intend to return to establish my architectural practice.`,
+      visaReady: `Academic Statement of Motivation & Consular Compliance Document:
+Applicant: Maria Santos | Program: Laurea Magistrale in Mechanical Engineering (Automotive) | Institution: Politecnico di Torino | Universitaly Application ID: 2026-IT-91823
+
+I formally submit this Statement of Purpose for the National Long-Stay Visa (Type D - Studio) to undertake the 2-year Laurea Magistrale in Automotive Engineering at Politecnico di Torino. I graduated with a Bachelor of Science in Mechanical Engineering (Magna Cum Laude, GPA 3.82/4.0) with CIMEA Statement of Comparability (Prot. CIMEA/2026/812) confirming direct pedagogical alignment with Italian Level 7 academic requirements.
+
+Why Politecnico di Torino:
+Located within the Italian automotive engineering corridor, PoliTo maintains direct collaborative laboratories with the FCA/Stellantis and Brembo testing centers. Specific advanced modules—including 'Vehicle Dynamics Simulation' (01PQR) and 'Electric Powertrain Architecture' (02STU)—provide software access to VI-grade and IPG CarMaker environments inaccessible in domestic engineering institutions.
+
+Consular Compliance & Return Ties:
+1. Proof of Financial Subsistence: My personal bank account holds verified liquid funds of €14,200 (exceeding the statutory ministerial requirement of €6,079/academic year) alongside a notarized parental sponsorship and €30,000 Schengen health insurance.
+2. Accommodation: Confirmed 12-month student residence contract at Campus San Paolo (Torino) appended.
+3. Return Commitment: The domestic electric vehicle transition in my home country is backed by a $1.2B industrial mandate. A tier-1 automotive manufacturing firm has provided a pre-employment letter of interest for an EV Powertrain Development Lead position commanding a 2.5x salary premium upon my return.`,
+    },
+  },
+  france: {
+    name: 'France',
+    flag: '🇫🇷',
+    visaType: 'Long-Stay Visa (VLS-TS / Études en France - EEF)',
+    refusalClause: 'CESEDA Article L421-7 & Campus France Academic Incoherence',
+    keyChecklist: [
+      'Campus France "Études en France" (EEF) authentication and pedagogical interview clearance',
+      'Official Attestation of Pre-Registration from French Ministry of Higher Education accredited institution',
+      'Proof of Minimum Financial Resources (€615/month, minimum €7,380 for academic year)',
+      'Proof of Accommodation for first 3 months (CROUS student housing or host declaration)',
+      'Academic progression showing direct pedagogical continuity with undergraduate specialization',
+    ],
+    riskPoints: [
+      'Failure during Campus France interview to articulate course structure and professional project',
+      'Unjustified changes in academic trajectory without career validation',
+      'Unsubstantiated French or English language proficiency credentials',
+    ],
+    sampleSop: {
+      highRisk: `Statement of Purpose for France Student Visa:
+I am going to Paris to study Master in Luxury Brand Management. France is the fashion capital of the world with the Eiffel Tower and luxury brands like Louis Vuitton and Chanel.
+
+I want to live in Paris, work part-time in boutiques, and after my degree, find a sponsor to give me a work visa so I can remain in France as a permanent resident. My relatives in France will let me stay with them.`,
+      moderateRisk: `Statement of Purpose for Master in Artificial Intelligence at Sorbonne University:
+I hold a Bachelor of Science in Computer Science and wish to advance into artificial intelligence research. France has made substantial investments in AI centers and European research networks.
+
+Sorbonne University offers a rigorous curriculum covering deep learning, computer vision, and NLP. I have completed my Campus France interview and prepared the required €7,380 living expense guarantee. This degree will enable me to become an expert AI developer upon returning home.`,
+      visaReady: `Academic Purpose & Professional Project (Projet d'Études et Professionnel):
+Applicant: Ahmed Al-Mansoor | Program: Master of Science in Aerospace Systems Navigation | Institution: ISAE-SUPAERO, Toulouse | Campus France ID: FR26-09281
+
+I submit this academic purpose statement in support of my VLS-TS Long-Stay Student Visa application to attend the Master of Science in Aerospace Systems Navigation at ISAE-SUPAERO in Toulouse. I hold a Bachelor of Engineering in Aerospace Engineering (First-Class Honours, GPA 3.91/4.0), and successfully passed my Campus France EEF interview with formal validation from the academic advisory board.
+
+Pedagogical & Institutional Rationale:
+Toulouse is the European capital of aeronautics and space. ISAE-SUPAERO’s Space Systems Design Laboratory and flight simulator complexes provide direct practical exposure to GNSS receiver design, satellite orbital mechanics, and autonomous flight guidance (Modules AS-501 and AS-508). These specialized experimental wind tunnels and micro-satellite cleanrooms do not exist in domestic Middle Eastern universities.
+
+Financial Guarantee & Statutory Consular Compliance:
+1. Financial Solvency: An Irrevocable Banking Certificate (Attestation de Virement Irrévocable - AVI) of €9,600 has been established via Studely, guaranteeing monthly disbursements of €800 (surpassing the French statutory requirement of €615/month). Tuition fees are paid in full.
+2. Accommodation: Guaranteed single-room lodging at the ISAE-SUPAERO campus residence in Toulouse confirmed.
+3. Defined Professional Career Trajectory: My home nation’s National Space Agency is actively deploying communication satellite constellations. The agency has issued a sponsorship letter guaranteeing immediate recruitment into the Flight Dynamics & Satellite Operations Directorate upon completion of my master’s degree, with designated compensation beginning at $55,000 USD/annum.`,
+    },
+  },
+  malaysia: {
+    name: 'Malaysia',
+    flag: '🇲🇾',
+    visaType: 'Student Pass (eVAL - Visa Approval Letter & EMGS)',
+    refusalClause: 'Immigration Department of Malaysia (JIM) & EMGS Screening Rejection',
+    keyChecklist: [
+      'Electronic Visa Approval Letter (eVAL) issued by Immigration Department of Malaysia via EMGS',
+      'Offer Letter from Malaysian Qualifications Agency (MQA) accredited university',
+      'Pre-Arrival Medical Screening Form endorsed by registered clinic',
+      'Financial solvency statement and Personal Bond lodging',
+      'Valid English language proficiency certificate meeting EMGS faculty threshold',
+    ],
+    riskPoints: [
+      'Applying through unaccredited private training institutions without MQA validation',
+      'Discrepancies in birth certificates, national identity documents, or name spellings',
+      'Previous immigration overstays or visa rejections within Southeast Asia',
+    ],
+    sampleSop: {
+      highRisk: `Study Plan for Malaysia Student Visa:
+I want to study diploma in hospitality in Kuala Lumpur. Malaysia is a tropical country with affordable living and twin towers.
+
+I want to work while studying to cover my expenses and explore business options in Southeast Asia. I hope to use this student pass to travel easily in ASEAN countries and look for permanent job opportunities.`,
+      moderateRisk: `Statement of Purpose for Master of Computer Science at Universiti Malaya (UM):
+I completed my Bachelor in Software Engineering and wish to deepen my understanding of cyber security and cloud computing. Malaysia is a leading technological and educational hub in Southeast Asia with QS top-ranked universities.
+
+Universiti Malaya offers an MQA-accredited master program with experienced faculty and modern computing labs. My EMGS application is approved and my family has provided the required financial guarantees for my tuition and living costs. I look forward to completing my degree and returning to advance my career.`,
+      visaReady: `Academic Purpose & Educational Intent Statement:
+Applicant: Farhan Qureshi | Program: Master of Science in Petroleum Geoscience | Institution: Universiti Teknologi PETRONAS (UTP) | EMGS Application Ref: EMGS/2026/89412
+
+I am submitting this Academic Purpose Statement in support of my Single Entry Visa (SEV) and Student Pass application for the Master of Science in Petroleum Geoscience at Universiti Teknologi PETRONAS (UTP) under approved EMGS reference EMGS/2026/89412. I graduated with a Bachelor of Science in Geological Engineering (CGPA 3.76/4.0), followed by 18 months of service as an Exploration Wellsite Geologist at Oil & Gas Development Co. Ltd (service certificate enclosed).
+
+Academic Justification for Malaysia & UTP:
+UTP is globally ranked #20 in Petroleum Engineering (QS World Subject Rankings) and is directly integrated with PETRONAS research facilities. The university’s Center of Excellence in Subsurface Seismic Imaging provides practical hands-on seismic modeling using Petrel and Techlog software suites integrated into deepwater exploration modules (GEO-611 & GEO-615). Equivalent high-pressure, high-temperature (HPHT) basin simulation labs are inaccessible domestically.
+
+Immigration Compliance & Socio-Economic Home Ties:
+1. Statutory Clearance: My Electronic Visa Approval Letter (eVAL) has been officially issued by the Immigration Department of Malaysia (JIM) following EMGS vetting, and my Pre-Arrival Medical Examination is verified disease-free.
+2. Financial Security: Complete first-year tuition ($12,400 USD) and living maintenance ($9,800 USD) are deposited in an authorized international bank account, with personal bond guarantee lodged.
+3. Career Continuity: My previous domestic energy employer has formally endorsed my leave of absence and signed a retention agreement appointing me as Senior Subsurface Reservoir Modeling Specialist upon receipt of my UTP postgraduate qualification, with a contractual salary increase of 85%.`,
+    },
+  },
 };
+

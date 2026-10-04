@@ -130,7 +130,7 @@ export const SopAuditor: React.FC<SopAuditorProps> = ({
           AI Visa SOP & Embassy Risk Auditor
         </h1>
         <p className="text-sm text-slate-400 mt-1 max-w-3xl">
-          Line-by-line consular risk diagnostic assessing German APS & ECTS continuity, UKVI Student Route CAS requirements, Canadian IRCC Section 216 ties, and US F-1 INA 214(b) non-immigrant intent.
+          Line-by-line consular risk diagnostic assessing German APS & ECTS, UKVI CAS, Canadian IRCC ties, US INA 214(b), Australian Genuine Student (GS), and statutory guidelines for China, Italy, France, and Malaysia.
         </p>
       </div>
 
@@ -141,10 +141,10 @@ export const SopAuditor: React.FC<SopAuditorProps> = ({
           <div className="bg-[#0A1128] border border-slate-800 rounded-2xl p-6 shadow-xl space-y-5">
             <div>
               <label className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2 block">
-                Target Study Destination
+                Target Study Destination (9 Countries)
               </label>
-              <div className="grid grid-cols-2 gap-2">
-                {(['germany', 'uk', 'canada', 'usa'] as TargetCountry[]).map((c) => {
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {(['germany', 'uk', 'canada', 'usa', 'australia', 'china', 'italy', 'france', 'malaysia'] as TargetCountry[]).map((c) => {
                   const data = COUNTRY_IMMIGRATION_DATA[c];
                   const isSelected = targetCountry === c;
                   return (
@@ -156,17 +156,22 @@ export const SopAuditor: React.FC<SopAuditorProps> = ({
                         if (c === 'uk') setTargetUniversity('University of Strathclyde');
                         if (c === 'canada') setTargetUniversity('University of Waterloo');
                         if (c === 'usa') setTargetUniversity('Purdue University');
+                        if (c === 'australia') setTargetUniversity('University of Melbourne');
+                        if (c === 'china') setTargetUniversity('Tsinghua University');
+                        if (c === 'italy') setTargetUniversity('Politecnico di Milano');
+                        if (c === 'france') setTargetUniversity('Sorbonne University');
+                        if (c === 'malaysia') setTargetUniversity('Universiti Malaya (UM)');
                       }}
-                      className={`p-3 rounded-xl border text-left flex items-center gap-2.5 transition-all cursor-pointer ${
+                      className={`p-2.5 rounded-xl border text-left flex items-center gap-2 transition-all cursor-pointer ${
                         isSelected
-                          ? 'bg-blue-600/20 border-blue-500 text-white shadow-md shadow-blue-500/10'
-                          : 'bg-slate-900/60 border-slate-800 text-slate-300 hover:border-slate-700'
+                          ? 'bg-blue-600/20 border-blue-500 text-white shadow-md shadow-blue-500/10 ring-1 ring-blue-500/30'
+                          : 'bg-slate-900/60 border-slate-800 text-slate-300 hover:border-slate-700 hover:bg-slate-900'
                       }`}
                     >
-                      <span className="text-xl">{data.flag}</span>
-                      <div>
-                        <div className="text-xs font-bold">{data.name}</div>
-                        <div className="text-[10px] text-slate-400">{data.visaType.slice(0, 16)}...</div>
+                      <span className="text-lg shrink-0">{data.flag}</span>
+                      <div className="min-w-0">
+                        <div className="text-xs font-bold truncate">{data.name}</div>
+                        <div className="text-[9px] text-slate-400 truncate">{data.visaType.slice(0, 14)}...</div>
                       </div>
                     </button>
                   );

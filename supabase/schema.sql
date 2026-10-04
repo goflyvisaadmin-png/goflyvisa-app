@@ -10,7 +10,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- 1. Custom Types & Enums
 -- ----------------------------------------------------------------------------
 CREATE TYPE ielts_test_type AS ENUM ('speaking', 'writing_task1', 'writing_task2');
-CREATE TYPE target_country_type AS ENUM ('germany', 'uk', 'canada', 'usa');
+CREATE TYPE target_country_type AS ENUM ('germany', 'uk', 'canada', 'usa', 'australia', 'china', 'italy', 'france', 'malaysia');
 CREATE TYPE degree_level_type AS ENUM ('bachelors', 'masters', 'mba', 'phd');
 CREATE TYPE transaction_status_type AS ENUM ('pending', 'completed', 'failed', 'refunded');
 

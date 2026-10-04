@@ -342,7 +342,16 @@ app.post('/api/audit-sop', async (req: Request, res: Response) => {
         overall_summary: "The SOP demonstrates academic capability, but contains red flags regarding post-graduation intent and home ties.",
         visa_checklist: [
           {
-            item: targetCountry === 'germany' ? "APS & ECTS Continuity" : targetCountry === 'uk' ? "Academic Progression (Appendix ST)" : targetCountry === 'canada' ? "Section 216(1) Home Ties" : "INA 214(b) Non-Immigrant Intent",
+            item:
+              targetCountry === 'germany' ? "APS & ECTS Continuity" :
+              targetCountry === 'uk' ? "Academic Progression (Appendix ST)" :
+              targetCountry === 'canada' ? "Section 216(1) Home Ties" :
+              targetCountry === 'usa' ? "INA 214(b) Non-Immigrant Intent" :
+              targetCountry === 'australia' ? "Genuine Student (GS) Direction 106" :
+              targetCountry === 'china' ? "JW201/202 & Health Authentication" :
+              targetCountry === 'italy' ? "Universitaly & CIMEA Comparability" :
+              targetCountry === 'france' ? "Campus France EEF Pedagogical Continuity" :
+              "EMGS & eVAL Student Pass Approval",
             status: "warn",
             details: "Prior degree modules are not linked explicitly to curriculum.",
           },
@@ -383,9 +392,14 @@ app.post('/api/audit-sop', async (req: Request, res: Response) => {
 
     const countryGuidelines: Record<string, string> = {
       germany: `German Embassy & APS Compliance: ECTS module congruence, blocked account €11,904, home ties.`,
-      uk: `UKVI Student Route (Appendix ST): Academic progression, departure intent.`,
-      canada: `IRCC Section 216(1)(b): Ties to home country, ROI justification.`,
-      usa: `US Consular INA Section 214(b): Non-immigrant intent, economic ties.`,
+      uk: `UKVI Student Route (Appendix ST): Academic progression, departure intent, maintenance funds.`,
+      canada: `IRCC Section 216(1)(b): Ties to home country, ROI justification, GIC $20,635 CAD, provincial attestation letter (PAL).`,
+      usa: `US Consular INA Section 214(b): Non-immigrant intent, economic ties, liquid 1st-year sponsor assets, I-20 consistency.`,
+      australia: `Australian Home Affairs Subclass 500: Genuine Student (GS) requirement under Ministerial Direction 106, financial capacity AUD $29,710/yr, OSHC cover, clear domestic career trajectory.`,
+      china: `Chinese Embassy X1/X2 Visa Compliance: Form JW201/JW202 authorization, Foreigner Physical Examination, non-criminal record check, degree notarization, academic alignment with Chinese institutions.`,
+      italy: `Italian Embassy & Consulate National Visa (Type D): Universitaly pre-enrollment validation, CIMEA Statement of Comparability / DoV, proof of minimum €6,079/yr liquid funds, suitable housing guarantee.`,
+      france: `French Consular & Campus France VLS-TS Visa: "Études en France" (EEF) procedure, academic progression continuity, minimum €615/month financial guarantee (€7,380/yr), 3-month accommodation proof.`,
+      malaysia: `Malaysian Immigration Department (JIM) & EMGS: Electronic Visa Approval Letter (eVAL), MQA program accreditation, pre-arrival health screening, personal bond & financial solvency.`,
     };
 
     const targetGuideline = countryGuidelines[targetCountry] || countryGuidelines.germany;

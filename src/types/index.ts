@@ -1,4 +1,4 @@
-export type TargetCountry = 'germany' | 'uk' | 'canada' | 'usa';
+export type TargetCountry = 'germany' | 'uk' | 'canada' | 'usa' | 'australia' | 'china' | 'italy' | 'france' | 'malaysia';
 export type DegreeLevel = 'bachelors' | 'masters' | 'mba' | 'phd';
 export type IeltsTestType = 'speaking' | 'writing_task1' | 'writing_task2';
 
