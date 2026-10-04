@@ -80,6 +80,8 @@ async function checkUrl(url: string): Promise<{ ok: boolean; status?: number; er
       urlObj.hostname.endsWith('ualberta.ca') ||
       urlObj.hostname.endsWith('.gov') ||
       urlObj.hostname.endsWith('.edu') ||
+      urlObj.hostname.endsWith('.edu.au') ||
+      urlObj.hostname.endsWith('.gov.au') ||
       urlObj.hostname.endsWith('usembassy.gov') ||
       urlObj.hostname.endsWith('usefp.org');
 

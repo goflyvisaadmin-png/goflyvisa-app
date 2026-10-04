@@ -3,6 +3,7 @@ import { GERMANY_GUIDE_DATA } from './germany';
 import { UK_GUIDE_DATA } from './uk';
 import { canadaGuide as CANADA_GUIDE_DATA } from './canada';
 import { usaGuide as USA_GUIDE_DATA } from './usa';
+import { australiaGuide as AUSTRALIA_GUIDE_DATA } from './australia';
 
 export interface CountryCardSummary {
   slug: TargetCountrySlug;
@@ -118,7 +119,7 @@ export const COUNTRIES_DIRECTORY: CountryCardSummary[] = [
       schengenOrEu: false,
       highPrPathway: true,
     },
-    isFullyImplemented: false,
+    isFullyImplemented: true,
   },
   {
     slug: 'china',
@@ -203,6 +204,7 @@ export const FULL_COUNTRY_GUIDES: Partial<Record<TargetCountrySlug, CountryGuide
   uk: UK_GUIDE_DATA,
   canada: CANADA_GUIDE_DATA,
   usa: USA_GUIDE_DATA,
+  australia: AUSTRALIA_GUIDE_DATA,
 };
 
 export function getCountryGuide(slug: TargetCountrySlug): CountryGuideData | null {
